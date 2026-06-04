@@ -1,0 +1,1 @@
+{"version":3,"file":"deleteResult.d.ts","sourceRoot":"","sources":["../../../src/generated/types/deleteResult.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,YAAY;IAC3B,OAAO,EAAE,OAAO,CAAC;CAClB"}
