@@ -48971,11 +48971,12 @@ function getOrigin(req) {
   const host = req.headers["x-forwarded-host"] || req.headers["host"] || "localhost";
   return `${proto}://${host}`;
 }
+var IS_PROD = !!process.env.REPL_ID;
 function setSessionCookie(res, sid) {
   res.cookie(SESSION_COOKIE, sid, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: IS_PROD,
+    sameSite: IS_PROD ? "lax" : "lax",
     path: "/",
     maxAge: SESSION_TTL
   });
@@ -48983,8 +48984,8 @@ function setSessionCookie(res, sid) {
 function setOidcCookie(res, name, value) {
   res.cookie(name, value, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: IS_PROD,
+    sameSite: IS_PROD ? "lax" : "lax",
     path: "/",
     maxAge: OIDC_COOKIE_TTL
   });

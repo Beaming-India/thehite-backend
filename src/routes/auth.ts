@@ -24,11 +24,13 @@ function getOrigin(req: Request): string {
   return `${proto}://${host}`;
 }
 
+const IS_PROD = !!process.env.REPL_ID;
+
 function setSessionCookie(res: Response, sid: string) {
   res.cookie(SESSION_COOKIE, sid, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: IS_PROD,
+    sameSite: IS_PROD ? "lax" : "lax",
     path: "/",
     maxAge: SESSION_TTL,
   });
@@ -37,8 +39,8 @@ function setSessionCookie(res: Response, sid: string) {
 function setOidcCookie(res: Response, name: string, value: string) {
   res.cookie(name, value, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: IS_PROD,
+    sameSite: IS_PROD ? "lax" : "lax",
     path: "/",
     maxAge: OIDC_COOKIE_TTL,
   });
