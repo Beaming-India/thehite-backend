@@ -18,7 +18,7 @@ const OIDC_COOKIE_TTL = 10 * 60 * 1000;
 const router: IRouter = Router();
 
 function getOrigin(req: Request): string {
-  const proto = req.headers["x-forwarded-proto"] || "https";
+  const proto = req.headers["x-forwarded-proto"] || (IS_PROD ? "https" : "http");
   const host =
     req.headers["x-forwarded-host"] || req.headers["host"] || "localhost";
   return `${proto}://${host}`;

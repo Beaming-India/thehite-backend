@@ -2046,4 +2046,40 @@ router.post("/admin/locations/validation-report/share", async (req, res): Promis
   res.status(201).json({ token, expiresAt: expiresAt.toISOString() });
 });
 
+// --- clear seed data (super_admin only) ---
+
+const SEED_USER_IDS = [
+  "seed-admin",
+  "writer-rajesh",
+  "writer-anita",
+  "writer-vikram",
+  "writer-priya",
+  "writer-pending",
+  "state-admin",
+  "district-admin-bastar",
+  "moderator-1",
+  "reader-demo",
+];
+
+router.delete("/admin/seed-data", async (req, res): Promise<void> => {
+  const profile = await db
+    .select({ role: userProfilesTable.role })
+    .from(userProfilesTable)
+    .where(eq(userProfilesTable.userId, req.user!.id))
+    .then((r) => r[0]);
+
+  if (profile?.role !== "super_admin") {
+    res.status(403).json({ error: "Super admin only" });
+    return;
+  }
+
+  const deleted = await db
+    .delete(articlesTable)
+    .where(inArray(articlesTable.writerId, SEED_USER_IDS))
+    .returning({ id: articlesTable.id });
+
+  await audit(req.user!.id, "seed.clear", "article", null, `deleted=${deleted.length}`);
+  res.json({ deleted: deleted.length });
+});
+
 export default router;

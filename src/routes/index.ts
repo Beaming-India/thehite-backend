@@ -8,6 +8,7 @@ import writerRouter from "./writer";
 import adminRouter from "./admin";
 import adminCrmRouter from "./admin-crm";
 import seoRouter from "./seo";
+import uploadRouter from "./upload";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(writerRouter);
 router.use(adminRouter);
 router.use(adminCrmRouter);
 router.use(seoRouter);
+router.use(uploadRouter);
 
 export default router;
