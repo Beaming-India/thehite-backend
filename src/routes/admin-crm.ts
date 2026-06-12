@@ -10,7 +10,8 @@ import {
   userProfilesTable,
 } from "@workspace/db";
 import { and, desc, eq, gte, ilike, isNull, or, sql, count } from "drizzle-orm";
-import { audit, requireAdmin } from "../lib/helpers";
+import { requireAdmin } from "../middleware/requireRole";
+import { audit } from "../utils/audit";
 
 const router: IRouter = Router();
 router.use(requireAdmin);

@@ -1,0 +1,106 @@
+import { readingTimeMin } from "./readingTime";
+
+export interface ArticleRow {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  body: string;
+  coverImageUrl: string | null;
+  lang: string;
+  status: string;
+  writerId: string;
+  categoryId: string | null;
+  locationId: string | null;
+  tags: string[];
+  moderationNote: string | null;
+  isBreaking: boolean;
+  isFeatured: boolean;
+  isPinned: boolean;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+  shareCount: number;
+  bookmarkCount: number;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface JoinedArticle {
+  article: ArticleRow;
+  category: { id: string; slug: string; nameHi: string; nameEn: string } | null;
+  location: { id: string; slug: string; type: string; nameHi: string; nameEn: string } | null;
+  writer: { id: string; displayName: string; profileImageUrl: string | null; isVerified: boolean } | null;
+}
+
+export function mapArticleCard(row: JoinedArticle) {
+  const a = row.article;
+  return {
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    summary: a.summary,
+    coverImageUrl: a.coverImageUrl,
+    lang: a.lang as "hi" | "en",
+    publishedAt: a.publishedAt,
+    viewCount: a.viewCount,
+    likeCount: a.likeCount,
+    commentCount: a.commentCount,
+    shareCount: a.shareCount,
+    isBreaking: a.isBreaking,
+    isFeatured: a.isFeatured,
+    readingTimeMin: readingTimeMin(a.body),
+    category: row.category ?? undefined,
+    location: row.location ?? undefined,
+    writer: row.writer
+      ? {
+          id: row.writer.id,
+          displayName: row.writer.displayName,
+          profileImageUrl: row.writer.profileImageUrl ?? null,
+          verified: row.writer.isVerified,
+        }
+      : undefined,
+  };
+}
+
+export function mapArticleDetail(row: JoinedArticle, isLiked = false, isBookmarked = false) {
+  const a = row.article;
+  return {
+    ...mapArticleCard(row),
+    body: a.body,
+    tags: a.tags ?? [],
+    isLiked,
+    isBookmarked,
+    updatedAt: a.updatedAt,
+  };
+}
+
+export function mapMyArticle(row: JoinedArticle) {
+  const a = row.article;
+  return {
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    summary: a.summary,
+    body: a.body,
+    coverImageUrl: a.coverImageUrl,
+    lang: a.lang as "hi" | "en",
+    status: a.status as "draft" | "pending" | "published" | "rejected" | "changes_requested",
+    categoryId: a.categoryId,
+    locationId: a.locationId,
+    category: row.category ?? undefined,
+    location: row.location ?? undefined,
+    tags: a.tags ?? [],
+    moderationNote: a.moderationNote,
+    isBreaking: a.isBreaking,
+    isFeatured: a.isFeatured,
+    isPinned: a.isPinned,
+    viewCount: a.viewCount,
+    likeCount: a.likeCount,
+    commentCount: a.commentCount,
+    publishedAt: a.publishedAt,
+    createdAt: a.createdAt,
+    updatedAt: a.updatedAt,
+  };
+}

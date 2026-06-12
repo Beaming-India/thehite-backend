@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import { randomBytes } from "crypto";
 import fs from "fs";
-import { requireAdmin } from "../lib/helpers";
+import { requireAdmin } from "../middleware/requireRole";
 
 const UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });

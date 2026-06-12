@@ -38,7 +38,8 @@ import {
   UnfollowWriterParams,
   UnfollowWriterResponse,
 } from "@workspace/api-zod";
-import { requireAuth, getEngagementCounts } from "../lib/helpers";
+import { requireAuth } from "../middleware/requireRole";
+import { getEngagementCounts } from "../utils/engagement";
 
 const router: IRouter = Router();
 

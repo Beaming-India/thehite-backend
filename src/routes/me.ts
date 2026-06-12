@@ -34,7 +34,8 @@ import {
   ListMyAlertsResponse,
   ListMyAlertsQueryParams,
 } from "@workspace/api-zod";
-import { mapArticleCard, requireAuth } from "../lib/helpers";
+import { requireAuth } from "../middleware/requireRole";
+import { mapArticleCard } from "../utils/mappers";
 
 const router: IRouter = Router();
 router.use(requireAuth);

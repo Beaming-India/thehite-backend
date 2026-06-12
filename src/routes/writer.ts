@@ -22,7 +22,9 @@ import {
   SubmitMyAuthoredArticleParams,
   SubmitMyAuthoredArticleResponse,
 } from "@workspace/api-zod";
-import { mapMyArticle, requireWriter, slugify } from "../lib/helpers";
+import { requireWriter } from "../middleware/requireRole";
+import { mapMyArticle } from "../utils/mappers";
+import { slugify } from "../utils/slug";
 
 const router: IRouter = Router();
 router.use(requireWriter);

@@ -40,7 +40,7 @@ import {
   SearchEverythingQueryParams,
   SearchEverythingResponse,
 } from "@workspace/api-zod";
-import { mapArticleCard, mapArticleDetail } from "../lib/helpers";
+import { mapArticleCard, mapArticleDetail } from "../utils/mappers";
 
 const router: IRouter = Router();
 

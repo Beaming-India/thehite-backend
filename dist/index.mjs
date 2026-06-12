@@ -65613,7 +65613,7 @@ function getSessionId(req) {
 var OIDC_COOKIE_TTL = 10 * 60 * 1e3;
 var router2 = (0, import_express2.Router)();
 function getOrigin(req) {
-  const proto = req.headers["x-forwarded-proto"] || "https";
+  const proto = req.headers["x-forwarded-proto"] || (IS_PROD ? "https" : "http");
   const host = req.headers["x-forwarded-host"] || req.headers["host"] || "localhost";
   return `${proto}://${host}`;
 }
@@ -65810,60 +65810,13 @@ var auth_default = router2;
 // src/routes/public.ts
 var import_express3 = __toESM(require_express2(), 1);
 
-// src/lib/helpers.ts
-var ADMIN_ROLES = [
-  "super_admin",
-  "state_admin",
-  "district_admin",
-  "moderator"
-];
-async function requireAuth(req, res, next) {
-  if (!req.user?.id) {
-    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
-    return;
-  }
-  next();
-}
-async function getRole(userId) {
-  const [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, userId));
-  return profile?.role ?? "reader";
-}
-function isAdminRole(role) {
-  return ADMIN_ROLES.includes(role);
-}
-async function requireWriter(req, res, next) {
-  if (!req.user?.id) {
-    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
-    return;
-  }
-  const role = await getRole(req.user.id);
-  if (role !== "writer" && !isAdminRole(role)) {
-    res.status(403).json({ error: { code: "FORBIDDEN", message: "Writer role required" } });
-    return;
-  }
-  next();
-}
-async function requireAdmin(req, res, next) {
-  if (!req.user?.id) {
-    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
-    return;
-  }
-  const role = await getRole(req.user.id);
-  if (!isAdminRole(role)) {
-    res.status(403).json({ error: { code: "FORBIDDEN", message: "Admin role required" } });
-    return;
-  }
-  next();
-}
+// src/utils/readingTime.ts
 function readingTimeMin(body) {
   const words = body.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
 }
-function slugify(text2) {
-  const base = text2.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 160);
-  const suffix = Math.random().toString(36).slice(2, 8);
-  return `${base || "article"}-${suffix}`;
-}
+
+// src/utils/mappers.ts
 function mapArticleCard(row) {
   const a = row.article;
   return {
@@ -65928,28 +65881,6 @@ function mapMyArticle(row) {
     publishedAt: a.publishedAt,
     createdAt: a.createdAt,
     updatedAt: a.updatedAt
-  };
-}
-async function audit(actorId, action, targetType, targetId, note) {
-  await db.insert(auditLogTable).values({ actorId, action, targetType, targetId, note: note ?? null });
-}
-async function getEngagementCounts(articleId, userId) {
-  const [a] = await db.select().from(articlesTable).where(eq(articlesTable.id, articleId));
-  let isLiked = false;
-  let isBookmarked = false;
-  if (userId && a) {
-    const [l] = await db.select({ articleId: articleLikesTable.articleId }).from(articleLikesTable).where(and(eq(articleLikesTable.articleId, articleId), eq(articleLikesTable.userId, userId))).limit(1);
-    const [bm] = await db.select({ articleId: articleBookmarksTable.articleId }).from(articleBookmarksTable).where(and(eq(articleBookmarksTable.articleId, articleId), eq(articleBookmarksTable.userId, userId))).limit(1);
-    isLiked = !!l;
-    isBookmarked = !!bm;
-  }
-  return {
-    likeCount: a?.likeCount ?? 0,
-    commentCount: a?.commentCount ?? 0,
-    shareCount: a?.shareCount ?? 0,
-    bookmarkCount: a?.bookmarkCount ?? 0,
-    isLiked,
-    isBookmarked
   };
 }
 
@@ -66435,6 +66366,75 @@ var public_default = router3;
 
 // src/routes/engagement.ts
 var import_express4 = __toESM(require_express2(), 1);
+
+// src/middleware/requireRole.ts
+var ADMIN_ROLES = [
+  "super_admin",
+  "state_admin",
+  "district_admin",
+  "moderator"
+];
+async function getRole(userId) {
+  const [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, userId));
+  return profile?.role ?? "reader";
+}
+function isAdminRole(role) {
+  return ADMIN_ROLES.includes(role);
+}
+async function requireAuth(req, res, next) {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  next();
+}
+async function requireWriter(req, res, next) {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  const role = await getRole(req.user.id);
+  if (role !== "writer" && !isAdminRole(role)) {
+    res.status(403).json({ error: { code: "FORBIDDEN", message: "Writer role required" } });
+    return;
+  }
+  next();
+}
+async function requireAdmin(req, res, next) {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  const role = await getRole(req.user.id);
+  if (!isAdminRole(role)) {
+    res.status(403).json({ error: { code: "FORBIDDEN", message: "Admin role required" } });
+    return;
+  }
+  next();
+}
+
+// src/utils/engagement.ts
+async function getEngagementCounts(articleId, userId) {
+  const [a] = await db.select().from(articlesTable).where(eq(articlesTable.id, articleId));
+  let isLiked = false;
+  let isBookmarked = false;
+  if (userId && a) {
+    const [l] = await db.select({ articleId: articleLikesTable.articleId }).from(articleLikesTable).where(and(eq(articleLikesTable.articleId, articleId), eq(articleLikesTable.userId, userId))).limit(1);
+    const [bm] = await db.select({ articleId: articleBookmarksTable.articleId }).from(articleBookmarksTable).where(and(eq(articleBookmarksTable.articleId, articleId), eq(articleBookmarksTable.userId, userId))).limit(1);
+    isLiked = !!l;
+    isBookmarked = !!bm;
+  }
+  return {
+    likeCount: a?.likeCount ?? 0,
+    commentCount: a?.commentCount ?? 0,
+    shareCount: a?.shareCount ?? 0,
+    bookmarkCount: a?.bookmarkCount ?? 0,
+    isLiked,
+    isBookmarked
+  };
+}
+
+// src/routes/engagement.ts
 var router4 = (0, import_express4.Router)();
 router4.post("/articles/:id/like", requireAuth, async (req, res) => {
   const p = LikeArticleParams.safeParse(req.params);
@@ -66925,6 +66925,15 @@ var me_default = router5;
 
 // src/routes/writer.ts
 var import_express6 = __toESM(require_express2(), 1);
+
+// src/utils/slug.ts
+function slugify(text2) {
+  const base = text2.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 160);
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${base || "article"}-${suffix}`;
+}
+
+// src/routes/writer.ts
 var router6 = (0, import_express6.Router)();
 router6.use(requireWriter);
 async function joined(where) {
@@ -67091,6 +67100,69 @@ var writer_default = router6;
 // src/routes/admin.ts
 var import_express7 = __toESM(require_express2(), 1);
 import { randomBytes as randomBytes2 } from "crypto";
+
+// src/lib/helpers.ts
+var ADMIN_ROLES2 = [
+  "super_admin",
+  "state_admin",
+  "district_admin",
+  "moderator"
+];
+async function getRole2(userId) {
+  const [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, userId));
+  return profile?.role ?? "reader";
+}
+function isAdminRole2(role) {
+  return ADMIN_ROLES2.includes(role);
+}
+async function requireAdmin2(req, res, next) {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  const role = await getRole2(req.user.id);
+  if (!isAdminRole2(role)) {
+    res.status(403).json({ error: { code: "FORBIDDEN", message: "Admin role required" } });
+    return;
+  }
+  next();
+}
+function slugify2(text2) {
+  const base = text2.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 160);
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${base || "article"}-${suffix}`;
+}
+function mapMyArticle2(row) {
+  const a = row.article;
+  return {
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    summary: a.summary,
+    body: a.body,
+    coverImageUrl: a.coverImageUrl,
+    lang: a.lang,
+    status: a.status,
+    categoryId: a.categoryId,
+    locationId: a.locationId,
+    category: row.category ?? void 0,
+    location: row.location ?? void 0,
+    tags: a.tags ?? [],
+    moderationNote: a.moderationNote,
+    isBreaking: a.isBreaking,
+    isFeatured: a.isFeatured,
+    isPinned: a.isPinned,
+    viewCount: a.viewCount,
+    likeCount: a.likeCount,
+    commentCount: a.commentCount,
+    publishedAt: a.publishedAt,
+    createdAt: a.createdAt,
+    updatedAt: a.updatedAt
+  };
+}
+async function audit(actorId, action, targetType, targetId, note) {
+  await db.insert(auditLogTable).values({ actorId, action, targetType, targetId, note: note ?? null });
+}
 
 // src/lib/logger.ts
 var import_pino = __toESM(require_pino(), 1);
@@ -67267,7 +67339,7 @@ async function sendFollowedWriterPush(args) {
 async function loadFullArticle(id) {
   const [row] = await db.select({ article: articlesTable, category: categoriesTable, location: locationsTable }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).where(eq(articlesTable.id, id));
   if (!row) return null;
-  return mapMyArticle({
+  return mapMyArticle2({
     article: row.article,
     category: row.category,
     location: row.location,
@@ -67313,7 +67385,7 @@ async function loadFullComment(id) {
   };
 }
 var router7 = (0, import_express7.Router)();
-router7.use(requireAdmin);
+router7.use(requireAdmin2);
 router7.get("/admin/stats", async (_req, res) => {
   const [{ articles }] = await db.select({ articles: sql`count(*)::int` }).from(articlesTable);
   const [{ published }] = await db.select({ published: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "published"));
@@ -67463,7 +67535,7 @@ router7.get("/admin/articles", async (req, res) => {
     profile: userProfilesTable
   }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).leftJoin(usersTable, eq(usersTable.id, articlesTable.writerId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId)).where(conds.length ? and(...conds) : void 0).orderBy(desc(articlesTable.updatedAt)).limit(q.data.limit);
   const items = rows.map((r) => ({
-    ...mapMyArticle({
+    ...mapMyArticle2({
       article: r.article,
       category: r.category,
       location: r.location,
@@ -67506,7 +67578,7 @@ router7.patch("/admin/articles/:id", async (req, res) => {
   const update = { updatedAt: /* @__PURE__ */ new Date() };
   if (b.data.title !== void 0) {
     update.title = b.data.title;
-    update.slug = slugify(b.data.title);
+    update.slug = slugify2(b.data.title);
   }
   if (b.data.summary !== void 0) update.summary = b.data.summary;
   if (b.data.body !== void 0) {
@@ -67816,7 +67888,7 @@ router7.post("/admin/categories", async (req, res) => {
     return;
   }
   const [c] = await db.insert(categoriesTable).values({
-    slug: b.data.slug ?? slugify(b.data.nameEn),
+    slug: b.data.slug ?? slugify2(b.data.nameEn),
     nameHi: b.data.nameHi,
     nameEn: b.data.nameEn,
     sortOrder: b.data.sortOrder ?? 0
@@ -68130,7 +68202,7 @@ router7.post("/admin/locations", async (req, res) => {
     res.status(400).json({ error: b.error.message });
     return;
   }
-  const slug = slugify(b.data.slug);
+  const slug = slugify2(b.data.slug);
   if (!slug) {
     res.status(400).json({ error: { code: "INVALID_SLUG", message: "Slug is required" } });
     return;
@@ -68178,7 +68250,7 @@ router7.patch("/admin/locations/:id", async (req, res) => {
   }
   const update = {};
   if (b.data.slug !== void 0) {
-    const slug = slugify(b.data.slug);
+    const slug = slugify2(b.data.slug);
     if (!slug) {
       res.status(400).json({ error: { code: "INVALID_SLUG", message: "Slug is required" } });
       return;
@@ -68243,7 +68315,7 @@ router7.post("/admin/locations/import", async (req, res) => {
   for (let i = 0; i < rows.length; i++) {
     const raw = rows[i];
     const rowNum = i + 1;
-    const slug = slugify(raw.slug);
+    const slug = slugify2(raw.slug);
     if (!slug) {
       results.push({ row: rowNum, status: "failed", slug: null, message: "Slug is required", location: null });
       failed++;
@@ -68263,7 +68335,7 @@ router7.post("/admin/locations/import", async (req, res) => {
     }
     let parentId = null;
     const requiredParentType = REQUIRED_PARENT_TYPE[raw.type];
-    const parentSlug = raw.parentSlug ? slugify(raw.parentSlug) : null;
+    const parentSlug = raw.parentSlug ? slugify2(raw.parentSlug) : null;
     if (requiredParentType) {
       if (!parentSlug) {
         results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} requires a parent_slug (${requiredParentType})`, location: null });
@@ -68355,7 +68427,7 @@ router7.post("/admin/locations/import-stream", async (req, res) => {
   for (let i = 0; i < rows.length; i++) {
     const raw = rows[i];
     const rowNum = i + 1;
-    const slug = slugify(raw.slug);
+    const slug = slugify2(raw.slug);
     if (!slug) {
       results.push({ row: rowNum, status: "failed", slug: null, message: "Slug is required", location: null });
       failed++;
@@ -68371,7 +68443,7 @@ router7.post("/admin/locations/import-stream", async (req, res) => {
       } else {
         let parentId = null;
         const requiredParentType = REQUIRED_PARENT_TYPE[raw.type];
-        const parentSlug = raw.parentSlug ? slugify(raw.parentSlug) : null;
+        const parentSlug = raw.parentSlug ? slugify2(raw.parentSlug) : null;
         let rowFailed = false;
         if (requiredParentType) {
           if (!parentSlug) {
@@ -68794,10 +68866,39 @@ router7.post("/admin/locations/validation-report/share", async (req, res) => {
   });
   res.status(201).json({ token, expiresAt: expiresAt.toISOString() });
 });
+var SEED_USER_IDS = [
+  "seed-admin",
+  "writer-rajesh",
+  "writer-anita",
+  "writer-vikram",
+  "writer-priya",
+  "writer-pending",
+  "state-admin",
+  "district-admin-bastar",
+  "moderator-1",
+  "reader-demo"
+];
+router7.delete("/admin/seed-data", async (req, res) => {
+  const profile = await db.select({ role: userProfilesTable.role }).from(userProfilesTable).where(eq(userProfilesTable.userId, req.user.id)).then((r) => r[0]);
+  if (profile?.role !== "super_admin") {
+    res.status(403).json({ error: "Super admin only" });
+    return;
+  }
+  const deleted = await db.delete(articlesTable).where(inArray(articlesTable.writerId, SEED_USER_IDS)).returning({ id: articlesTable.id });
+  await audit(req.user.id, "seed.clear", "article", null, `deleted=${deleted.length}`);
+  res.json({ deleted: deleted.length });
+});
 var admin_default = router7;
 
 // src/routes/admin-crm.ts
 var import_express8 = __toESM(require_express2(), 1);
+
+// src/utils/audit.ts
+async function audit2(actorId, action, targetType, targetId, note) {
+  await db.insert(auditLogTable).values({ actorId, action, targetType, targetId, note: note ?? null });
+}
+
+// src/routes/admin-crm.ts
 var router8 = (0, import_express8.Router)();
 router8.use(requireAdmin);
 function userRef(user, profile) {
@@ -69024,7 +69125,7 @@ router8.post("/admin/crm/contacts", async (req, res) => {
     assignedTo: b.assignedTo ?? null,
     createdBy: req.user.id
   }).returning();
-  await audit(req.user.id, "crm.contact.create", "crm_contact", row.id, row.fullName);
+  await audit2(req.user.id, "crm.contact.create", "crm_contact", row.id, row.fullName);
   res.json(await mapContact(row));
 });
 router8.get("/admin/crm/contacts/:id", async (req, res) => {
@@ -69067,12 +69168,12 @@ router8.patch("/admin/crm/contacts/:id", async (req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Contact not found" } });
     return;
   }
-  await audit(req.user.id, "crm.contact.update", "crm_contact", row.id);
+  await audit2(req.user.id, "crm.contact.update", "crm_contact", row.id);
   res.json(await mapContact(row));
 });
 router8.delete("/admin/crm/contacts/:id", async (req, res) => {
   await db.delete(crmContactsTable).where(eq(crmContactsTable.id, req.params.id));
-  await audit(req.user.id, "crm.contact.delete", "crm_contact", req.params.id);
+  await audit2(req.user.id, "crm.contact.delete", "crm_contact", req.params.id);
   res.json({ ok: true });
 });
 router8.get("/admin/crm/organizations", async (req, res) => {
@@ -69106,7 +69207,7 @@ router8.post("/admin/crm/organizations", async (req, res) => {
     notes: b.notes ?? null,
     createdBy: req.user.id
   }).returning();
-  await audit(req.user.id, "crm.org.create", "crm_organization", row.id, row.name);
+  await audit2(req.user.id, "crm.org.create", "crm_organization", row.id, row.name);
   res.json(await mapOrganization(row));
 });
 router8.get("/admin/crm/organizations/:id", async (req, res) => {
@@ -69134,12 +69235,12 @@ router8.patch("/admin/crm/organizations/:id", async (req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Organization not found" } });
     return;
   }
-  await audit(req.user.id, "crm.org.update", "crm_organization", row.id);
+  await audit2(req.user.id, "crm.org.update", "crm_organization", row.id);
   res.json(await mapOrganization(row));
 });
 router8.delete("/admin/crm/organizations/:id", async (req, res) => {
   await db.delete(crmOrganizationsTable).where(eq(crmOrganizationsTable.id, req.params.id));
-  await audit(req.user.id, "crm.org.delete", "crm_organization", req.params.id);
+  await audit2(req.user.id, "crm.org.delete", "crm_organization", req.params.id);
   res.json({ ok: true });
 });
 router8.get("/admin/crm/activities", async (req, res) => {
@@ -69173,12 +69274,12 @@ router8.post("/admin/crm/activities", async (req, res) => {
     organizationId: b.organizationId ?? null,
     createdBy: req.user.id
   }).returning();
-  await audit(req.user.id, "crm.activity.create", "crm_activity", row.id, row.subject);
+  await audit2(req.user.id, "crm.activity.create", "crm_activity", row.id, row.subject);
   res.json(await mapActivity(row));
 });
 router8.delete("/admin/crm/activities/:id", async (req, res) => {
   await db.delete(crmActivitiesTable).where(eq(crmActivitiesTable.id, req.params.id));
-  await audit(req.user.id, "crm.activity.delete", "crm_activity", req.params.id);
+  await audit2(req.user.id, "crm.activity.delete", "crm_activity", req.params.id);
   res.json({ ok: true });
 });
 router8.get("/admin/crm/tasks", async (req, res) => {
@@ -69212,7 +69313,7 @@ router8.post("/admin/crm/tasks", async (req, res) => {
     assignedTo: b.assignedTo ?? null,
     createdBy: req.user.id
   }).returning();
-  await audit(req.user.id, "crm.task.create", "crm_task", row.id, row.title);
+  await audit2(req.user.id, "crm.task.create", "crm_task", row.id, row.title);
   res.json(await mapTask(row));
 });
 router8.patch("/admin/crm/tasks/:id", async (req, res) => {
@@ -69232,12 +69333,12 @@ router8.patch("/admin/crm/tasks/:id", async (req, res) => {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Task not found" } });
     return;
   }
-  await audit(req.user.id, "crm.task.update", "crm_task", row.id);
+  await audit2(req.user.id, "crm.task.update", "crm_task", row.id);
   res.json(await mapTask(row));
 });
 router8.delete("/admin/crm/tasks/:id", async (req, res) => {
   await db.delete(crmTasksTable).where(eq(crmTasksTable.id, req.params.id));
-  await audit(req.user.id, "crm.task.delete", "crm_task", req.params.id);
+  await audit2(req.user.id, "crm.task.delete", "crm_task", req.params.id);
   res.json({ ok: true });
 });
 var admin_crm_default = router8;
@@ -69408,17 +69509,14 @@ router11.use(seo_default);
 router11.use(upload_default);
 var routes_default = router11;
 
-// src/middlewares/authMiddleware.ts
+// src/middleware/auth.ts
 async function refreshIfExpired(sid, session) {
   const now = Math.floor(Date.now() / 1e3);
   if (!session.expires_at || now <= session.expires_at) return session;
   if (!session.refresh_token) return null;
   try {
     const config = await getOidcConfig();
-    const tokens = await refreshTokenGrant(
-      config,
-      session.refresh_token
-    );
+    const tokens = await refreshTokenGrant(config, session.refresh_token);
     session.access_token = tokens.access_token;
     session.refresh_token = tokens.refresh_token ?? session.refresh_token;
     session.expires_at = tokens.expiresIn() ? now + tokens.expiresIn() : session.expires_at;
