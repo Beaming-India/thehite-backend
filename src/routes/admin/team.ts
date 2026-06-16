@@ -12,6 +12,7 @@ import {
   DeleteTeamInvitationParams,
 } from "@workspace/api-zod";
 import { audit } from "../../utils/audit";
+import { requireSuperAdmin } from "../../middleware/requireRole";
 
 const SEED_USER_IDS = [
   "seed-admin",
@@ -27,6 +28,9 @@ const SEED_USER_IDS = [
 ];
 
 const router: IRouter = Router();
+
+// All team management routes are super_admin only
+router.use(requireSuperAdmin);
 
 router.get("/admin/team/invitations", async (_req, res): Promise<void> => {
   const rows = await db.select().from(teamInvitationsTable).orderBy(desc(teamInvitationsTable.createdAt));

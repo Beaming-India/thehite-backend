@@ -33,7 +33,9 @@ router.post("/admin/upload", upload.single("file"), (req, res): void => {
     res.status(400).json({ error: "No file uploaded" });
     return;
   }
-  res.json({ url: `/uploads/${req.file.filename}` });
+  const base = process.env.BASE_URL?.replace(/\/$/, "")
+    ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
+  res.json({ url: `${base}/uploads/${req.file.filename}` });
 });
 
 export default router;

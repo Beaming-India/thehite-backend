@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import { requireSuperAdmin } from "../../middleware/requireRole";
 import {
   db,
   articlesTable,
@@ -283,7 +284,7 @@ router.get("/admin/locations/:id/writers", async (req, res): Promise<void> => {
   );
 });
 
-router.post("/admin/locations", async (req, res): Promise<void> => {
+router.post("/admin/locations", requireSuperAdmin, async (req, res): Promise<void> => {
   const b = CreateLocationBody.safeParse(req.body);
   if (!b.success) { res.status(400).json({ error: b.error.message }); return; }
   const slug = slugify(b.data.slug);
@@ -303,7 +304,7 @@ router.post("/admin/locations", async (req, res): Promise<void> => {
   res.status(201).json(mapLocation(loc, 0));
 });
 
-router.patch("/admin/locations/:id", async (req, res): Promise<void> => {
+router.patch("/admin/locations/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = UpdateLocationParams.safeParse(req.params);
   const b = UpdateLocationBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -346,7 +347,7 @@ router.patch("/admin/locations/:id", async (req, res): Promise<void> => {
   res.json(UpdateLocationResponse.parse(mapLocation(loc, 0)));
 });
 
-router.delete("/admin/locations/:id", async (req, res): Promise<void> => {
+router.delete("/admin/locations/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = DeleteLocationParams.safeParse(req.params);
   if (!p.success) { res.status(400).json({ error: p.error.message }); return; }
   const [children] = await db
@@ -363,7 +364,7 @@ router.delete("/admin/locations/:id", async (req, res): Promise<void> => {
   res.json(DeleteLocationResponse.parse({ deleted: true }));
 });
 
-router.post("/admin/locations/import", async (req, res): Promise<void> => {
+router.post("/admin/locations/import", requireSuperAdmin, async (req, res): Promise<void> => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) { res.status(400).json({ error: b.error.message }); return; }
   const { rows, dryRun = false } = b.data;
@@ -427,7 +428,7 @@ router.post("/admin/locations/import", async (req, res): Promise<void> => {
   res.json(ImportLocationsResponse.parse({ dryRun, created, skipped, failed, results }));
 });
 
-router.post("/admin/locations/import-stream", async (req, res): Promise<void> => {
+router.post("/admin/locations/import-stream", requireSuperAdmin, async (req, res): Promise<void> => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) { res.status(400).json({ error: b.error.message }); return; }
   const { rows, dryRun = false } = b.data;
@@ -529,7 +530,7 @@ router.get("/admin/locations/:slug/resources", async (req, res): Promise<void> =
   res.json(ListAdminLocationResourcesResponse.parse(rows.map(mapResource)));
 });
 
-router.post("/admin/locations/:slug/resources", async (req, res): Promise<void> => {
+router.post("/admin/locations/:slug/resources", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = CreateLocationResourceParams.safeParse(req.params);
   const b = CreateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -555,7 +556,7 @@ router.post("/admin/locations/:slug/resources", async (req, res): Promise<void> 
   res.status(201).json(mapResource(r));
 });
 
-router.patch("/admin/locations/:slug/resources/:id", async (req, res): Promise<void> => {
+router.patch("/admin/locations/:slug/resources/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = UpdateLocationResourceParams.safeParse(req.params);
   const b = UpdateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -586,7 +587,7 @@ router.patch("/admin/locations/:slug/resources/:id", async (req, res): Promise<v
   res.json(UpdateLocationResourceResponse.parse(mapResource(r)));
 });
 
-router.post("/admin/locations/:slug/resources/reorder", async (req, res): Promise<void> => {
+router.post("/admin/locations/:slug/resources/reorder", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = ReorderLocationResourcesParams.safeParse(req.params);
   const b = ReorderLocationResourcesBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -626,7 +627,7 @@ router.post("/admin/locations/:slug/resources/reorder", async (req, res): Promis
   res.json(ReorderLocationResourcesResponse.parse(rows.map(mapResource)));
 });
 
-router.delete("/admin/locations/:slug/resources/:id", async (req, res): Promise<void> => {
+router.delete("/admin/locations/:slug/resources/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = DeleteLocationResourceParams.safeParse(req.params);
   if (!p.success) { res.status(400).json({ error: p.error.message }); return; }
   const loc = await loadLocationBySlug(p.data.slug);

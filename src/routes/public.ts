@@ -554,6 +554,7 @@ router.get("/locations/:slug/resources", async (req, res): Promise<void> => {
         phone: r.phone,
         address: r.address,
         mapsQuery: r.mapsQuery,
+        sortOrder: r.sortOrder,
       })),
     ),
   );

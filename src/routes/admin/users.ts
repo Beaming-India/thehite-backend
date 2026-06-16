@@ -1,8 +1,5 @@
-
-
-
-
 import { Router, type IRouter } from "express";
+import { requireSuperAdmin } from "../../middleware/requireRole";
 import {
   db,
   articlesTable,
@@ -82,7 +79,7 @@ router.get("/admin/users", async (req, res): Promise<void> => {
   res.json(ListAdminUsersResponse.parse(rows));
 });
 
-router.patch("/admin/users/:id/role", async (req, res): Promise<void> => {
+router.patch("/admin/users/:id/role", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = SetUserRoleParams.safeParse(req.params);
   const b = SetUserRoleBody.safeParse(req.body);
   if (!p.success || !b.success) {

@@ -20650,27 +20650,27 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router12;
+    module.exports = Router13;
     module.exports.Route = Route;
-    function Router12(options) {
-      if (!(this instanceof Router12)) {
-        return new Router12(options);
+    function Router13(options) {
+      if (!(this instanceof Router13)) {
+        return new Router13(options);
       }
       const opts = options || {};
-      function router12(req, res, next) {
-        router12.handle(req, res, next);
+      function router13(req, res, next) {
+        router13.handle(req, res, next);
       }
-      Object.setPrototypeOf(router12, this);
-      router12.caseSensitive = opts.caseSensitive;
-      router12.mergeParams = opts.mergeParams;
-      router12.params = {};
-      router12.strict = opts.strict;
-      router12.stack = [];
-      return router12;
+      Object.setPrototypeOf(router13, this);
+      router13.caseSensitive = opts.caseSensitive;
+      router13.mergeParams = opts.mergeParams;
+      router13.params = {};
+      router13.strict = opts.strict;
+      router13.stack = [];
+      return router13;
     }
-    Router12.prototype = function() {
+    Router13.prototype = function() {
     };
-    Router12.prototype.param = function param(name, fn) {
+    Router13.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20690,7 +20690,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router12.prototype.handle = function handle(req, res, callback) {
+    Router13.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20817,7 +20817,7 @@ var require_router = __commonJS({
         }
       }
     };
-    Router12.prototype.use = function use(handler) {
+    Router13.prototype.use = function use(handler) {
       let offset = 0;
       let path3 = "/";
       if (typeof handler !== "function") {
@@ -20850,7 +20850,7 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router12.prototype.route = function route(path3) {
+    Router13.prototype.route = function route(path3) {
       const route2 = new Route(path3);
       const layer = new Layer(path3, {
         sensitive: this.caseSensitive,
@@ -20865,7 +20865,7 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router12.prototype[method] = function(path3) {
+      Router13.prototype[method] = function(path3) {
         const route = this.route(path3);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
@@ -21048,13 +21048,13 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router12 = require_router();
+    var Router13 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
     var trustProxyDefaultSymbol = "@@symbol:trust_proxy_default";
     app2.init = function init() {
-      var router12 = null;
+      var router13 = null;
       this.cache = /* @__PURE__ */ Object.create(null);
       this.engines = /* @__PURE__ */ Object.create(null);
       this.settings = /* @__PURE__ */ Object.create(null);
@@ -21063,13 +21063,13 @@ var require_application = __commonJS({
         configurable: true,
         enumerable: true,
         get: function getrouter() {
-          if (router12 === null) {
-            router12 = new Router12({
+          if (router13 === null) {
+            router13 = new Router13({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
           }
-          return router12;
+          return router13;
         }
       });
     };
@@ -21140,15 +21140,15 @@ var require_application = __commonJS({
       if (fns.length === 0) {
         throw new TypeError("app.use() requires a middleware function");
       }
-      var router12 = this.router;
+      var router13 = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router12.use(path3, fn2);
+          return router13.use(path3, fn2);
         }
         debug(".use app under %s", path3);
         fn2.mountpath = path3;
         fn2.parent = this;
-        router12.use(path3, function mounted_app(req, res, next) {
+        router13.use(path3, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err) {
             Object.setPrototypeOf(req, orig.request);
@@ -23721,7 +23721,7 @@ var require_express = __commonJS({
     var EventEmitter = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router12 = require_router();
+    var Router13 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -23743,8 +23743,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router12.Route;
-    exports.Router = Router12;
+    exports.Route = Router13.Route;
+    exports.Router = Router13;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -50448,14 +50448,14 @@ var require_multer = __commonJS({
 });
 
 // src/app.ts
-var import_express12 = __toESM(require_express2(), 1);
+var import_express13 = __toESM(require_express2(), 1);
 var import_cors = __toESM(require_lib3(), 1);
 var import_cookie_parser = __toESM(require_cookie_parser(), 1);
 var import_pino_http = __toESM(require_logger(), 1);
 import path2 from "path";
 
 // src/routes/index.ts
-var import_express11 = __toESM(require_express2(), 1);
+var import_express12 = __toESM(require_express2(), 1);
 
 // src/routes/health.ts
 var import_express = __toESM(require_express2(), 1);
@@ -65807,8 +65807,53 @@ router2.get("/logout", async (req, res) => {
 });
 var auth_default = router2;
 
-// src/routes/public.ts
+// src/routes/dev-auth.ts
 var import_express3 = __toESM(require_express2(), 1);
+var router3 = (0, import_express3.Router)();
+if (process.env.NODE_ENV === "development") {
+  router3.post("/dev-login", async (req, res) => {
+    const DEV_ADMIN_ID = process.env.SEED_ADMIN_ID ?? "seed-admin";
+    const DEV_ADMIN_EMAIL = "admin@dev.local";
+    await db.insert(usersTable).values({
+      id: DEV_ADMIN_ID,
+      email: DEV_ADMIN_EMAIL,
+      firstName: "Admin",
+      lastName: "Dev",
+      profileImageUrl: null
+    }).onConflictDoNothing();
+    await db.insert(userProfilesTable).values({
+      userId: DEV_ADMIN_ID,
+      displayName: "Admin Dev",
+      role: "super_admin",
+      isWriterApproved: true
+    }).onConflictDoUpdate({
+      target: userProfilesTable.userId,
+      set: { role: "super_admin" }
+    });
+    const sid = await createSession({
+      user: {
+        id: DEV_ADMIN_ID,
+        email: DEV_ADMIN_EMAIL,
+        firstName: "Admin",
+        lastName: "Dev",
+        profileImageUrl: null
+      },
+      access_token: "dev-token"
+    });
+    res.cookie("sid", sid, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1e3
+    });
+    res.json({ ok: true, userId: DEV_ADMIN_ID });
+  });
+}
+var dev_auth_default = router3;
+
+// src/routes/public.ts
+var import_express4 = __toESM(require_express2(), 1);
 
 // src/utils/readingTime.ts
 function readingTimeMin(body) {
@@ -65885,7 +65930,7 @@ function mapMyArticle(row) {
 }
 
 // src/routes/public.ts
-var router3 = (0, import_express3.Router)();
+var router4 = (0, import_express4.Router)();
 var PUBLISHED = eq(articlesTable.status, "published");
 async function selectArticleCards(where, limit = 20, offset = 0) {
   const rows = await db.select({
@@ -65909,7 +65954,7 @@ async function selectArticleCards(where, limit = 20, offset = 0) {
     })
   );
 }
-router3.get("/articles", async (req, res) => {
+router4.get("/articles", async (req, res) => {
   const q = ListArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -65978,15 +66023,15 @@ router3.get("/articles", async (req, res) => {
   );
   res.json(ListArticlesResponse.parse({ items, total: count2, limit, offset }));
 });
-router3.get("/articles/featured", async (_req, res) => {
+router4.get("/articles/featured", async (_req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isFeatured, true)), 8);
   res.json(ListFeaturedArticlesResponse.parse(items));
 });
-router3.get("/articles/breaking", async (_req, res) => {
+router4.get("/articles/breaking", async (_req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isBreaking, true)), 10);
   res.json(ListBreakingArticlesResponse.parse(items));
 });
-router3.get("/articles/trending", async (_req, res) => {
+router4.get("/articles/trending", async (_req, res) => {
   const rows = await db.select({
     article: articlesTable,
     category: categoriesTable,
@@ -66009,7 +66054,7 @@ router3.get("/articles/trending", async (_req, res) => {
   );
   res.json(ListTrendingArticlesResponse.parse(items));
 });
-router3.get("/articles/by-slug/:slug", async (req, res) => {
+router4.get("/articles/by-slug/:slug", async (req, res) => {
   const p = GetArticleBySlugParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66052,7 +66097,7 @@ router3.get("/articles/by-slug/:slug", async (req, res) => {
   );
   res.json(GetArticleBySlugResponse.parse(data));
 });
-router3.get("/articles/:id/related", async (req, res) => {
+router4.get("/articles/:id/related", async (req, res) => {
   const p = ListRelatedArticlesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66100,7 +66145,7 @@ async function listWriterRows(limit, sort) {
   ).orderBy(orderExpr).limit(limit);
   return rows;
 }
-router3.get("/writers", async (req, res) => {
+router4.get("/writers", async (req, res) => {
   const q = ListWritersQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -66121,7 +66166,7 @@ router3.get("/writers", async (req, res) => {
     )
   );
 });
-router3.get("/writers/popular", async (_req, res) => {
+router4.get("/writers/popular", async (_req, res) => {
   const rows = await listWriterRows(8, "popular");
   res.json(
     ListPopularWritersResponse.parse(
@@ -66137,7 +66182,7 @@ router3.get("/writers/popular", async (_req, res) => {
     )
   );
 });
-router3.get("/writers/:id", async (req, res) => {
+router4.get("/writers/:id", async (req, res) => {
   const p = GetWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66169,7 +66214,7 @@ router3.get("/writers/:id", async (req, res) => {
     })
   );
 });
-router3.get("/writers/:id/articles", async (req, res) => {
+router4.get("/writers/:id/articles", async (req, res) => {
   const p = ListWriterArticlesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66178,7 +66223,7 @@ router3.get("/writers/:id/articles", async (req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.writerId, p.data.id)), 50);
   res.json(ListWriterArticlesResponse.parse(items));
 });
-router3.get("/categories", async (_req, res) => {
+router4.get("/categories", async (_req, res) => {
   const rows = await db.select({
     id: categoriesTable.id,
     slug: categoriesTable.slug,
@@ -66193,7 +66238,7 @@ router3.get("/categories", async (_req, res) => {
     )
   );
 });
-router3.get("/locations", async (req, res) => {
+router4.get("/locations", async (req, res) => {
   const q = ListLocationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -66226,7 +66271,7 @@ router3.get("/locations", async (req, res) => {
     )
   );
 });
-router3.get("/locations/:slug", async (req, res) => {
+router4.get("/locations/:slug", async (req, res) => {
   const p = GetLocationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66250,7 +66295,7 @@ router3.get("/locations/:slug", async (req, res) => {
     })
   );
 });
-router3.get("/locations/:slug/resources", async (req, res) => {
+router4.get("/locations/:slug/resources", async (req, res) => {
   const p = ListLocationResourcesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66271,12 +66316,13 @@ router3.get("/locations/:slug/resources", async (req, res) => {
         nameEn: r.nameEn,
         phone: r.phone,
         address: r.address,
-        mapsQuery: r.mapsQuery
+        mapsQuery: r.mapsQuery,
+        sortOrder: r.sortOrder
       }))
     )
   );
 });
-router3.get("/search", async (req, res) => {
+router4.get("/search", async (req, res) => {
   const q = SearchEverythingQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -66333,7 +66379,7 @@ router3.get("/search", async (req, res) => {
 var reportDownloadHits = /* @__PURE__ */ new Map();
 var REPORT_DOWNLOAD_LIMIT = 30;
 var REPORT_DOWNLOAD_WINDOW_MS = 6e4;
-router3.get("/locations/validation-report/:token", async (req, res) => {
+router4.get("/locations/validation-report/:token", async (req, res) => {
   const { token } = req.params;
   const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ?? req.socket.remoteAddress ?? "unknown";
   const now = Date.now();
@@ -66362,10 +66408,10 @@ router3.get("/locations/validation-report/:token", async (req, res) => {
   res.setHeader("Content-Disposition", `attachment; filename="validation-report-${date2}.csv"`);
   res.send(share.csvContent);
 });
-var public_default = router3;
+var public_default = router4;
 
 // src/routes/engagement.ts
-var import_express4 = __toESM(require_express2(), 1);
+var import_express5 = __toESM(require_express2(), 1);
 
 // src/middleware/requireRole.ts
 var ADMIN_ROLES = [
@@ -66435,8 +66481,8 @@ async function getEngagementCounts(articleId, userId) {
 }
 
 // src/routes/engagement.ts
-var router4 = (0, import_express4.Router)();
-router4.post("/articles/:id/like", requireAuth, async (req, res) => {
+var router5 = (0, import_express5.Router)();
+router5.post("/articles/:id/like", requireAuth, async (req, res) => {
   const p = LikeArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66449,7 +66495,7 @@ router4.post("/articles/:id/like", requireAuth, async (req, res) => {
   }
   res.json(LikeArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router4.delete("/articles/:id/like", requireAuth, async (req, res) => {
+router5.delete("/articles/:id/like", requireAuth, async (req, res) => {
   const p = UnlikeArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66462,7 +66508,7 @@ router4.delete("/articles/:id/like", requireAuth, async (req, res) => {
   }
   res.json(UnlikeArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router4.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
+router5.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
   const p = BookmarkArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66475,7 +66521,7 @@ router4.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
   }
   res.json(BookmarkArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router4.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
+router5.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
   const p = UnbookmarkArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66488,7 +66534,7 @@ router4.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
   }
   res.json(UnbookmarkArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router4.post("/articles/:id/share", async (req, res) => {
+router5.post("/articles/:id/share", async (req, res) => {
   const p = ShareArticleParams.safeParse(req.params);
   const b = ShareArticleBody.safeParse(req.body ?? {});
   if (!p.success || !b.success) {
@@ -66503,7 +66549,7 @@ router4.post("/articles/:id/share", async (req, res) => {
   await db.update(articlesTable).set({ shareCount: sql`${articlesTable.shareCount} + 1` }).where(eq(articlesTable.id, p.data.id));
   res.json(ShareArticleResponse.parse(await getEngagementCounts(p.data.id, req.user?.id)));
 });
-router4.post("/articles/:id/view", async (req, res) => {
+router5.post("/articles/:id/view", async (req, res) => {
   const p = RecordArticleViewParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66516,7 +66562,7 @@ router4.post("/articles/:id/view", async (req, res) => {
   await db.update(articlesTable).set({ viewCount: sql`${articlesTable.viewCount} + 1` }).where(eq(articlesTable.id, p.data.id));
   res.json(RecordArticleViewResponse.parse(await getEngagementCounts(p.data.id, req.user?.id)));
 });
-router4.get("/articles/:id/comments", async (req, res) => {
+router5.get("/articles/:id/comments", async (req, res) => {
   const p = ListArticleCommentsParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66562,7 +66608,7 @@ router4.get("/articles/:id/comments", async (req, res) => {
   });
   res.json(ListArticleCommentsResponse.parse(roots.map(toItem)));
 });
-router4.post("/articles/:id/comments", requireAuth, async (req, res) => {
+router5.post("/articles/:id/comments", requireAuth, async (req, res) => {
   const p = CreateArticleCommentParams.safeParse(req.params);
   const b = CreateArticleCommentBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -66594,7 +66640,7 @@ router4.post("/articles/:id/comments", requireAuth, async (req, res) => {
     replies: []
   });
 });
-router4.post("/comments/:id/report", requireAuth, async (req, res) => {
+router5.post("/comments/:id/report", requireAuth, async (req, res) => {
   const p = ReportCommentParams.safeParse(req.params);
   const b = ReportCommentBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -66625,7 +66671,7 @@ router4.post("/comments/:id/report", requireAuth, async (req, res) => {
     }
   });
 });
-router4.post("/writers/:id/follow", requireAuth, async (req, res) => {
+router5.post("/writers/:id/follow", requireAuth, async (req, res) => {
   const p = FollowWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66646,7 +66692,7 @@ router4.post("/writers/:id/follow", requireAuth, async (req, res) => {
   }
   res.json(FollowWriterResponse.parse({ isFollowing: true, followerCount: count2 }));
 });
-router4.delete("/writers/:id/follow", requireAuth, async (req, res) => {
+router5.delete("/writers/:id/follow", requireAuth, async (req, res) => {
   const p = UnfollowWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -66665,12 +66711,12 @@ router4.delete("/writers/:id/follow", requireAuth, async (req, res) => {
   }
   res.json(UnfollowWriterResponse.parse({ isFollowing: false, followerCount: count2 }));
 });
-var engagement_default = router4;
+var engagement_default = router5;
 
 // src/routes/me.ts
-var import_express5 = __toESM(require_express2(), 1);
-var router5 = (0, import_express5.Router)();
-router5.use(requireAuth);
+var import_express6 = __toESM(require_express2(), 1);
+var router6 = (0, import_express6.Router)();
+router6.use(requireAuth);
 async function loadProfile(userId) {
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId));
   let [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, userId));
@@ -66680,7 +66726,7 @@ async function loadProfile(userId) {
   }
   return { user, profile };
 }
-router5.get("/me/profile", async (req, res) => {
+router6.get("/me/profile", async (req, res) => {
   const { user, profile } = await loadProfile(req.user.id);
   res.json(
     GetMyProfileResponse.parse({
@@ -66700,7 +66746,7 @@ router5.get("/me/profile", async (req, res) => {
     })
   );
 });
-router5.patch("/me/profile", async (req, res) => {
+router6.patch("/me/profile", async (req, res) => {
   const b = UpdateMyProfileBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -66736,7 +66782,7 @@ router5.patch("/me/profile", async (req, res) => {
     })
   );
 });
-router5.get("/me/push-prefs", async (req, res) => {
+router6.get("/me/push-prefs", async (req, res) => {
   const uid = req.user.id;
   const cats = await db.select({ categoryId: pushPrefsCategoriesTable.categoryId }).from(pushPrefsCategoriesTable).where(eq(pushPrefsCategoriesTable.userId, uid));
   const locs = await db.select({ locationId: pushPrefsLocationsTable.locationId }).from(pushPrefsLocationsTable).where(eq(pushPrefsLocationsTable.userId, uid));
@@ -66747,7 +66793,7 @@ router5.get("/me/push-prefs", async (req, res) => {
     })
   );
 });
-router5.put("/me/push-prefs", async (req, res) => {
+router6.put("/me/push-prefs", async (req, res) => {
   const b = UpdateMyPushPrefsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -66778,7 +66824,7 @@ router5.put("/me/push-prefs", async (req, res) => {
     })
   );
 });
-router5.post("/me/device-tokens", async (req, res) => {
+router6.post("/me/device-tokens", async (req, res) => {
   const b = RegisterDeviceTokenBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -66795,7 +66841,7 @@ router5.post("/me/device-tokens", async (req, res) => {
   });
   res.json(RegisterDeviceTokenResponse.parse({ registered: true }));
 });
-router5.delete("/me/device-tokens", async (req, res) => {
+router6.delete("/me/device-tokens", async (req, res) => {
   const b = UnregisterDeviceTokenBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -66804,7 +66850,7 @@ router5.delete("/me/device-tokens", async (req, res) => {
   const result = await db.delete(deviceTokensTable).where(and(eq(deviceTokensTable.token, b.data.token), eq(deviceTokensTable.userId, req.user.id))).returning();
   res.json(UnregisterDeviceTokenResponse.parse({ deleted: result.length > 0 }));
 });
-router5.get("/me/alerts", async (req, res) => {
+router6.get("/me/alerts", async (req, res) => {
   const q = ListMyAlertsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -66833,7 +66879,7 @@ router5.get("/me/alerts", async (req, res) => {
   }));
   res.json(ListMyAlertsResponse.parse(items));
 });
-router5.get("/me/bookmarks", async (req, res) => {
+router6.get("/me/bookmarks", async (req, res) => {
   const rows = await db.select({
     article: articlesTable,
     category: categoriesTable,
@@ -66856,7 +66902,7 @@ router5.get("/me/bookmarks", async (req, res) => {
   );
   res.json(ListMyBookmarksResponse.parse(items));
 });
-router5.get("/me/follows", async (req, res) => {
+router6.get("/me/follows", async (req, res) => {
   const uid = req.user.id;
   const writers = await db.select({
     id: usersTable.id,
@@ -66890,7 +66936,7 @@ router5.get("/me/follows", async (req, res) => {
     })
   );
 });
-router5.post("/me/writer-application", async (req, res) => {
+router6.post("/me/writer-application", async (req, res) => {
   const b = ApplyToBeWriterBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -66921,10 +66967,10 @@ router5.post("/me/writer-application", async (req, res) => {
     createdAt: app2.createdAt
   });
 });
-var me_default = router5;
+var me_default = router6;
 
 // src/routes/writer.ts
-var import_express6 = __toESM(require_express2(), 1);
+var import_express7 = __toESM(require_express2(), 1);
 
 // src/utils/slug.ts
 function slugify(text2) {
@@ -66934,8 +66980,8 @@ function slugify(text2) {
 }
 
 // src/routes/writer.ts
-var router6 = (0, import_express6.Router)();
-router6.use(requireWriter);
+var router7 = (0, import_express7.Router)();
+router7.use(requireWriter);
 async function joined(where) {
   const rows = await db.select({
     article: articlesTable,
@@ -66951,7 +66997,7 @@ async function joined(where) {
     })
   );
 }
-router6.get("/writer/dashboard", async (req, res) => {
+router7.get("/writer/dashboard", async (req, res) => {
   const uid = req.user.id;
   const articles = await joined(eq(articlesTable.writerId, uid));
   const totalArticles = articles.length;
@@ -66984,7 +67030,7 @@ router6.get("/writer/dashboard", async (req, res) => {
     })
   );
 });
-router6.get("/writer/articles", async (req, res) => {
+router7.get("/writer/articles", async (req, res) => {
   const q = ListMyAuthoredArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -66995,7 +67041,7 @@ router6.get("/writer/articles", async (req, res) => {
   const items = await joined(and(...conds));
   res.json(ListMyAuthoredArticlesResponse.parse(items));
 });
-router6.post("/writer/articles", async (req, res) => {
+router7.post("/writer/articles", async (req, res) => {
   const b = CreateMyArticleBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -67017,7 +67063,7 @@ router6.post("/writer/articles", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.status(201).json(GetMyAuthoredArticleResponse.parse(items[0]));
 });
-router6.get("/writer/articles/:id", async (req, res) => {
+router7.get("/writer/articles/:id", async (req, res) => {
   const p = GetMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67032,7 +67078,7 @@ router6.get("/writer/articles/:id", async (req, res) => {
   }
   res.json(GetMyAuthoredArticleResponse.parse(items[0]));
 });
-router6.patch("/writer/articles/:id", async (req, res) => {
+router7.patch("/writer/articles/:id", async (req, res) => {
   const p = UpdateMyAuthoredArticleParams.safeParse(req.params);
   const b = UpdateMyAuthoredArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67063,7 +67109,7 @@ router6.patch("/writer/articles/:id", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.json(UpdateMyAuthoredArticleResponse.parse(items[0]));
 });
-router6.delete("/writer/articles/:id", async (req, res) => {
+router7.delete("/writer/articles/:id", async (req, res) => {
   const p = DeleteMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67076,7 +67122,7 @@ router6.delete("/writer/articles/:id", async (req, res) => {
   }
   res.json(DeleteMyAuthoredArticleResponse.parse({ deleted: true }));
 });
-router6.post("/writer/articles/:id/submit", async (req, res) => {
+router7.post("/writer/articles/:id/submit", async (req, res) => {
   const p = SubmitMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67095,10 +67141,10 @@ router6.post("/writer/articles/:id/submit", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.json(SubmitMyAuthoredArticleResponse.parse(items[0]));
 });
-var writer_default = router6;
+var writer_default = router7;
 
 // src/routes/admin.ts
-var import_express7 = __toESM(require_express2(), 1);
+var import_express8 = __toESM(require_express2(), 1);
 import { randomBytes as randomBytes2 } from "crypto";
 
 // src/lib/helpers.ts
@@ -67384,9 +67430,9 @@ async function loadFullComment(id) {
     }
   };
 }
-var router7 = (0, import_express7.Router)();
-router7.use(requireAdmin2);
-router7.get("/admin/stats", async (_req, res) => {
+var router8 = (0, import_express8.Router)();
+router8.use(requireAdmin2);
+router8.get("/admin/stats", async (_req, res) => {
   const [{ articles }] = await db.select({ articles: sql`count(*)::int` }).from(articlesTable);
   const [{ published }] = await db.select({ published: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "published"));
   const [{ pending }] = await db.select({ pending: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "pending"));
@@ -67519,7 +67565,7 @@ router7.get("/admin/stats", async (_req, res) => {
     })
   );
 });
-router7.get("/admin/articles", async (req, res) => {
+router8.get("/admin/articles", async (req, res) => {
   const q = ListAdminArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67550,7 +67596,7 @@ router7.get("/admin/articles", async (req, res) => {
   }));
   res.json(ListAdminArticlesResponse.parse(items));
 });
-router7.get("/admin/articles/:id", async (req, res) => {
+router8.get("/admin/articles/:id", async (req, res) => {
   const p = GetAdminArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67563,7 +67609,7 @@ router7.get("/admin/articles/:id", async (req, res) => {
   }
   res.json(GetAdminArticleResponse.parse(full));
 });
-router7.patch("/admin/articles/:id", async (req, res) => {
+router8.patch("/admin/articles/:id", async (req, res) => {
   const p = AdminUpdateArticleParams.safeParse(req.params);
   const b = AdminUpdateArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67609,7 +67655,7 @@ router7.patch("/admin/articles/:id", async (req, res) => {
   }
   res.json(AdminUpdateArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router7.delete("/admin/articles/:id", async (req, res) => {
+router8.delete("/admin/articles/:id", async (req, res) => {
   const p = AdminDeleteArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67623,7 +67669,7 @@ router7.delete("/admin/articles/:id", async (req, res) => {
   await audit(req.user.id, "article.delete", "article", deleted.id);
   res.json(AdminDeleteArticleResponse.parse({ id: deleted.id }));
 });
-router7.post("/admin/articles/:id/approve", async (req, res) => {
+router8.post("/admin/articles/:id/approve", async (req, res) => {
   const p = ApproveArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67653,7 +67699,7 @@ router7.post("/admin/articles/:id/approve", async (req, res) => {
   });
   res.json(ApproveArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router7.post("/admin/articles/:id/reject", async (req, res) => {
+router8.post("/admin/articles/:id/reject", async (req, res) => {
   const p = ApproveArticleParams.safeParse(req.params);
   const b = RejectArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67668,7 +67714,7 @@ router7.post("/admin/articles/:id/reject", async (req, res) => {
   await audit(req.user.id, "article.reject", "article", a.id, b.data.note);
   res.json(RejectArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router7.post("/admin/articles/:id/request-changes", async (req, res) => {
+router8.post("/admin/articles/:id/request-changes", async (req, res) => {
   const p = RequestArticleChangesParams.safeParse(req.params);
   const b = RequestArticleChangesBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67683,7 +67729,7 @@ router7.post("/admin/articles/:id/request-changes", async (req, res) => {
   await audit(req.user.id, "article.request_changes", "article", a.id, b.data.note);
   res.json(RequestArticleChangesResponse.parse(await loadFullArticle(a.id)));
 });
-router7.patch("/admin/articles/:id/flags", async (req, res) => {
+router8.patch("/admin/articles/:id/flags", async (req, res) => {
   const p = UpdateArticleFlagsParams.safeParse(req.params);
   const b = UpdateArticleFlagsBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67713,7 +67759,7 @@ router7.patch("/admin/articles/:id/flags", async (req, res) => {
   }
   res.json(UpdateArticleFlagsResponse.parse(await loadFullArticle(a.id)));
 });
-router7.get("/admin/users", async (req, res) => {
+router8.get("/admin/users", async (req, res) => {
   const q = ListAdminUsersQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67733,7 +67779,7 @@ router7.get("/admin/users", async (req, res) => {
   }).from(usersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).where(conds.length ? and(...conds) : void 0).orderBy(desc(userProfilesTable.createdAt)).limit(500);
   res.json(ListAdminUsersResponse.parse(rows));
 });
-router7.patch("/admin/users/:id/role", async (req, res) => {
+router8.patch("/admin/users/:id/role", async (req, res) => {
   const p = SetUserRoleParams.safeParse(req.params);
   const b = SetUserRoleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67758,7 +67804,7 @@ router7.patch("/admin/users/:id/role", async (req, res) => {
     })
   );
 });
-router7.get("/admin/users/:id/locations", async (req, res) => {
+router8.get("/admin/users/:id/locations", async (req, res) => {
   const p = ListWriterLocationsParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67797,7 +67843,7 @@ router7.get("/admin/users/:id/locations", async (req, res) => {
     )
   );
 });
-router7.get("/admin/writer-applications", async (req, res) => {
+router8.get("/admin/writer-applications", async (req, res) => {
   const q = ListWriterApplicationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67836,7 +67882,7 @@ router7.get("/admin/writer-applications", async (req, res) => {
     )
   );
 });
-router7.post("/admin/writer-applications/:id/approve", async (req, res) => {
+router8.post("/admin/writer-applications/:id/approve", async (req, res) => {
   const p = ApproveWriterApplicationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67851,7 +67897,7 @@ router7.post("/admin/writer-applications/:id/approve", async (req, res) => {
   await audit(req.user.id, "writer_application.approve", "writer_application", app2.id);
   res.json(ApproveWriterApplicationResponse.parse(await loadFullWriterApplication(app2.id)));
 });
-router7.post("/admin/writer-applications/:id/reject", async (req, res) => {
+router8.post("/admin/writer-applications/:id/reject", async (req, res) => {
   const p = RejectWriterApplicationParams.safeParse(req.params);
   const b = RejectWriterApplicationBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67866,7 +67912,7 @@ router7.post("/admin/writer-applications/:id/reject", async (req, res) => {
   await audit(req.user.id, "writer_application.reject", "writer_application", app2.id, b.data.note);
   res.json(RejectWriterApplicationResponse.parse(await loadFullWriterApplication(app2.id)));
 });
-router7.get("/admin/categories", async (_req, res) => {
+router8.get("/admin/categories", async (_req, res) => {
   const rows = await db.select({
     id: categoriesTable.id,
     slug: categoriesTable.slug,
@@ -67881,7 +67927,7 @@ router7.get("/admin/categories", async (_req, res) => {
     )
   );
 });
-router7.post("/admin/categories", async (req, res) => {
+router8.post("/admin/categories", async (req, res) => {
   const b = CreateCategoryBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -67896,7 +67942,7 @@ router7.post("/admin/categories", async (req, res) => {
   await audit(req.user.id, "category.create", "category", c.id);
   res.status(201).json({ ...c, articleCount: 0 });
 });
-router7.post("/admin/categories/reorder", async (req, res) => {
+router8.post("/admin/categories/reorder", async (req, res) => {
   const b = ReorderCategoriesBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -67936,7 +67982,7 @@ router7.post("/admin/categories/reorder", async (req, res) => {
     )
   );
 });
-router7.patch("/admin/categories/:id", async (req, res) => {
+router8.patch("/admin/categories/:id", async (req, res) => {
   const p = UpdateCategoryParams.safeParse(req.params);
   const b = UpdateCategoryBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -67964,7 +68010,7 @@ router7.patch("/admin/categories/:id", async (req, res) => {
     })
   );
 });
-router7.delete("/admin/categories/:id", async (req, res) => {
+router8.delete("/admin/categories/:id", async (req, res) => {
   const p = DeleteCategoryParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68036,7 +68082,7 @@ function mapLocation(r, articleCount = 0, writerCount = 0, followerCount = 0, wr
   };
 }
 var VALID_LOCATION_TYPES = ["state", "district", "assembly", "block", "village"];
-router7.get("/admin/locations/export.csv", async (req, res) => {
+router8.get("/admin/locations/export.csv", async (req, res) => {
   const typesParam = typeof req.query.types === "string" ? req.query.types : void 0;
   const typeParam = typeof req.query.type === "string" ? req.query.type : void 0;
   const rawTypes = typesParam ?? typeParam;
@@ -68074,7 +68120,7 @@ router7.get("/admin/locations/export.csv", async (req, res) => {
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.send(lines.join("\r\n"));
 });
-router7.get("/admin/locations", async (req, res) => {
+router8.get("/admin/locations", async (req, res) => {
   const q = ListAdminLocationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -68119,7 +68165,7 @@ router7.get("/admin/locations", async (req, res) => {
     )
   );
 });
-router7.get("/admin/locations/dormant-writers", async (req, res) => {
+router8.get("/admin/locations/dormant-writers", async (req, res) => {
   const thirtyDaysAgo = /* @__PURE__ */ new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const rows = await db.execute(sql`
@@ -68159,7 +68205,7 @@ router7.get("/admin/locations/dormant-writers", async (req, res) => {
     }))
   );
 });
-router7.get("/admin/locations/:id/writers", async (req, res) => {
+router8.get("/admin/locations/:id/writers", async (req, res) => {
   const p = ListLocationWritersParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68196,7 +68242,7 @@ router7.get("/admin/locations/:id/writers", async (req, res) => {
     )
   );
 });
-router7.post("/admin/locations", async (req, res) => {
+router8.post("/admin/locations", async (req, res) => {
   const b = CreateLocationBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68227,7 +68273,7 @@ router7.post("/admin/locations", async (req, res) => {
   await audit(req.user.id, "location.create", "location", loc.id, slug);
   res.status(201).json(mapLocation(loc, 0));
 });
-router7.patch("/admin/locations/:id", async (req, res) => {
+router8.patch("/admin/locations/:id", async (req, res) => {
   const p = UpdateLocationParams.safeParse(req.params);
   const b = UpdateLocationBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68278,7 +68324,7 @@ router7.patch("/admin/locations/:id", async (req, res) => {
   await audit(req.user.id, "location.update", "location", loc.id, loc.slug);
   res.json(UpdateLocationResponse.parse(mapLocation(loc, 0)));
 });
-router7.delete("/admin/locations/:id", async (req, res) => {
+router8.delete("/admin/locations/:id", async (req, res) => {
   const p = DeleteLocationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68297,7 +68343,7 @@ router7.delete("/admin/locations/:id", async (req, res) => {
   await audit(req.user.id, "location.delete", "location", p.data.id, loc.slug);
   res.json(DeleteLocationResponse.parse({ deleted: true }));
 });
-router7.post("/admin/locations/import", async (req, res) => {
+router8.post("/admin/locations/import", async (req, res) => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68400,7 +68446,7 @@ router7.post("/admin/locations/import", async (req, res) => {
   }
   res.json(ImportLocationsResponse.parse({ dryRun, created, skipped, failed, results }));
 });
-router7.post("/admin/locations/import-stream", async (req, res) => {
+router8.post("/admin/locations/import-stream", async (req, res) => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68512,7 +68558,7 @@ function mapResource(r) {
     sortOrder: r.sortOrder
   };
 }
-router7.get("/admin/locations/:slug/resources", async (req, res) => {
+router8.get("/admin/locations/:slug/resources", async (req, res) => {
   const p = ListAdminLocationResourcesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68526,7 +68572,7 @@ router7.get("/admin/locations/:slug/resources", async (req, res) => {
   const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
   res.json(ListAdminLocationResourcesResponse.parse(rows.map(mapResource)));
 });
-router7.post("/admin/locations/:slug/resources", async (req, res) => {
+router8.post("/admin/locations/:slug/resources", async (req, res) => {
   const p = CreateLocationResourceParams.safeParse(req.params);
   const b = CreateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68551,7 +68597,7 @@ router7.post("/admin/locations/:slug/resources", async (req, res) => {
   await audit(req.user.id, "location_resource.create", "location_resource", r.id, loc.slug);
   res.status(201).json(mapResource(r));
 });
-router7.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
+router8.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
   const p = UpdateLocationResourceParams.safeParse(req.params);
   const b = UpdateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68588,7 +68634,7 @@ router7.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
   await audit(req.user.id, "location_resource.update", "location_resource", r.id, loc.slug);
   res.json(UpdateLocationResourceResponse.parse(mapResource(r)));
 });
-router7.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
+router8.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
   const p = ReorderLocationResourcesParams.safeParse(req.params);
   const b = ReorderLocationResourcesBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68628,7 +68674,7 @@ router7.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
   const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
   res.json(ReorderLocationResourcesResponse.parse(rows.map(mapResource)));
 });
-router7.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
+router8.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
   const p = DeleteLocationResourceParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68652,7 +68698,7 @@ router7.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
   await audit(req.user.id, "location_resource.delete", "location_resource", p.data.id, loc.slug);
   res.json(DeleteLocationResourceResponse.parse({ deleted: true }));
 });
-router7.get("/admin/comments", async (req, res) => {
+router8.get("/admin/comments", async (req, res) => {
   const q = ListAdminCommentsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -68687,7 +68733,7 @@ router7.get("/admin/comments", async (req, res) => {
     )
   );
 });
-router7.post("/admin/comments/:id/hide", async (req, res) => {
+router8.post("/admin/comments/:id/hide", async (req, res) => {
   const p = HideCommentParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68701,7 +68747,7 @@ router7.post("/admin/comments/:id/hide", async (req, res) => {
   await audit(req.user.id, "comment.hide", "comment", c.id);
   res.json(HideCommentResponse.parse(await loadFullComment(c.id)));
 });
-router7.get("/admin/reports", async (req, res) => {
+router8.get("/admin/reports", async (req, res) => {
   const showResolved = req.query.resolved === "true";
   const resolverUser = alias(usersTable, "resolver_user");
   const resolverProfile = alias(userProfilesTable, "resolver_profile");
@@ -68733,7 +68779,7 @@ router7.get("/admin/reports", async (req, res) => {
     )
   );
 });
-router7.post("/admin/reports/:id/resolve", async (req, res) => {
+router8.post("/admin/reports/:id/resolve", async (req, res) => {
   const { id } = req.params;
   const actorId = req.user.id;
   const now = /* @__PURE__ */ new Date();
@@ -68745,7 +68791,7 @@ router7.post("/admin/reports/:id/resolve", async (req, res) => {
   await audit(actorId, "report.resolve", "report", id);
   res.status(204).send();
 });
-router7.get("/admin/audit-log", async (req, res) => {
+router8.get("/admin/audit-log", async (req, res) => {
   const q = ListAdminAuditLogQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -68775,7 +68821,7 @@ router7.get("/admin/audit-log", async (req, res) => {
     )
   );
 });
-router7.get("/admin/team/invitations", async (req, res) => {
+router8.get("/admin/team/invitations", async (req, res) => {
   const rows = await db.select().from(teamInvitationsTable).orderBy(desc(teamInvitationsTable.createdAt));
   res.json(ListTeamInvitationsResponse.parse(rows.map((r) => ({
     id: r.id,
@@ -68787,7 +68833,7 @@ router7.get("/admin/team/invitations", async (req, res) => {
     createdAt: r.createdAt
   }))));
 });
-router7.post("/admin/team/invitations", async (req, res) => {
+router8.post("/admin/team/invitations", async (req, res) => {
   const b = CreateTeamInvitationBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68826,7 +68872,7 @@ router7.post("/admin/team/invitations", async (req, res) => {
     res.status(409).json({ error: { code: "CONFLICT", message: "Invitation already exists for this email" } });
   }
 });
-router7.delete("/admin/team/invitations/:id", async (req, res) => {
+router8.delete("/admin/team/invitations/:id", async (req, res) => {
   const p = DeleteTeamInvitationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68841,7 +68887,7 @@ router7.delete("/admin/team/invitations/:id", async (req, res) => {
   res.status(204).send();
 });
 var VALIDATION_REPORT_MAX_BYTES = 5 * 1024 * 1024;
-router7.post("/admin/locations/validation-report/share", async (req, res) => {
+router8.post("/admin/locations/validation-report/share", async (req, res) => {
   const b = CreateValidationReportShareBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68878,7 +68924,7 @@ var SEED_USER_IDS = [
   "moderator-1",
   "reader-demo"
 ];
-router7.delete("/admin/seed-data", async (req, res) => {
+router8.delete("/admin/seed-data", async (req, res) => {
   const profile = await db.select({ role: userProfilesTable.role }).from(userProfilesTable).where(eq(userProfilesTable.userId, req.user.id)).then((r) => r[0]);
   if (profile?.role !== "super_admin") {
     res.status(403).json({ error: "Super admin only" });
@@ -68888,10 +68934,10 @@ router7.delete("/admin/seed-data", async (req, res) => {
   await audit(req.user.id, "seed.clear", "article", null, `deleted=${deleted.length}`);
   res.json({ deleted: deleted.length });
 });
-var admin_default = router7;
+var admin_default = router8;
 
 // src/routes/admin-crm.ts
-var import_express8 = __toESM(require_express2(), 1);
+var import_express9 = __toESM(require_express2(), 1);
 
 // src/utils/audit.ts
 async function audit2(actorId, action, targetType, targetId, note) {
@@ -68899,8 +68945,8 @@ async function audit2(actorId, action, targetType, targetId, note) {
 }
 
 // src/routes/admin-crm.ts
-var router8 = (0, import_express8.Router)();
-router8.use(requireAdmin);
+var router9 = (0, import_express9.Router)();
+router9.use(requireAdmin);
 function userRef(user, profile) {
   if (!user) return null;
   return {
@@ -69033,7 +69079,7 @@ async function mapTask(t) {
     updatedAt: t.updatedAt.toISOString()
   };
 }
-router8.get("/admin/crm/summary", async (_req, res) => {
+router9.get("/admin/crm/summary", async (_req, res) => {
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1e3);
   const [contactsTotal] = await db.select({ v: count() }).from(crmContactsTable);
   const [orgsTotal] = await db.select({ v: count() }).from(crmOrganizationsTable);
@@ -69071,7 +69117,7 @@ router8.get("/admin/crm/summary", async (_req, res) => {
     upcomingTasks
   });
 });
-router8.get("/admin/crm/contacts", async (req, res) => {
+router9.get("/admin/crm/contacts", async (req, res) => {
   const q = req.query.q?.trim();
   const type = req.query.type;
   const assignedTo = req.query.assignedTo;
@@ -69102,7 +69148,7 @@ router8.get("/admin/crm/contacts", async (req, res) => {
   const items = await Promise.all(rows.map(mapContact));
   res.json({ items, total: Number(total ?? 0) });
 });
-router8.post("/admin/crm/contacts", async (req, res) => {
+router9.post("/admin/crm/contacts", async (req, res) => {
   const b = req.body ?? {};
   if (!b.fullName || typeof b.fullName !== "string") {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "fullName required" } });
@@ -69128,7 +69174,7 @@ router8.post("/admin/crm/contacts", async (req, res) => {
   await audit2(req.user.id, "crm.contact.create", "crm_contact", row.id, row.fullName);
   res.json(await mapContact(row));
 });
-router8.get("/admin/crm/contacts/:id", async (req, res) => {
+router9.get("/admin/crm/contacts/:id", async (req, res) => {
   const [c] = await db.select().from(crmContactsTable).where(eq(crmContactsTable.id, req.params.id));
   if (!c) {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Contact not found" } });
@@ -69142,7 +69188,7 @@ router8.get("/admin/crm/contacts/:id", async (req, res) => {
     tasks: await Promise.all(tasks.map(mapTask))
   });
 });
-router8.patch("/admin/crm/contacts/:id", async (req, res) => {
+router9.patch("/admin/crm/contacts/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of [
@@ -69171,12 +69217,12 @@ router8.patch("/admin/crm/contacts/:id", async (req, res) => {
   await audit2(req.user.id, "crm.contact.update", "crm_contact", row.id);
   res.json(await mapContact(row));
 });
-router8.delete("/admin/crm/contacts/:id", async (req, res) => {
+router9.delete("/admin/crm/contacts/:id", async (req, res) => {
   await db.delete(crmContactsTable).where(eq(crmContactsTable.id, req.params.id));
   await audit2(req.user.id, "crm.contact.delete", "crm_contact", req.params.id);
   res.json({ ok: true });
 });
-router8.get("/admin/crm/organizations", async (req, res) => {
+router9.get("/admin/crm/organizations", async (req, res) => {
   const q = req.query.q?.trim();
   const type = req.query.type;
   const limit = Math.min(Number(req.query.limit ?? 50), 200);
@@ -69190,7 +69236,7 @@ router8.get("/admin/crm/organizations", async (req, res) => {
   const items = await Promise.all(rows.map(mapOrganization));
   res.json({ items, total: Number(total ?? 0) });
 });
-router8.post("/admin/crm/organizations", async (req, res) => {
+router9.post("/admin/crm/organizations", async (req, res) => {
   const b = req.body ?? {};
   if (!b.name) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "name required" } });
@@ -69210,7 +69256,7 @@ router8.post("/admin/crm/organizations", async (req, res) => {
   await audit2(req.user.id, "crm.org.create", "crm_organization", row.id, row.name);
   res.json(await mapOrganization(row));
 });
-router8.get("/admin/crm/organizations/:id", async (req, res) => {
+router9.get("/admin/crm/organizations/:id", async (req, res) => {
   const [o] = await db.select().from(crmOrganizationsTable).where(eq(crmOrganizationsTable.id, req.params.id));
   if (!o) {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Organization not found" } });
@@ -69224,7 +69270,7 @@ router8.get("/admin/crm/organizations/:id", async (req, res) => {
     activities: await Promise.all(acts.map(mapActivity))
   });
 });
-router8.patch("/admin/crm/organizations/:id", async (req, res) => {
+router9.patch("/admin/crm/organizations/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of ["name", "type", "website", "phone", "email", "locationId", "address", "notes"]) {
@@ -69238,12 +69284,12 @@ router8.patch("/admin/crm/organizations/:id", async (req, res) => {
   await audit2(req.user.id, "crm.org.update", "crm_organization", row.id);
   res.json(await mapOrganization(row));
 });
-router8.delete("/admin/crm/organizations/:id", async (req, res) => {
+router9.delete("/admin/crm/organizations/:id", async (req, res) => {
   await db.delete(crmOrganizationsTable).where(eq(crmOrganizationsTable.id, req.params.id));
   await audit2(req.user.id, "crm.org.delete", "crm_organization", req.params.id);
   res.json({ ok: true });
 });
-router8.get("/admin/crm/activities", async (req, res) => {
+router9.get("/admin/crm/activities", async (req, res) => {
   const contactId = req.query.contactId;
   const organizationId = req.query.organizationId;
   const type = req.query.type;
@@ -69255,7 +69301,7 @@ router8.get("/admin/crm/activities", async (req, res) => {
   const rows = await db.select().from(crmActivitiesTable).where(wheres.length ? and(...wheres) : void 0).orderBy(desc(crmActivitiesTable.occurredAt)).limit(limit);
   res.json(await Promise.all(rows.map(mapActivity)));
 });
-router8.post("/admin/crm/activities", async (req, res) => {
+router9.post("/admin/crm/activities", async (req, res) => {
   const b = req.body ?? {};
   if (!b.type || !b.subject) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "type and subject required" } });
@@ -69277,12 +69323,12 @@ router8.post("/admin/crm/activities", async (req, res) => {
   await audit2(req.user.id, "crm.activity.create", "crm_activity", row.id, row.subject);
   res.json(await mapActivity(row));
 });
-router8.delete("/admin/crm/activities/:id", async (req, res) => {
+router9.delete("/admin/crm/activities/:id", async (req, res) => {
   await db.delete(crmActivitiesTable).where(eq(crmActivitiesTable.id, req.params.id));
   await audit2(req.user.id, "crm.activity.delete", "crm_activity", req.params.id);
   res.json({ ok: true });
 });
-router8.get("/admin/crm/tasks", async (req, res) => {
+router9.get("/admin/crm/tasks", async (req, res) => {
   const status = req.query.status;
   const assignedTo = req.query.assignedTo;
   const contactId = req.query.contactId;
@@ -69296,7 +69342,7 @@ router8.get("/admin/crm/tasks", async (req, res) => {
   const rows = await db.select().from(crmTasksTable).where(wheres.length ? and(...wheres) : void 0).orderBy(sql`${crmTasksTable.dueAt} ASC NULLS LAST`, desc(crmTasksTable.createdAt)).limit(limit);
   res.json(await Promise.all(rows.map(mapTask)));
 });
-router8.post("/admin/crm/tasks", async (req, res) => {
+router9.post("/admin/crm/tasks", async (req, res) => {
   const b = req.body ?? {};
   if (!b.title) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "title required" } });
@@ -69316,7 +69362,7 @@ router8.post("/admin/crm/tasks", async (req, res) => {
   await audit2(req.user.id, "crm.task.create", "crm_task", row.id, row.title);
   res.json(await mapTask(row));
 });
-router8.patch("/admin/crm/tasks/:id", async (req, res) => {
+router9.patch("/admin/crm/tasks/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of ["title", "description", "priority", "contactId", "organizationId", "assignedTo"]) {
@@ -69336,16 +69382,16 @@ router8.patch("/admin/crm/tasks/:id", async (req, res) => {
   await audit2(req.user.id, "crm.task.update", "crm_task", row.id);
   res.json(await mapTask(row));
 });
-router8.delete("/admin/crm/tasks/:id", async (req, res) => {
+router9.delete("/admin/crm/tasks/:id", async (req, res) => {
   await db.delete(crmTasksTable).where(eq(crmTasksTable.id, req.params.id));
   await audit2(req.user.id, "crm.task.delete", "crm_task", req.params.id);
   res.json({ ok: true });
 });
-var admin_crm_default = router8;
+var admin_crm_default = router9;
 
 // src/routes/seo.ts
-var import_express9 = __toESM(require_express2(), 1);
-var router9 = (0, import_express9.Router)();
+var import_express10 = __toESM(require_express2(), 1);
+var router10 = (0, import_express10.Router)();
 function escapeXml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
@@ -69353,7 +69399,7 @@ function buildArticlePath(slug, locType, locSlug) {
   const district = locType === "district" && locSlug ? locSlug : "all";
   return `/news/cg/${district}/${slug}`;
 }
-router9.get("/sitemap.xml", async (_req, res) => {
+router10.get("/sitemap.xml", async (_req, res) => {
   const rows = await db.select({
     slug: articlesTable.slug,
     updatedAt: articlesTable.updatedAt,
@@ -69374,7 +69420,7 @@ ${urls}
 `
   );
 });
-router9.get("/news-sitemap.xml", async (_req, res) => {
+router10.get("/news-sitemap.xml", async (_req, res) => {
   const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1e3);
   const rows = await db.select({
     slug: articlesTable.slug,
@@ -69450,19 +69496,19 @@ ${items}
 </rss>
 `;
 }
-router9.get("/rss", async (_req, res) => {
+router10.get("/rss", async (_req, res) => {
   res.type("application/rss+xml").send(await buildRss());
 });
-router9.get("/rss/category/:slug", async (req, res) => {
+router10.get("/rss/category/:slug", async (req, res) => {
   res.type("application/rss+xml").send(await buildRss({ categorySlug: req.params.slug }));
 });
-router9.get("/rss/district/:slug", async (req, res) => {
+router10.get("/rss/district/:slug", async (req, res) => {
   res.type("application/rss+xml").send(await buildRss({ districtSlug: req.params.slug }));
 });
-var seo_default = router9;
+var seo_default = router10;
 
 // src/routes/upload.ts
-var import_express10 = __toESM(require_express2(), 1);
+var import_express11 = __toESM(require_express2(), 1);
 var import_multer = __toESM(require_multer(), 1);
 import path from "path";
 import { randomBytes as randomBytes3 } from "crypto";
@@ -69484,30 +69530,31 @@ var upload = (0, import_multer.default)({
     else cb(new Error("Only image files are allowed"));
   }
 });
-var router10 = (0, import_express10.Router)();
-router10.use(requireAdmin);
-router10.post("/admin/upload", upload.single("file"), (req, res) => {
+var router11 = (0, import_express11.Router)();
+router11.use(requireAdmin);
+router11.post("/admin/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
     return;
   }
   res.json({ url: `/uploads/${req.file.filename}` });
 });
-var upload_default = router10;
+var upload_default = router11;
 
 // src/routes/index.ts
-var router11 = (0, import_express11.Router)();
-router11.use(health_default);
-router11.use(auth_default);
-router11.use(public_default);
-router11.use(engagement_default);
-router11.use(me_default);
-router11.use(writer_default);
-router11.use(admin_default);
-router11.use(admin_crm_default);
-router11.use(seo_default);
-router11.use(upload_default);
-var routes_default = router11;
+var router12 = (0, import_express12.Router)();
+router12.use(health_default);
+router12.use(dev_auth_default);
+router12.use(auth_default);
+router12.use(public_default);
+router12.use(engagement_default);
+router12.use(me_default);
+router12.use(writer_default);
+router12.use(admin_default);
+router12.use(admin_crm_default);
+router12.use(seo_default);
+router12.use(upload_default);
+var routes_default = router12;
 
 // src/middleware/auth.ts
 async function refreshIfExpired(sid, session) {
@@ -69552,7 +69599,7 @@ async function authMiddleware(req, res, next) {
 }
 
 // src/app.ts
-var app = (0, import_express12.default)();
+var app = (0, import_express13.default)();
 app.use(
   (0, import_pino_http.default)({
     logger,
@@ -69568,10 +69615,10 @@ app.use(
 );
 app.use((0, import_cors.default)({ credentials: true, origin: true }));
 app.use((0, import_cookie_parser.default)());
-app.use(import_express12.default.json({ limit: "2mb" }));
-app.use(import_express12.default.urlencoded({ extended: true }));
+app.use(import_express13.default.json({ limit: "2mb" }));
+app.use(import_express13.default.urlencoded({ extended: true }));
 app.use(authMiddleware);
-app.use("/uploads", import_express12.default.static(path2.resolve(process.cwd(), "uploads")));
+app.use("/uploads", import_express13.default.static(path2.resolve(process.cwd(), "uploads")));
 app.use("/api", routes_default);
 var app_default = app;
 

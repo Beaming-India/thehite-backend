@@ -2,8 +2,12 @@ import { Router, type IRouter } from "express";
 import { db, auditLogTable, usersTable, userProfilesTable } from "@workspace/db";
 import { desc, eq } from "drizzle-orm";
 import { ListAdminAuditLogQueryParams, ListAdminAuditLogResponse } from "@workspace/api-zod";
+import { requireSuperAdmin } from "../../middleware/requireRole";
 
 const router: IRouter = Router();
+
+// Audit log is super_admin only
+router.use(requireSuperAdmin);
 
 router.get("/admin/audit-log", async (req, res): Promise<void> => {
   const q = ListAdminAuditLogQueryParams.safeParse(req.query);

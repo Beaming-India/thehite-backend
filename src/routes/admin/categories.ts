@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import { requireSuperAdmin } from "../../middleware/requireRole";
 import { db, articlesTable, categoriesTable } from "@workspace/db";
 import { eq, sql } from "drizzle-orm";
 import {
@@ -36,7 +37,7 @@ router.get("/admin/categories", async (_req, res): Promise<void> => {
   res.json(ListAdminCategoriesResponse.parse(await listCategoriesWithCount()));
 });
 
-router.post("/admin/categories", async (req, res): Promise<void> => {
+router.post("/admin/categories", requireSuperAdmin, async (req, res): Promise<void> => {
   const b = CreateCategoryBody.safeParse(req.body);
   if (!b.success) { res.status(400).json({ error: b.error.message }); return; }
   const [c] = await db
@@ -52,7 +53,7 @@ router.post("/admin/categories", async (req, res): Promise<void> => {
   res.status(201).json({ ...c, articleCount: 0 });
 });
 
-router.post("/admin/categories/reorder", async (req, res): Promise<void> => {
+router.post("/admin/categories/reorder", requireSuperAdmin, async (req, res): Promise<void> => {
   const b = ReorderCategoriesBody.safeParse(req.body);
   if (!b.success) { res.status(400).json({ error: b.error.message }); return; }
   const existing = await db.select().from(categoriesTable);
@@ -78,7 +79,7 @@ router.post("/admin/categories/reorder", async (req, res): Promise<void> => {
   res.json(ReorderCategoriesResponse.parse(await listCategoriesWithCount()));
 });
 
-router.patch("/admin/categories/:id", async (req, res): Promise<void> => {
+router.patch("/admin/categories/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = UpdateCategoryParams.safeParse(req.params);
   const b = UpdateCategoryBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -96,7 +97,7 @@ router.patch("/admin/categories/:id", async (req, res): Promise<void> => {
   res.json(UpdateCategoryResponse.parse({ id: c.id, slug: c.slug, nameHi: c.nameHi, nameEn: c.nameEn, sortOrder: c.sortOrder }));
 });
 
-router.delete("/admin/categories/:id", async (req, res): Promise<void> => {
+router.delete("/admin/categories/:id", requireSuperAdmin, async (req, res): Promise<void> => {
   const p = DeleteCategoryParams.safeParse(req.params);
   if (!p.success) { res.status(400).json({ error: p.error.message }); return; }
   const [c] = await db.delete(categoriesTable).where(eq(categoriesTable.id, p.data.id)).returning();

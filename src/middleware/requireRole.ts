@@ -66,3 +66,20 @@ export async function requireAdmin(
   }
   next();
 }
+
+export async function requireSuperAdmin(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  const role = await getRole(req.user.id);
+  if (role !== "super_admin") {
+    res.status(403).json({ error: { code: "FORBIDDEN", message: "Super admin role required" } });
+    return;
+  }
+  next();
+}
