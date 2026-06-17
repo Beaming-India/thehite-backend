@@ -183,6 +183,8 @@ export function mapMyArticle(row: JoinedArticle) {
     viewCount: a.viewCount,
     likeCount: a.likeCount,
     commentCount: a.commentCount,
+    shareCount: a.shareCount,
+    readingTimeMin: readingTimeMin(a.body),
     publishedAt: a.publishedAt,
     createdAt: a.createdAt,
     updatedAt: a.updatedAt,

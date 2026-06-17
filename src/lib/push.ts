@@ -177,6 +177,50 @@ export async function sendBreakingNewsPush(args: {
   logger.info({ articleId: args.articleId, count: messages.length }, "Sent breaking news push");
 }
 
+export async function sendBroadcastPush(args: {
+  title: string;
+  body: string;
+  audience: "all" | "writers" | "readers";
+  data?: Record<string, unknown>;
+}): Promise<{ sent: number }> {
+  const writerRoles = ["writer", "super_admin", "state_admin", "district_admin", "moderator"];
+
+  let audienceCond;
+  if (args.audience === "writers") {
+    audienceCond = inArray(userProfilesTable.role, writerRoles);
+  } else if (args.audience === "readers") {
+    audienceCond = eq(userProfilesTable.role, "reader");
+  }
+
+  const rows = await db
+    .select({ token: deviceTokensTable.token })
+    .from(deviceTokensTable)
+    .innerJoin(userProfilesTable, eq(userProfilesTable.userId, deviceTokensTable.userId))
+    .where(
+      audienceCond
+        ? and(eq(userProfilesTable.notifPushEnabled, true), audienceCond)
+        : eq(userProfilesTable.notifPushEnabled, true),
+    );
+
+  if (rows.length === 0) {
+    logger.info({ audience: args.audience }, "No devices for broadcast push");
+    return { sent: 0 };
+  }
+
+  const messages: ExpoMessage[] = rows.map((r) => ({
+    to: r.token,
+    title: args.title,
+    body: args.body,
+    sound: "default",
+    channelId: "general",
+    data: args.data,
+  }));
+
+  await sendMessagesInBatches(messages);
+  logger.info({ audience: args.audience, count: messages.length }, "Sent broadcast push");
+  return { sent: messages.length };
+}
+
 export async function sendFollowedWriterPush(args: {
   articleId: string;
   slug: string;

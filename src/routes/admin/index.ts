@@ -8,6 +8,7 @@ import locationsRouter from "./locations";
 import moderationRouter from "./moderation";
 import teamRouter from "./team";
 import auditRouter from "./audit";
+import donationsRouter from "./donations";
 
 const router: IRouter = Router();
 router.use(requireAdmin);
@@ -20,5 +21,6 @@ router.use(locationsRouter);
 router.use(moderationRouter);
 router.use(teamRouter);
 router.use(auditRouter);
+router.use(donationsRouter);
 
 export default router;

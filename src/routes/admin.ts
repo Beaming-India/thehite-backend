@@ -2046,6 +2046,27 @@ router.post("/admin/locations/validation-report/share", async (req, res): Promis
   res.status(201).json({ token, expiresAt: expiresAt.toISOString() });
 });
 
+// --- notifications ---
+
+router.post("/admin/notifications/send", async (req, res): Promise<void> => {
+  const { title, body, type, audience } = req.body as {
+    title?: string;
+    body?: string;
+    type?: string;
+    audience?: string;
+  };
+  if (!title?.trim() || !body?.trim()) {
+    res.status(400).json({ error: { code: "MISSING_FIELDS", message: "title and body are required" } });
+    return;
+  }
+  const validAudiences = ["all", "writers", "readers"] as const;
+  const aud = (validAudiences as readonly string[]).includes(audience ?? "") ? (audience as "all" | "writers" | "readers") : "all";
+  const { sendBroadcastPush } = await import("../lib/push");
+  const result = await sendBroadcastPush({ title: title.trim(), body: body.trim(), audience: aud, data: { type: type ?? "general" } });
+  await audit(req.user!.id, "notification.send", "notification", null, `audience=${aud} sent=${result.sent}`);
+  res.json({ ok: true, sent: result.sent });
+});
+
 // --- clear seed data (super_admin only) ---
 
 const SEED_USER_IDS = [

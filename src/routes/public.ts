@@ -1,4 +1,6 @@
 import { Router, type IRouter } from "express";
+import fs from "fs";
+import path from "path";
 import {
   db,
   articlesTable,
@@ -669,6 +671,20 @@ router.get("/locations/validation-report/:token", async (req, res): Promise<void
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.setHeader("Content-Disposition", `attachment; filename="validation-report-${date}.csv"`);
   res.send(share.csvContent);
+});
+
+router.get("/donation-settings", (_req, res) => {
+  const SETTINGS_FILE = path.join(process.cwd(), "donation-settings.json");
+  const DEFAULT = { upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, thankYouMessage: "", campaigns: [] };
+  try {
+    if (fs.existsSync(SETTINGS_FILE)) {
+      const data = { ...DEFAULT, ...JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8")) };
+      const { donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns } = data;
+      res.json({ donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns });
+      return;
+    }
+  } catch {}
+  res.json(DEFAULT);
 });
 
 export default router;
