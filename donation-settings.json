@@ -1,27 +1,14 @@
 {
   "donationEnabled": true,
-  "upiId": "thehit@upi",
-  "upiName": "TheHit.in",
+  "upiId": "",
+  "upiName": "",
   "qrCodeUrl": "",
-  "bankName": "State Bank of India",
-  "accountNumber": "12345678901",
-  "ifsc": "SBIN0001234",
-  "accountName": "TheHit Media Pvt Ltd",
-  "thankYouMessage": "आपके योगदान के लिए हृदय से धन्यवाद! आपका सहयोग छत्तीसगढ़ की स्वतंत्र पत्रकारिता को जीवित रखता है।",
-  "campaigns": [
-    {
-      "id": "camp-001",
-      "title": "ग्रामीण पत्रकारिता अभियान",
-      "description": "छत्तीसगढ़ के दूरदराज गांवों तक समाचार पहुंचाने के लिए हमारे ग्राउंड रिपोर्टर्स को सहयोग करें।",
-      "goal": "100000",
-      "active": true
-    },
-    {
-      "id": "camp-002",
-      "title": "आदिवासी आवाज़ प्रोजेक्ट",
-      "description": "आदिवासी समुदायों की समस्याओं और संस्कृति को मुख्यधारा में लाने के लिए विशेष रिपोर्टिंग।",
-      "goal": "50000",
-      "active": true
-    }
-  ]
+  "bankName": "",
+  "accountNumber": "",
+  "ifsc": "",
+  "accountName": "",
+  "subtitle": "",
+  "contactEmail": "",
+  "thankYouMessage": "",
+  "campaigns": []
 }

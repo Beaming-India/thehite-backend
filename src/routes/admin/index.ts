@@ -9,6 +9,7 @@ import moderationRouter from "./moderation";
 import teamRouter from "./team";
 import auditRouter from "./audit";
 import donationsRouter from "./donations";
+import siteSettingsRouter from "./site-settings";
 
 const router: IRouter = Router();
 router.use(requireAdmin);
@@ -22,5 +23,6 @@ router.use(moderationRouter);
 router.use(teamRouter);
 router.use(auditRouter);
 router.use(donationsRouter);
+router.use(siteSettingsRouter);
 
 export default router;

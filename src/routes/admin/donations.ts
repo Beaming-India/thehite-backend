@@ -1,14 +1,14 @@
 import { Router, type IRouter } from "express";
 import multer from "multer";
-import fs from "fs";
 import path from "path";
 import { randomBytes } from "crypto";
+import fs from "fs";
+import { db } from "@workspace/db";
+import { sql } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-const SETTINGS_FILE = path.join(process.cwd(), "donation-settings.json");
 const UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
-
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const qrUpload = multer({
@@ -26,9 +26,25 @@ const qrUpload = multer({
   },
 });
 
-const DEFAULT_SETTINGS = {
+type DonationData = {
+  upiId: string;
+  upiName: string;
+  qrCodeUrl: string;
+  bankName: string;
+  accountNumber: string;
+  ifsc: string;
+  accountName: string;
+  razorpayKeyId: string;
+  donationEnabled: boolean;
+  subtitle: string;
+  contactEmail: string;
+  thankYouMessage: string;
+  campaigns: { id: string; title: string; description: string; goal: string; active: boolean }[];
+};
+
+const DEFAULT_DATA: DonationData = {
   upiId: "",
-  upiName: "TheHit.in",
+  upiName: "",
   qrCodeUrl: "",
   bankName: "",
   accountNumber: "",
@@ -36,40 +52,64 @@ const DEFAULT_SETTINGS = {
   accountName: "",
   razorpayKeyId: "",
   donationEnabled: false,
-  thankYouMessage: "आपके योगदान के लिए धन्यवाद।",
-  campaigns: [] as { id: string; title: string; description: string; goal: string; active: boolean }[],
+  subtitle: "",
+  contactEmail: "",
+  thankYouMessage: "",
+  campaigns: [],
 };
 
-function readSettings() {
-  try {
-    if (fs.existsSync(SETTINGS_FILE)) {
-      return { ...DEFAULT_SETTINGS, ...JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8")) };
-    }
-  } catch {}
-  return { ...DEFAULT_SETTINGS };
+// Ensure table exists (auto-create on first use)
+async function ensureTable() {
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS donation_settings (
+      key VARCHAR(32) PRIMARY KEY,
+      data JSONB NOT NULL DEFAULT '{}'::jsonb,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
 }
 
-function writeSettings(data: typeof DEFAULT_SETTINGS) {
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(data, null, 2), "utf-8");
+async function readSettings(): Promise<DonationData> {
+  await ensureTable();
+  const rows = await db.execute(sql`SELECT data FROM donation_settings WHERE key = 'main'`);
+  if (rows.rows.length > 0) {
+    return { ...DEFAULT_DATA, ...(rows.rows[0].data as object) } as DonationData;
+  }
+  return { ...DEFAULT_DATA };
 }
 
-// GET donation settings
-router.get("/admin/donation-settings", (_req, res): void => {
+async function writeSettings(data: DonationData): Promise<DonationData> {
+  await ensureTable();
+  await db.execute(sql`
+    INSERT INTO donation_settings (key, data, updated_at)
+    VALUES ('main', ${JSON.stringify(data)}::jsonb, now())
+    ON CONFLICT (key) DO UPDATE
+      SET data = ${JSON.stringify(data)}::jsonb,
+          updated_at = now()
+  `);
+  return data;
+}
+
+export { readSettings as readDonationSettings };
+
+// GET donation settings (admin)
+router.get("/admin/donation-settings", async (_req, res): Promise<void> => {
   try {
-    res.json(readSettings());
-  } catch {
+    const settings = await readSettings();
+    res.json(settings);
+  } catch (err) {
+    console.error("donation-settings GET error:", err);
     res.status(500).json({ error: { code: "READ_FAILED", message: "Failed to read donation settings" } });
   }
 });
 
 // PUT - save donation settings
-router.put("/admin/donation-settings", (req, res): void => {
+router.put("/admin/donation-settings", async (req, res): Promise<void> => {
   try {
-    const current = readSettings();
-    const body = req.body as Partial<typeof DEFAULT_SETTINGS>;
+    const current = await readSettings();
+    const body = req.body as Partial<DonationData>;
 
-    // Sanitise campaigns - ensure each has an id
-    const campaigns = (body.campaigns ?? current.campaigns).map((c: { id?: string; title?: string; description?: string; goal?: string; active?: boolean }) => ({
+    const campaigns = (body.campaigns ?? current.campaigns).map((c) => ({
       id: c.id || String(Date.now() + Math.random()),
       title: (c.title ?? "").trim(),
       description: (c.description ?? "").trim(),
@@ -77,15 +117,16 @@ router.put("/admin/donation-settings", (req, res): void => {
       active: Boolean(c.active),
     }));
 
-    const updated: typeof DEFAULT_SETTINGS = {
+    const updated: DonationData = {
       ...current,
       ...body,
       campaigns,
     };
 
-    writeSettings(updated);
-    res.json(updated);
-  } catch {
+    const saved = await writeSettings(updated);
+    res.json(saved);
+  } catch (err) {
+    console.error("donation-settings PUT error:", err);
     res.status(500).json({ error: { code: "WRITE_FAILED", message: "Failed to save donation settings" } });
   }
 });

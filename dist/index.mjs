@@ -20653,27 +20653,27 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router13;
+    module.exports = Router24;
     module.exports.Route = Route;
-    function Router13(options) {
-      if (!(this instanceof Router13)) {
-        return new Router13(options);
+    function Router24(options) {
+      if (!(this instanceof Router24)) {
+        return new Router24(options);
       }
       const opts = options || {};
-      function router13(req, res, next) {
-        router13.handle(req, res, next);
+      function router24(req, res, next) {
+        router24.handle(req, res, next);
       }
-      Object.setPrototypeOf(router13, this);
-      router13.caseSensitive = opts.caseSensitive;
-      router13.mergeParams = opts.mergeParams;
-      router13.params = {};
-      router13.strict = opts.strict;
-      router13.stack = [];
-      return router13;
+      Object.setPrototypeOf(router24, this);
+      router24.caseSensitive = opts.caseSensitive;
+      router24.mergeParams = opts.mergeParams;
+      router24.params = {};
+      router24.strict = opts.strict;
+      router24.stack = [];
+      return router24;
     }
-    Router13.prototype = function() {
+    Router24.prototype = function() {
     };
-    Router13.prototype.param = function param(name, fn) {
+    Router24.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20693,7 +20693,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router13.prototype.handle = function handle(req, res, callback) {
+    Router24.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20820,7 +20820,7 @@ var require_router = __commonJS({
         }
       }
     };
-    Router13.prototype.use = function use(handler) {
+    Router24.prototype.use = function use(handler) {
       let offset = 0;
       let path4 = "/";
       if (typeof handler !== "function") {
@@ -20853,7 +20853,7 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router13.prototype.route = function route(path4) {
+    Router24.prototype.route = function route(path4) {
       const route2 = new Route(path4);
       const layer = new Layer(path4, {
         sensitive: this.caseSensitive,
@@ -20868,7 +20868,7 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router13.prototype[method] = function(path4) {
+      Router24.prototype[method] = function(path4) {
         const route = this.route(path4);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
@@ -21051,13 +21051,13 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router13 = require_router();
+    var Router24 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
     var trustProxyDefaultSymbol = "@@symbol:trust_proxy_default";
     app2.init = function init() {
-      var router13 = null;
+      var router24 = null;
       this.cache = /* @__PURE__ */ Object.create(null);
       this.engines = /* @__PURE__ */ Object.create(null);
       this.settings = /* @__PURE__ */ Object.create(null);
@@ -21066,13 +21066,13 @@ var require_application = __commonJS({
         configurable: true,
         enumerable: true,
         get: function getrouter() {
-          if (router13 === null) {
-            router13 = new Router13({
+          if (router24 === null) {
+            router24 = new Router24({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
           }
-          return router13;
+          return router24;
         }
       });
     };
@@ -21143,15 +21143,15 @@ var require_application = __commonJS({
       if (fns.length === 0) {
         throw new TypeError("app.use() requires a middleware function");
       }
-      var router13 = this.router;
+      var router24 = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router13.use(path4, fn2);
+          return router24.use(path4, fn2);
         }
         debug(".use app under %s", path4);
         fn2.mountpath = path4;
         fn2.parent = this;
-        router13.use(path4, function mounted_app(req, res, next) {
+        router24.use(path4, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err) {
             Object.setPrototypeOf(req, orig.request);
@@ -23724,7 +23724,7 @@ var require_express = __commonJS({
     var EventEmitter = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router13 = require_router();
+    var Router24 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -23746,8 +23746,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router13.Route;
-    exports.Router = Router13;
+    exports.Route = Router24.Route;
+    exports.Router = Router24;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -29871,7 +29871,7 @@ var require_utils5 = __commonJS({
     var nodeCrypto = __require("crypto");
     module.exports = {
       postgresMd5PasswordHash,
-      randomBytes: randomBytes4,
+      randomBytes: randomBytes6,
       deriveKey,
       sha256,
       hashByName,
@@ -29881,7 +29881,7 @@ var require_utils5 = __commonJS({
     var webCrypto = nodeCrypto.webcrypto || globalThis.crypto;
     var subtleCrypto = webCrypto.subtle;
     var textEncoder = new TextEncoder();
-    function randomBytes4(length) {
+    function randomBytes6(length) {
       return webCrypto.getRandomValues(Buffer.alloc(length));
     }
     async function md5(string) {
@@ -41777,7 +41777,7 @@ var init_auth = __esm({
 });
 
 // db/src/schema/app.ts
-var userProfilesTable, categoriesTable, locationsTable, locationResourcesTable, articlesTable, articleLikesTable, articleBookmarksTable, articleSharesTable, articleViewsTable, commentsTable, followsWritersTable, followsCategoriesTable, followsLocationsTable, pushPrefsCategoriesTable, pushPrefsLocationsTable, reportsTable, writerApplicationsTable, teamInvitationsTable, crmOrganizationsTable, crmContactsTable, crmActivitiesTable, crmTasksTable, deviceTokensTable, breakingPushDeliveriesTable, auditLogTable, articlesRelations, validationReportSharesTable;
+var userProfilesTable, categoriesTable, locationsTable, locationResourcesTable, articlesTable, articleLikesTable, articleBookmarksTable, articleSharesTable, articleViewsTable, commentsTable, followsWritersTable, followsCategoriesTable, followsLocationsTable, pushPrefsCategoriesTable, pushPrefsLocationsTable, reportsTable, writerApplicationsTable, teamInvitationsTable, crmOrganizationsTable, crmContactsTable, crmActivitiesTable, crmTasksTable, deviceTokensTable, breakingPushDeliveriesTable, auditLogTable, articlesRelations, validationReportSharesTable, donationSettingsTable;
 var init_app = __esm({
   "db/src/schema/app.ts"() {
     "use strict";
@@ -42151,6 +42151,11 @@ var init_app = __esm({
       expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
       createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
     });
+    donationSettingsTable = pgTable("donation_settings", {
+      key: varchar("key", { length: 32 }).primaryKey(),
+      data: jsonb("data").notNull().default(sql`'{}'::jsonb`),
+      updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => /* @__PURE__ */ new Date())
+    });
   }
 });
 
@@ -42172,6 +42177,7 @@ __export(schema_exports, {
   crmOrganizationsTable: () => crmOrganizationsTable,
   crmTasksTable: () => crmTasksTable,
   deviceTokensTable: () => deviceTokensTable,
+  donationSettingsTable: () => donationSettingsTable,
   followsCategoriesTable: () => followsCategoriesTable,
   followsLocationsTable: () => followsLocationsTable,
   followsWritersTable: () => followsWritersTable,
@@ -42212,225 +42218,6 @@ var init_src = __esm({
     }
     pool = new Pool3({ connectionString: process.env.DATABASE_URL });
     db = drizzle(pool, { schema: schema_exports });
-  }
-});
-
-// src/lib/logger.ts
-var import_pino, isProduction, logger;
-var init_logger2 = __esm({
-  "src/lib/logger.ts"() {
-    "use strict";
-    import_pino = __toESM(require_pino(), 1);
-    isProduction = process.env.NODE_ENV === "production";
-    logger = (0, import_pino.default)({
-      level: process.env.LOG_LEVEL ?? "info",
-      redact: [
-        "req.headers.authorization",
-        "req.headers.cookie",
-        "res.headers['set-cookie']"
-      ],
-      ...isProduction ? {} : {
-        transport: {
-          target: "pino-pretty",
-          options: { colorize: true }
-        }
-      }
-    });
-  }
-});
-
-// src/lib/push.ts
-var push_exports = {};
-__export(push_exports, {
-  sendBreakingNewsPush: () => sendBreakingNewsPush,
-  sendBroadcastPush: () => sendBroadcastPush,
-  sendFollowedWriterPush: () => sendFollowedWriterPush
-});
-async function sendChunk(messages) {
-  if (messages.length === 0) return;
-  try {
-    const resp = await fetch(EXPO_PUSH_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Accept-Encoding": "gzip, deflate"
-      },
-      body: JSON.stringify(messages)
-    });
-    if (!resp.ok) {
-      const text2 = await resp.text();
-      logger.warn({ status: resp.status, text: text2 }, "Expo push send non-OK");
-      return;
-    }
-    const json2 = await resp.json();
-    const results = json2.data ?? [];
-    const dead = [];
-    const errors = [];
-    results.forEach((r, idx) => {
-      if (r.status !== "error") return;
-      const token = messages[idx]?.to;
-      errors.push({ token, message: r.message, details: r.details });
-      if (token && r.details?.error === "DeviceNotRegistered") {
-        dead.push(token);
-      }
-    });
-    if (errors.length) {
-      logger.warn({ errors }, "Expo push had per-message errors");
-    }
-    for (const t of dead) {
-      await db.delete(deviceTokensTable).where(eq(deviceTokensTable.token, t));
-    }
-  } catch (err) {
-    logger.error({ err }, "Expo push send failed");
-  }
-}
-async function sendMessagesInBatches(messages) {
-  for (let i = 0; i < messages.length; i += 100) {
-    await sendChunk(messages.slice(i, i + 100));
-  }
-}
-async function sendBreakingNewsPush(args) {
-  const rows = await db.select({
-    token: deviceTokensTable.token,
-    userId: deviceTokensTable.userId,
-    scope: userProfilesTable.notifBreakingScope
-  }).from(deviceTokensTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, deviceTokensTable.userId)).where(eq(userProfilesTable.notifPushEnabled, true));
-  if (rows.length === 0) {
-    logger.info({ articleId: args.articleId }, "No opted-in devices for breaking push");
-    return;
-  }
-  const filteredUserIds = Array.from(
-    new Set(rows.filter((r) => r.scope === "filtered").map((r) => r.userId))
-  );
-  const catPrefs = /* @__PURE__ */ new Map();
-  const locPrefs = /* @__PURE__ */ new Map();
-  if (filteredUserIds.length) {
-    const cats = await db.select().from(pushPrefsCategoriesTable).where(inArray(pushPrefsCategoriesTable.userId, filteredUserIds));
-    for (const c of cats) {
-      const s = catPrefs.get(c.userId) ?? /* @__PURE__ */ new Set();
-      s.add(c.categoryId);
-      catPrefs.set(c.userId, s);
-    }
-    const locs = await db.select().from(pushPrefsLocationsTable).where(inArray(pushPrefsLocationsTable.userId, filteredUserIds));
-    for (const l of locs) {
-      const s = locPrefs.get(l.userId) ?? /* @__PURE__ */ new Set();
-      s.add(l.locationId);
-      locPrefs.set(l.userId, s);
-    }
-  }
-  const eligible = rows.filter((r) => {
-    if (r.scope !== "filtered") return true;
-    const cats = catPrefs.get(r.userId);
-    const locs = locPrefs.get(r.userId);
-    if (!cats && !locs) return false;
-    if (cats && args.categoryId && cats.has(args.categoryId)) return true;
-    if (locs && args.locationId && locs.has(args.locationId)) return true;
-    return false;
-  });
-  if (eligible.length === 0) {
-    logger.info({ articleId: args.articleId }, "No devices matched breaking push filters");
-    return;
-  }
-  const eligibleUserIds = Array.from(new Set(eligible.map((r) => r.userId)));
-  if (eligibleUserIds.length > 0) {
-    try {
-      await db.insert(breakingPushDeliveriesTable).values(
-        eligibleUserIds.map((userId) => ({
-          userId,
-          articleId: args.articleId,
-          title: args.title,
-          summary: args.summary,
-          slug: args.slug
-        }))
-      ).onConflictDoNothing({
-        target: [breakingPushDeliveriesTable.userId, breakingPushDeliveriesTable.articleId]
-      });
-    } catch (err) {
-      logger.error({ err, articleId: args.articleId }, "Failed to record breaking push deliveries");
-    }
-  }
-  const messages = eligible.map((r) => ({
-    to: r.token,
-    title: "Breaking news",
-    body: args.title,
-    sound: "default",
-    priority: "high",
-    channelId: "breaking",
-    data: {
-      type: "breaking",
-      articleId: args.articleId,
-      slug: args.slug
-    }
-  }));
-  await sendMessagesInBatches(messages);
-  logger.info({ articleId: args.articleId, count: messages.length }, "Sent breaking news push");
-}
-async function sendBroadcastPush(args) {
-  const writerRoles = ["writer", "super_admin", "state_admin", "district_admin", "moderator"];
-  let audienceCond;
-  if (args.audience === "writers") {
-    audienceCond = inArray(userProfilesTable.role, writerRoles);
-  } else if (args.audience === "readers") {
-    audienceCond = eq(userProfilesTable.role, "reader");
-  }
-  const rows = await db.select({ token: deviceTokensTable.token }).from(deviceTokensTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, deviceTokensTable.userId)).where(
-    audienceCond ? and(eq(userProfilesTable.notifPushEnabled, true), audienceCond) : eq(userProfilesTable.notifPushEnabled, true)
-  );
-  if (rows.length === 0) {
-    logger.info({ audience: args.audience }, "No devices for broadcast push");
-    return { sent: 0 };
-  }
-  const messages = rows.map((r) => ({
-    to: r.token,
-    title: args.title,
-    body: args.body,
-    sound: "default",
-    channelId: "general",
-    data: args.data
-  }));
-  await sendMessagesInBatches(messages);
-  logger.info({ audience: args.audience, count: messages.length }, "Sent broadcast push");
-  return { sent: messages.length };
-}
-async function sendFollowedWriterPush(args) {
-  const rows = await db.select({ token: deviceTokensTable.token, userId: deviceTokensTable.userId }).from(followsWritersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, followsWritersTable.followerId)).innerJoin(deviceTokensTable, eq(deviceTokensTable.userId, followsWritersTable.followerId)).where(
-    and(
-      eq(followsWritersTable.writerId, args.writerId),
-      eq(userProfilesTable.notifPushEnabled, true),
-      eq(userProfilesTable.notifFollowedWriters, true)
-    )
-  );
-  if (rows.length === 0) {
-    logger.info({ articleId: args.articleId }, "No followers for writer push");
-    return;
-  }
-  const [writer] = await db.select({ display: userProfilesTable.displayName }).from(usersTable).leftJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).where(eq(usersTable.id, args.writerId));
-  const writerName = writer?.display ?? "A writer you follow";
-  const messages = rows.map((r) => ({
-    to: r.token,
-    title: `New story from ${writerName}`,
-    body: args.title,
-    sound: "default",
-    channelId: "breaking",
-    data: {
-      type: "writer_post",
-      articleId: args.articleId,
-      slug: args.slug,
-      writerId: args.writerId
-    }
-  }));
-  await sendMessagesInBatches(messages);
-  logger.info({ articleId: args.articleId, count: messages.length }, "Sent followed-writer push");
-}
-var EXPO_PUSH_URL;
-var init_push = __esm({
-  "src/lib/push.ts"() {
-    "use strict";
-    init_src();
-    init_drizzle_orm();
-    init_logger2();
-    EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
   }
 });
 
@@ -59063,7 +58850,7 @@ var require_multer = __commonJS({
       }
       return makeMiddleware(setup.bind(this));
     };
-    function multer2(options) {
+    function multer3(options) {
       if (options === void 0) {
         return new Multer({});
       }
@@ -59072,22 +58859,241 @@ var require_multer = __commonJS({
       }
       throw new TypeError("Expected object for argument options");
     }
-    module.exports = multer2;
+    module.exports = multer3;
     module.exports.diskStorage = diskStorage;
     module.exports.memoryStorage = memoryStorage;
     module.exports.MulterError = MulterError;
   }
 });
 
+// src/lib/logger.ts
+var import_pino, isProduction, logger;
+var init_logger2 = __esm({
+  "src/lib/logger.ts"() {
+    "use strict";
+    import_pino = __toESM(require_pino(), 1);
+    isProduction = process.env.NODE_ENV === "production";
+    logger = (0, import_pino.default)({
+      level: process.env.LOG_LEVEL ?? "info",
+      redact: [
+        "req.headers.authorization",
+        "req.headers.cookie",
+        "res.headers['set-cookie']"
+      ],
+      ...isProduction ? {} : {
+        transport: {
+          target: "pino-pretty",
+          options: { colorize: true }
+        }
+      }
+    });
+  }
+});
+
+// src/lib/push.ts
+var push_exports = {};
+__export(push_exports, {
+  sendBreakingNewsPush: () => sendBreakingNewsPush,
+  sendBroadcastPush: () => sendBroadcastPush,
+  sendFollowedWriterPush: () => sendFollowedWriterPush
+});
+async function sendChunk(messages) {
+  if (messages.length === 0) return;
+  try {
+    const resp = await fetch(EXPO_PUSH_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate"
+      },
+      body: JSON.stringify(messages)
+    });
+    if (!resp.ok) {
+      const text2 = await resp.text();
+      logger.warn({ status: resp.status, text: text2 }, "Expo push send non-OK");
+      return;
+    }
+    const json2 = await resp.json();
+    const results = json2.data ?? [];
+    const dead = [];
+    const errors = [];
+    results.forEach((r, idx) => {
+      if (r.status !== "error") return;
+      const token = messages[idx]?.to;
+      errors.push({ token, message: r.message, details: r.details });
+      if (token && r.details?.error === "DeviceNotRegistered") {
+        dead.push(token);
+      }
+    });
+    if (errors.length) {
+      logger.warn({ errors }, "Expo push had per-message errors");
+    }
+    for (const t of dead) {
+      await db.delete(deviceTokensTable).where(eq(deviceTokensTable.token, t));
+    }
+  } catch (err) {
+    logger.error({ err }, "Expo push send failed");
+  }
+}
+async function sendMessagesInBatches(messages) {
+  for (let i = 0; i < messages.length; i += 100) {
+    await sendChunk(messages.slice(i, i + 100));
+  }
+}
+async function sendBreakingNewsPush(args) {
+  const rows = await db.select({
+    token: deviceTokensTable.token,
+    userId: deviceTokensTable.userId,
+    scope: userProfilesTable.notifBreakingScope
+  }).from(deviceTokensTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, deviceTokensTable.userId)).where(eq(userProfilesTable.notifPushEnabled, true));
+  if (rows.length === 0) {
+    logger.info({ articleId: args.articleId }, "No opted-in devices for breaking push");
+    return;
+  }
+  const filteredUserIds = Array.from(
+    new Set(rows.filter((r) => r.scope === "filtered").map((r) => r.userId))
+  );
+  const catPrefs = /* @__PURE__ */ new Map();
+  const locPrefs = /* @__PURE__ */ new Map();
+  if (filteredUserIds.length) {
+    const cats = await db.select().from(pushPrefsCategoriesTable).where(inArray(pushPrefsCategoriesTable.userId, filteredUserIds));
+    for (const c of cats) {
+      const s = catPrefs.get(c.userId) ?? /* @__PURE__ */ new Set();
+      s.add(c.categoryId);
+      catPrefs.set(c.userId, s);
+    }
+    const locs = await db.select().from(pushPrefsLocationsTable).where(inArray(pushPrefsLocationsTable.userId, filteredUserIds));
+    for (const l of locs) {
+      const s = locPrefs.get(l.userId) ?? /* @__PURE__ */ new Set();
+      s.add(l.locationId);
+      locPrefs.set(l.userId, s);
+    }
+  }
+  const eligible = rows.filter((r) => {
+    if (r.scope !== "filtered") return true;
+    const cats = catPrefs.get(r.userId);
+    const locs = locPrefs.get(r.userId);
+    if (!cats && !locs) return false;
+    if (cats && args.categoryId && cats.has(args.categoryId)) return true;
+    if (locs && args.locationId && locs.has(args.locationId)) return true;
+    return false;
+  });
+  if (eligible.length === 0) {
+    logger.info({ articleId: args.articleId }, "No devices matched breaking push filters");
+    return;
+  }
+  const eligibleUserIds = Array.from(new Set(eligible.map((r) => r.userId)));
+  if (eligibleUserIds.length > 0) {
+    try {
+      await db.insert(breakingPushDeliveriesTable).values(
+        eligibleUserIds.map((userId) => ({
+          userId,
+          articleId: args.articleId,
+          title: args.title,
+          summary: args.summary,
+          slug: args.slug
+        }))
+      ).onConflictDoNothing({
+        target: [breakingPushDeliveriesTable.userId, breakingPushDeliveriesTable.articleId]
+      });
+    } catch (err) {
+      logger.error({ err, articleId: args.articleId }, "Failed to record breaking push deliveries");
+    }
+  }
+  const messages = eligible.map((r) => ({
+    to: r.token,
+    title: "Breaking news",
+    body: args.title,
+    sound: "default",
+    priority: "high",
+    channelId: "breaking",
+    data: {
+      type: "breaking",
+      articleId: args.articleId,
+      slug: args.slug
+    }
+  }));
+  await sendMessagesInBatches(messages);
+  logger.info({ articleId: args.articleId, count: messages.length }, "Sent breaking news push");
+}
+async function sendBroadcastPush(args) {
+  const writerRoles = ["writer", "super_admin", "state_admin", "district_admin", "moderator"];
+  let audienceCond;
+  if (args.audience === "writers") {
+    audienceCond = inArray(userProfilesTable.role, writerRoles);
+  } else if (args.audience === "readers") {
+    audienceCond = eq(userProfilesTable.role, "reader");
+  }
+  const rows = await db.select({ token: deviceTokensTable.token }).from(deviceTokensTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, deviceTokensTable.userId)).where(
+    audienceCond ? and(eq(userProfilesTable.notifPushEnabled, true), audienceCond) : eq(userProfilesTable.notifPushEnabled, true)
+  );
+  if (rows.length === 0) {
+    logger.info({ audience: args.audience }, "No devices for broadcast push");
+    return { sent: 0 };
+  }
+  const messages = rows.map((r) => ({
+    to: r.token,
+    title: args.title,
+    body: args.body,
+    sound: "default",
+    channelId: "general",
+    data: args.data
+  }));
+  await sendMessagesInBatches(messages);
+  logger.info({ audience: args.audience, count: messages.length }, "Sent broadcast push");
+  return { sent: messages.length };
+}
+async function sendFollowedWriterPush(args) {
+  const rows = await db.select({ token: deviceTokensTable.token, userId: deviceTokensTable.userId }).from(followsWritersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, followsWritersTable.followerId)).innerJoin(deviceTokensTable, eq(deviceTokensTable.userId, followsWritersTable.followerId)).where(
+    and(
+      eq(followsWritersTable.writerId, args.writerId),
+      eq(userProfilesTable.notifPushEnabled, true),
+      eq(userProfilesTable.notifFollowedWriters, true)
+    )
+  );
+  if (rows.length === 0) {
+    logger.info({ articleId: args.articleId }, "No followers for writer push");
+    return;
+  }
+  const [writer] = await db.select({ display: userProfilesTable.displayName }).from(usersTable).leftJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).where(eq(usersTable.id, args.writerId));
+  const writerName = writer?.display ?? "A writer you follow";
+  const messages = rows.map((r) => ({
+    to: r.token,
+    title: `New story from ${writerName}`,
+    body: args.title,
+    sound: "default",
+    channelId: "breaking",
+    data: {
+      type: "writer_post",
+      articleId: args.articleId,
+      slug: args.slug,
+      writerId: args.writerId
+    }
+  }));
+  await sendMessagesInBatches(messages);
+  logger.info({ articleId: args.articleId, count: messages.length }, "Sent followed-writer push");
+}
+var EXPO_PUSH_URL;
+var init_push = __esm({
+  "src/lib/push.ts"() {
+    "use strict";
+    init_src();
+    init_drizzle_orm();
+    init_logger2();
+    EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
+  }
+});
+
 // src/app.ts
-var import_express13 = __toESM(require_express2(), 1);
+var import_express24 = __toESM(require_express2(), 1);
 var import_cors = __toESM(require_lib3(), 1);
 var import_cookie_parser = __toESM(require_cookie_parser(), 1);
 var import_pino_http = __toESM(require_logger(), 1);
 import path3 from "path";
 
 // src/routes/index.ts
-var import_express12 = __toESM(require_express2(), 1);
+var import_express23 = __toESM(require_express2(), 1);
 
 // src/routes/health.ts
 var import_express = __toESM(require_express2(), 1);
@@ -67418,11 +67424,204 @@ if (process.env.NODE_ENV === "development") {
 var dev_auth_default = router3;
 
 // src/routes/public.ts
+var import_express6 = __toESM(require_express2(), 1);
+
+// src/routes/admin/site-settings.ts
 var import_express4 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
-import fs from "fs";
+var router4 = (0, import_express4.Router)();
+var DEFAULT_SETTINGS = {
+  siteName: "TheHit.in",
+  tagline: "\u0928\u093F\u0937\u094D\u092A\u0915\u094D\u0937, \u0938\u094D\u0935\u0924\u0902\u0924\u094D\u0930 \u092A\u0924\u094D\u0930\u0915\u093E\u0930\u093F\u0924\u093E",
+  siteUrl: "",
+  logoUrl: "",
+  faviconUrl: "",
+  description: "",
+  contactEmail: "",
+  contactPhone: "",
+  address: "",
+  facebook: "",
+  twitter: "",
+  instagram: "",
+  youtube: "",
+  whatsapp: "",
+  seoTitle: "",
+  seoDescription: "",
+  defaultOgImage: "",
+  googleAnalyticsId: "",
+  maintenanceMode: false,
+  allowComments: true,
+  allowRegistrations: true,
+  requireEmailVerification: false,
+  articlesPerPage: "20",
+  contentLanguages: "hi,en",
+  privacyPolicyUrl: "",
+  termsUrl: ""
+};
+async function ensureTable() {
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS site_settings (
+      key VARCHAR(32) PRIMARY KEY,
+      data JSONB NOT NULL DEFAULT '{}'::jsonb,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
+}
+async function readSettings() {
+  await ensureTable();
+  const rows = await db.execute(sql`SELECT data FROM site_settings WHERE key = 'main'`);
+  if (rows.rows.length > 0) {
+    return { ...DEFAULT_SETTINGS, ...rows.rows[0].data };
+  }
+  return { ...DEFAULT_SETTINGS };
+}
+async function writeSettings(data) {
+  await ensureTable();
+  await db.execute(sql`
+    INSERT INTO site_settings (key, data, updated_at)
+    VALUES ('main', ${JSON.stringify(data)}::jsonb, now())
+    ON CONFLICT (key) DO UPDATE
+      SET data = ${JSON.stringify(data)}::jsonb,
+          updated_at = now()
+  `);
+  return data;
+}
+router4.get("/admin/site-settings", async (_req, res) => {
+  try {
+    res.json(await readSettings());
+  } catch (err) {
+    console.error("site-settings GET error:", err);
+    res.status(500).json({ error: { code: "READ_FAILED", message: "Failed to read site settings" } });
+  }
+});
+router4.put("/admin/site-settings", async (req, res) => {
+  try {
+    const current = await readSettings();
+    const body = req.body;
+    const updated = { ...current, ...body };
+    res.json(await writeSettings(updated));
+  } catch (err) {
+    console.error("site-settings PUT error:", err);
+    res.status(500).json({ error: { code: "WRITE_FAILED", message: "Failed to save site settings" } });
+  }
+});
+var site_settings_default = router4;
+
+// src/routes/admin/donations.ts
+var import_express5 = __toESM(require_express2(), 1);
+var import_multer = __toESM(require_multer(), 1);
+init_src();
+init_drizzle_orm();
 import path from "path";
+import { randomBytes as randomBytes2 } from "crypto";
+import fs from "fs";
+var router5 = (0, import_express5.Router)();
+var UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+var qrUpload = (0, import_multer.default)({
+  storage: import_multer.default.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase() || ".png";
+      cb(null, `qr-${Date.now()}-${randomBytes2(6).toString("hex")}${ext}`);
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files allowed for QR code"));
+  }
+});
+var DEFAULT_DATA = {
+  upiId: "",
+  upiName: "",
+  qrCodeUrl: "",
+  bankName: "",
+  accountNumber: "",
+  ifsc: "",
+  accountName: "",
+  razorpayKeyId: "",
+  donationEnabled: false,
+  subtitle: "",
+  contactEmail: "",
+  thankYouMessage: "",
+  campaigns: []
+};
+async function ensureTable2() {
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS donation_settings (
+      key VARCHAR(32) PRIMARY KEY,
+      data JSONB NOT NULL DEFAULT '{}'::jsonb,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
+}
+async function readSettings2() {
+  await ensureTable2();
+  const rows = await db.execute(sql`SELECT data FROM donation_settings WHERE key = 'main'`);
+  if (rows.rows.length > 0) {
+    return { ...DEFAULT_DATA, ...rows.rows[0].data };
+  }
+  return { ...DEFAULT_DATA };
+}
+async function writeSettings2(data) {
+  await ensureTable2();
+  await db.execute(sql`
+    INSERT INTO donation_settings (key, data, updated_at)
+    VALUES ('main', ${JSON.stringify(data)}::jsonb, now())
+    ON CONFLICT (key) DO UPDATE
+      SET data = ${JSON.stringify(data)}::jsonb,
+          updated_at = now()
+  `);
+  return data;
+}
+router5.get("/admin/donation-settings", async (_req, res) => {
+  try {
+    const settings = await readSettings2();
+    res.json(settings);
+  } catch (err) {
+    console.error("donation-settings GET error:", err);
+    res.status(500).json({ error: { code: "READ_FAILED", message: "Failed to read donation settings" } });
+  }
+});
+router5.put("/admin/donation-settings", async (req, res) => {
+  try {
+    const current = await readSettings2();
+    const body = req.body;
+    const campaigns = (body.campaigns ?? current.campaigns).map((c) => ({
+      id: c.id || String(Date.now() + Math.random()),
+      title: (c.title ?? "").trim(),
+      description: (c.description ?? "").trim(),
+      goal: String(c.goal ?? ""),
+      active: Boolean(c.active)
+    }));
+    const updated = {
+      ...current,
+      ...body,
+      campaigns
+    };
+    const saved = await writeSettings2(updated);
+    res.json(saved);
+  } catch (err) {
+    console.error("donation-settings PUT error:", err);
+    res.status(500).json({ error: { code: "WRITE_FAILED", message: "Failed to save donation settings" } });
+  }
+});
+router5.post("/admin/donation-settings/upload-qr", qrUpload.single("file"), (req, res) => {
+  if (!req.file) {
+    res.status(400).json({ error: { code: "NO_FILE", message: "No file uploaded" } });
+    return;
+  }
+  const base = (process.env.BASE_URL ?? "").replace(/\/$/, "") || `${String(req.headers["x-forwarded-proto"] ?? req.protocol)}://${String(req.headers["x-forwarded-host"] ?? req.get("host"))}`;
+  const url = `${base}/uploads/${req.file.filename}`;
+  res.json({ url });
+});
+var donations_default = router5;
+
+// src/routes/public.ts
+init_src();
+init_drizzle_orm();
 
 // src/utils/readingTime.ts
 function readingTimeMin(body) {
@@ -67499,7 +67698,7 @@ function mapMyArticle(row) {
 }
 
 // src/routes/public.ts
-var router4 = (0, import_express4.Router)();
+var router6 = (0, import_express6.Router)();
 var PUBLISHED = eq(articlesTable.status, "published");
 async function selectArticleCards(where, limit = 20, offset = 0) {
   const rows = await db.select({
@@ -67523,7 +67722,7 @@ async function selectArticleCards(where, limit = 20, offset = 0) {
     })
   );
 }
-router4.get("/articles", async (req, res) => {
+router6.get("/articles", async (req, res) => {
   const q = ListArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67592,15 +67791,15 @@ router4.get("/articles", async (req, res) => {
   );
   res.json(ListArticlesResponse.parse({ items, total: count2, limit, offset }));
 });
-router4.get("/articles/featured", async (_req, res) => {
+router6.get("/articles/featured", async (_req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isFeatured, true)), 8);
   res.json(ListFeaturedArticlesResponse.parse(items));
 });
-router4.get("/articles/breaking", async (_req, res) => {
+router6.get("/articles/breaking", async (_req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isBreaking, true)), 10);
   res.json(ListBreakingArticlesResponse.parse(items));
 });
-router4.get("/articles/trending", async (_req, res) => {
+router6.get("/articles/trending", async (_req, res) => {
   const rows = await db.select({
     article: articlesTable,
     category: categoriesTable,
@@ -67623,7 +67822,7 @@ router4.get("/articles/trending", async (_req, res) => {
   );
   res.json(ListTrendingArticlesResponse.parse(items));
 });
-router4.get("/articles/by-slug/:slug", async (req, res) => {
+router6.get("/articles/by-slug/:slug", async (req, res) => {
   const p = GetArticleBySlugParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67666,7 +67865,7 @@ router4.get("/articles/by-slug/:slug", async (req, res) => {
   );
   res.json(GetArticleBySlugResponse.parse(data));
 });
-router4.get("/articles/:id/related", async (req, res) => {
+router6.get("/articles/:id/related", async (req, res) => {
   const p = ListRelatedArticlesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67714,7 +67913,7 @@ async function listWriterRows(limit, sort) {
   ).orderBy(orderExpr).limit(limit);
   return rows;
 }
-router4.get("/writers", async (req, res) => {
+router6.get("/writers", async (req, res) => {
   const q = ListWritersQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67735,7 +67934,7 @@ router4.get("/writers", async (req, res) => {
     )
   );
 });
-router4.get("/writers/popular", async (_req, res) => {
+router6.get("/writers/popular", async (_req, res) => {
   const rows = await listWriterRows(8, "popular");
   res.json(
     ListPopularWritersResponse.parse(
@@ -67751,7 +67950,7 @@ router4.get("/writers/popular", async (_req, res) => {
     )
   );
 });
-router4.get("/writers/:id", async (req, res) => {
+router6.get("/writers/:id", async (req, res) => {
   const p = GetWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67783,7 +67982,7 @@ router4.get("/writers/:id", async (req, res) => {
     })
   );
 });
-router4.get("/writers/:id/articles", async (req, res) => {
+router6.get("/writers/:id/articles", async (req, res) => {
   const p = ListWriterArticlesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67792,7 +67991,7 @@ router4.get("/writers/:id/articles", async (req, res) => {
   const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.writerId, p.data.id)), 50);
   res.json(ListWriterArticlesResponse.parse(items));
 });
-router4.get("/categories", async (_req, res) => {
+router6.get("/categories", async (_req, res) => {
   const rows = await db.select({
     id: categoriesTable.id,
     slug: categoriesTable.slug,
@@ -67807,7 +68006,7 @@ router4.get("/categories", async (_req, res) => {
     )
   );
 });
-router4.get("/locations", async (req, res) => {
+router6.get("/locations", async (req, res) => {
   const q = ListLocationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67840,7 +68039,7 @@ router4.get("/locations", async (req, res) => {
     )
   );
 });
-router4.get("/locations/:slug", async (req, res) => {
+router6.get("/locations/:slug", async (req, res) => {
   const p = GetLocationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67864,7 +68063,7 @@ router4.get("/locations/:slug", async (req, res) => {
     })
   );
 });
-router4.get("/locations/:slug/resources", async (req, res) => {
+router6.get("/locations/:slug/resources", async (req, res) => {
   const p = ListLocationResourcesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -67891,7 +68090,7 @@ router4.get("/locations/:slug/resources", async (req, res) => {
     )
   );
 });
-router4.get("/search", async (req, res) => {
+router6.get("/search", async (req, res) => {
   const q = SearchEverythingQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -67948,7 +68147,7 @@ router4.get("/search", async (req, res) => {
 var reportDownloadHits = /* @__PURE__ */ new Map();
 var REPORT_DOWNLOAD_LIMIT = 30;
 var REPORT_DOWNLOAD_WINDOW_MS = 6e4;
-router4.get("/locations/validation-report/:token", async (req, res) => {
+router6.get("/locations/validation-report/:token", async (req, res) => {
   const { token } = req.params;
   const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ?? req.socket.remoteAddress ?? "unknown";
   const now = Date.now();
@@ -67977,24 +68176,30 @@ router4.get("/locations/validation-report/:token", async (req, res) => {
   res.setHeader("Content-Disposition", `attachment; filename="validation-report-${date2}.csv"`);
   res.send(share.csvContent);
 });
-router4.get("/donation-settings", (_req, res) => {
-  const SETTINGS_FILE = path.join(process.cwd(), "donation-settings.json");
-  const DEFAULT = { upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, thankYouMessage: "", campaigns: [] };
+router6.get("/donation-settings", async (_req, res) => {
   try {
-    if (fs.existsSync(SETTINGS_FILE)) {
-      const data = { ...DEFAULT, ...JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8")) };
-      const { donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns } = data;
-      res.json({ donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns });
-      return;
-    }
-  } catch {
+    const d = await readSettings2();
+    const { razorpayKeyId: _rpKey, ...pub } = d;
+    res.json(pub);
+  } catch (err) {
+    console.error("public donation-settings error:", err);
+    res.json({ upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, subtitle: "", contactEmail: "", thankYouMessage: "", campaigns: [] });
   }
-  res.json(DEFAULT);
 });
-var public_default = router4;
+router6.get("/site-settings", async (_req, res) => {
+  try {
+    const s = await readSettings();
+    const { googleAnalyticsId: _ga, requireEmailVerification: _rev, ...pub } = s;
+    res.json(pub);
+  } catch (err) {
+    console.error("public site-settings error:", err);
+    res.status(500).json({ error: { code: "READ_FAILED", message: "Failed to read site settings" } });
+  }
+});
+var public_default = router6;
 
 // src/routes/engagement.ts
-var import_express5 = __toESM(require_express2(), 1);
+var import_express7 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
 
@@ -68045,6 +68250,18 @@ async function requireAdmin(req, res, next) {
   }
   next();
 }
+async function requireSuperAdmin(req, res, next) {
+  if (!req.user?.id) {
+    res.status(401).json({ error: { code: "UNAUTHENTICATED", message: "Login required" } });
+    return;
+  }
+  const role = await getRole(req.user.id);
+  if (role !== "super_admin") {
+    res.status(403).json({ error: { code: "FORBIDDEN", message: "Super admin role required" } });
+    return;
+  }
+  next();
+}
 
 // src/utils/engagement.ts
 init_src();
@@ -68070,8 +68287,8 @@ async function getEngagementCounts(articleId, userId) {
 }
 
 // src/routes/engagement.ts
-var router5 = (0, import_express5.Router)();
-router5.post("/articles/:id/like", requireAuth, async (req, res) => {
+var router7 = (0, import_express7.Router)();
+router7.post("/articles/:id/like", requireAuth, async (req, res) => {
   const p = LikeArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68084,7 +68301,7 @@ router5.post("/articles/:id/like", requireAuth, async (req, res) => {
   }
   res.json(LikeArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router5.delete("/articles/:id/like", requireAuth, async (req, res) => {
+router7.delete("/articles/:id/like", requireAuth, async (req, res) => {
   const p = UnlikeArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68097,7 +68314,7 @@ router5.delete("/articles/:id/like", requireAuth, async (req, res) => {
   }
   res.json(UnlikeArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router5.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
+router7.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
   const p = BookmarkArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68110,7 +68327,7 @@ router5.post("/articles/:id/bookmark", requireAuth, async (req, res) => {
   }
   res.json(BookmarkArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router5.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
+router7.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
   const p = UnbookmarkArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68123,7 +68340,7 @@ router5.delete("/articles/:id/bookmark", requireAuth, async (req, res) => {
   }
   res.json(UnbookmarkArticleResponse.parse(await getEngagementCounts(p.data.id, uid)));
 });
-router5.post("/articles/:id/share", async (req, res) => {
+router7.post("/articles/:id/share", async (req, res) => {
   const p = ShareArticleParams.safeParse(req.params);
   const b = ShareArticleBody.safeParse(req.body ?? {});
   if (!p.success || !b.success) {
@@ -68138,7 +68355,7 @@ router5.post("/articles/:id/share", async (req, res) => {
   await db.update(articlesTable).set({ shareCount: sql`${articlesTable.shareCount} + 1` }).where(eq(articlesTable.id, p.data.id));
   res.json(ShareArticleResponse.parse(await getEngagementCounts(p.data.id, req.user?.id)));
 });
-router5.post("/articles/:id/view", async (req, res) => {
+router7.post("/articles/:id/view", async (req, res) => {
   const p = RecordArticleViewParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68151,7 +68368,7 @@ router5.post("/articles/:id/view", async (req, res) => {
   await db.update(articlesTable).set({ viewCount: sql`${articlesTable.viewCount} + 1` }).where(eq(articlesTable.id, p.data.id));
   res.json(RecordArticleViewResponse.parse(await getEngagementCounts(p.data.id, req.user?.id)));
 });
-router5.get("/articles/:id/comments", async (req, res) => {
+router7.get("/articles/:id/comments", async (req, res) => {
   const p = ListArticleCommentsParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68197,7 +68414,7 @@ router5.get("/articles/:id/comments", async (req, res) => {
   });
   res.json(ListArticleCommentsResponse.parse(roots.map(toItem)));
 });
-router5.post("/articles/:id/comments", requireAuth, async (req, res) => {
+router7.post("/articles/:id/comments", requireAuth, async (req, res) => {
   const p = CreateArticleCommentParams.safeParse(req.params);
   const b = CreateArticleCommentBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68229,7 +68446,7 @@ router5.post("/articles/:id/comments", requireAuth, async (req, res) => {
     replies: []
   });
 });
-router5.post("/comments/:id/report", requireAuth, async (req, res) => {
+router7.post("/comments/:id/report", requireAuth, async (req, res) => {
   const p = ReportCommentParams.safeParse(req.params);
   const b = ReportCommentBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68260,7 +68477,7 @@ router5.post("/comments/:id/report", requireAuth, async (req, res) => {
     }
   });
 });
-router5.post("/writers/:id/follow", requireAuth, async (req, res) => {
+router7.post("/writers/:id/follow", requireAuth, async (req, res) => {
   const p = FollowWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68281,7 +68498,7 @@ router5.post("/writers/:id/follow", requireAuth, async (req, res) => {
   }
   res.json(FollowWriterResponse.parse({ isFollowing: true, followerCount: count2 }));
 });
-router5.delete("/writers/:id/follow", requireAuth, async (req, res) => {
+router7.delete("/writers/:id/follow", requireAuth, async (req, res) => {
   const p = UnfollowWriterParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68300,14 +68517,14 @@ router5.delete("/writers/:id/follow", requireAuth, async (req, res) => {
   }
   res.json(UnfollowWriterResponse.parse({ isFollowing: false, followerCount: count2 }));
 });
-var engagement_default = router5;
+var engagement_default = router7;
 
 // src/routes/me.ts
-var import_express6 = __toESM(require_express2(), 1);
+var import_express8 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
-var router6 = (0, import_express6.Router)();
-router6.use(requireAuth);
+var router8 = (0, import_express8.Router)();
+router8.use(requireAuth);
 async function loadProfile(userId) {
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId));
   let [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, userId));
@@ -68317,7 +68534,7 @@ async function loadProfile(userId) {
   }
   return { user, profile };
 }
-router6.get("/me/profile", async (req, res) => {
+router8.get("/me/profile", async (req, res) => {
   const { user, profile } = await loadProfile(req.user.id);
   res.json(
     GetMyProfileResponse.parse({
@@ -68337,7 +68554,7 @@ router6.get("/me/profile", async (req, res) => {
     })
   );
 });
-router6.patch("/me/profile", async (req, res) => {
+router8.patch("/me/profile", async (req, res) => {
   const b = UpdateMyProfileBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68373,7 +68590,7 @@ router6.patch("/me/profile", async (req, res) => {
     })
   );
 });
-router6.get("/me/push-prefs", async (req, res) => {
+router8.get("/me/push-prefs", async (req, res) => {
   const uid = req.user.id;
   const cats = await db.select({ categoryId: pushPrefsCategoriesTable.categoryId }).from(pushPrefsCategoriesTable).where(eq(pushPrefsCategoriesTable.userId, uid));
   const locs = await db.select({ locationId: pushPrefsLocationsTable.locationId }).from(pushPrefsLocationsTable).where(eq(pushPrefsLocationsTable.userId, uid));
@@ -68384,7 +68601,7 @@ router6.get("/me/push-prefs", async (req, res) => {
     })
   );
 });
-router6.put("/me/push-prefs", async (req, res) => {
+router8.put("/me/push-prefs", async (req, res) => {
   const b = UpdateMyPushPrefsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68415,7 +68632,7 @@ router6.put("/me/push-prefs", async (req, res) => {
     })
   );
 });
-router6.post("/me/device-tokens", async (req, res) => {
+router8.post("/me/device-tokens", async (req, res) => {
   const b = RegisterDeviceTokenBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68432,7 +68649,7 @@ router6.post("/me/device-tokens", async (req, res) => {
   });
   res.json(RegisterDeviceTokenResponse.parse({ registered: true }));
 });
-router6.delete("/me/device-tokens", async (req, res) => {
+router8.delete("/me/device-tokens", async (req, res) => {
   const b = UnregisterDeviceTokenBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68441,7 +68658,7 @@ router6.delete("/me/device-tokens", async (req, res) => {
   const result = await db.delete(deviceTokensTable).where(and(eq(deviceTokensTable.token, b.data.token), eq(deviceTokensTable.userId, req.user.id))).returning();
   res.json(UnregisterDeviceTokenResponse.parse({ deleted: result.length > 0 }));
 });
-router6.get("/me/alerts", async (req, res) => {
+router8.get("/me/alerts", async (req, res) => {
   const q = ListMyAlertsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -68470,7 +68687,7 @@ router6.get("/me/alerts", async (req, res) => {
   }));
   res.json(ListMyAlertsResponse.parse(items));
 });
-router6.get("/me/bookmarks", async (req, res) => {
+router8.get("/me/bookmarks", async (req, res) => {
   const rows = await db.select({
     article: articlesTable,
     category: categoriesTable,
@@ -68493,7 +68710,7 @@ router6.get("/me/bookmarks", async (req, res) => {
   );
   res.json(ListMyBookmarksResponse.parse(items));
 });
-router6.get("/me/follows", async (req, res) => {
+router8.get("/me/follows", async (req, res) => {
   const uid = req.user.id;
   const writers = await db.select({
     id: usersTable.id,
@@ -68527,7 +68744,21 @@ router6.get("/me/follows", async (req, res) => {
     })
   );
 });
-router6.post("/me/writer-application", async (req, res) => {
+router8.get("/me/writer-application", async (req, res) => {
+  const [app2] = await db.select().from(writerApplicationsTable).where(eq(writerApplicationsTable.userId, req.user.id)).orderBy(desc(writerApplicationsTable.createdAt)).limit(1);
+  if (!app2) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "No application found" } });
+    return;
+  }
+  res.json({
+    id: app2.id,
+    fullName: app2.fullName,
+    status: app2.status,
+    moderationNote: app2.moderationNote ?? null,
+    createdAt: app2.createdAt
+  });
+});
+router8.post("/me/writer-application", async (req, res) => {
   const b = ApplyToBeWriterBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68558,10 +68789,10 @@ router6.post("/me/writer-application", async (req, res) => {
     createdAt: app2.createdAt
   });
 });
-var me_default = router6;
+var me_default = router8;
 
 // src/routes/writer.ts
-var import_express7 = __toESM(require_express2(), 1);
+var import_express9 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
 
@@ -68573,8 +68804,8 @@ function slugify(text2) {
 }
 
 // src/routes/writer.ts
-var router7 = (0, import_express7.Router)();
-router7.use(requireWriter);
+var router9 = (0, import_express9.Router)();
+router9.use(requireWriter);
 async function joined(where) {
   const rows = await db.select({
     article: articlesTable,
@@ -68590,7 +68821,7 @@ async function joined(where) {
     })
   );
 }
-router7.get("/writer/dashboard", async (req, res) => {
+router9.get("/writer/dashboard", async (req, res) => {
   const uid = req.user.id;
   const articles = await joined(eq(articlesTable.writerId, uid));
   const totalArticles = articles.length;
@@ -68623,7 +68854,7 @@ router7.get("/writer/dashboard", async (req, res) => {
     })
   );
 });
-router7.get("/writer/articles", async (req, res) => {
+router9.get("/writer/articles", async (req, res) => {
   const q = ListMyAuthoredArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -68634,7 +68865,7 @@ router7.get("/writer/articles", async (req, res) => {
   const items = await joined(and(...conds));
   res.json(ListMyAuthoredArticlesResponse.parse(items));
 });
-router7.post("/writer/articles", async (req, res) => {
+router9.post("/writer/articles", async (req, res) => {
   const b = CreateMyArticleBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -68656,7 +68887,7 @@ router7.post("/writer/articles", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.status(201).json(GetMyAuthoredArticleResponse.parse(items[0]));
 });
-router7.get("/writer/articles/:id", async (req, res) => {
+router9.get("/writer/articles/:id", async (req, res) => {
   const p = GetMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68671,7 +68902,7 @@ router7.get("/writer/articles/:id", async (req, res) => {
   }
   res.json(GetMyAuthoredArticleResponse.parse(items[0]));
 });
-router7.patch("/writer/articles/:id", async (req, res) => {
+router9.patch("/writer/articles/:id", async (req, res) => {
   const p = UpdateMyAuthoredArticleParams.safeParse(req.params);
   const b = UpdateMyAuthoredArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -68702,7 +68933,7 @@ router7.patch("/writer/articles/:id", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.json(UpdateMyAuthoredArticleResponse.parse(items[0]));
 });
-router7.delete("/writer/articles/:id", async (req, res) => {
+router9.delete("/writer/articles/:id", async (req, res) => {
   const p = DeleteMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68715,7 +68946,7 @@ router7.delete("/writer/articles/:id", async (req, res) => {
   }
   res.json(DeleteMyAuthoredArticleResponse.parse({ deleted: true }));
 });
-router7.post("/writer/articles/:id/submit", async (req, res) => {
+router9.post("/writer/articles/:id/submit", async (req, res) => {
   const p = SubmitMyAuthoredArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -68734,14 +68965,14 @@ router7.post("/writer/articles/:id/submit", async (req, res) => {
   const items = await joined(eq(articlesTable.id, a.id));
   res.json(SubmitMyAuthoredArticleResponse.parse(items[0]));
 });
-var writer_default = router7;
+var writer_default = router9;
 
 // src/routes/admin.ts
-var import_express8 = __toESM(require_express2(), 1);
+var import_express10 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
 init_pg_core();
-import { randomBytes as randomBytes2 } from "crypto";
+import { randomBytes as randomBytes3 } from "crypto";
 
 // src/lib/helpers.ts
 init_src();
@@ -68865,9 +69096,9 @@ async function loadFullComment(id) {
     }
   };
 }
-var router8 = (0, import_express8.Router)();
-router8.use(requireAdmin2);
-router8.get("/admin/stats", async (_req, res) => {
+var router10 = (0, import_express10.Router)();
+router10.use(requireAdmin2);
+router10.get("/admin/stats", async (_req, res) => {
   const [{ articles }] = await db.select({ articles: sql`count(*)::int` }).from(articlesTable);
   const [{ published }] = await db.select({ published: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "published"));
   const [{ pending }] = await db.select({ pending: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "pending"));
@@ -69000,7 +69231,7 @@ router8.get("/admin/stats", async (_req, res) => {
     })
   );
 });
-router8.get("/admin/articles", async (req, res) => {
+router10.get("/admin/articles", async (req, res) => {
   const q = ListAdminArticlesQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -69031,7 +69262,7 @@ router8.get("/admin/articles", async (req, res) => {
   }));
   res.json(ListAdminArticlesResponse.parse(items));
 });
-router8.get("/admin/articles/:id", async (req, res) => {
+router10.get("/admin/articles/:id", async (req, res) => {
   const p = GetAdminArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69044,7 +69275,7 @@ router8.get("/admin/articles/:id", async (req, res) => {
   }
   res.json(GetAdminArticleResponse.parse(full));
 });
-router8.patch("/admin/articles/:id", async (req, res) => {
+router10.patch("/admin/articles/:id", async (req, res) => {
   const p = AdminUpdateArticleParams.safeParse(req.params);
   const b = AdminUpdateArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69090,7 +69321,7 @@ router8.patch("/admin/articles/:id", async (req, res) => {
   }
   res.json(AdminUpdateArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router8.delete("/admin/articles/:id", async (req, res) => {
+router10.delete("/admin/articles/:id", async (req, res) => {
   const p = AdminDeleteArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69104,7 +69335,7 @@ router8.delete("/admin/articles/:id", async (req, res) => {
   await audit(req.user.id, "article.delete", "article", deleted.id);
   res.json(AdminDeleteArticleResponse.parse({ id: deleted.id }));
 });
-router8.post("/admin/articles/:id/approve", async (req, res) => {
+router10.post("/admin/articles/:id/approve", async (req, res) => {
   const p = ApproveArticleParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69134,7 +69365,7 @@ router8.post("/admin/articles/:id/approve", async (req, res) => {
   });
   res.json(ApproveArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router8.post("/admin/articles/:id/reject", async (req, res) => {
+router10.post("/admin/articles/:id/reject", async (req, res) => {
   const p = ApproveArticleParams.safeParse(req.params);
   const b = RejectArticleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69149,7 +69380,7 @@ router8.post("/admin/articles/:id/reject", async (req, res) => {
   await audit(req.user.id, "article.reject", "article", a.id, b.data.note);
   res.json(RejectArticleResponse.parse(await loadFullArticle(a.id)));
 });
-router8.post("/admin/articles/:id/request-changes", async (req, res) => {
+router10.post("/admin/articles/:id/request-changes", async (req, res) => {
   const p = RequestArticleChangesParams.safeParse(req.params);
   const b = RequestArticleChangesBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69164,7 +69395,7 @@ router8.post("/admin/articles/:id/request-changes", async (req, res) => {
   await audit(req.user.id, "article.request_changes", "article", a.id, b.data.note);
   res.json(RequestArticleChangesResponse.parse(await loadFullArticle(a.id)));
 });
-router8.patch("/admin/articles/:id/flags", async (req, res) => {
+router10.patch("/admin/articles/:id/flags", async (req, res) => {
   const p = UpdateArticleFlagsParams.safeParse(req.params);
   const b = UpdateArticleFlagsBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69194,7 +69425,7 @@ router8.patch("/admin/articles/:id/flags", async (req, res) => {
   }
   res.json(UpdateArticleFlagsResponse.parse(await loadFullArticle(a.id)));
 });
-router8.get("/admin/users", async (req, res) => {
+router10.get("/admin/users", async (req, res) => {
   const q = ListAdminUsersQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -69214,7 +69445,7 @@ router8.get("/admin/users", async (req, res) => {
   }).from(usersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).where(conds.length ? and(...conds) : void 0).orderBy(desc(userProfilesTable.createdAt)).limit(500);
   res.json(ListAdminUsersResponse.parse(rows));
 });
-router8.patch("/admin/users/:id/role", async (req, res) => {
+router10.patch("/admin/users/:id/role", async (req, res) => {
   const p = SetUserRoleParams.safeParse(req.params);
   const b = SetUserRoleBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69239,7 +69470,7 @@ router8.patch("/admin/users/:id/role", async (req, res) => {
     })
   );
 });
-router8.get("/admin/users/:id/locations", async (req, res) => {
+router10.get("/admin/users/:id/locations", async (req, res) => {
   const p = ListWriterLocationsParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69278,7 +69509,7 @@ router8.get("/admin/users/:id/locations", async (req, res) => {
     )
   );
 });
-router8.get("/admin/writer-applications", async (req, res) => {
+router10.get("/admin/writer-applications", async (req, res) => {
   const q = ListWriterApplicationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -69317,7 +69548,7 @@ router8.get("/admin/writer-applications", async (req, res) => {
     )
   );
 });
-router8.post("/admin/writer-applications/:id/approve", async (req, res) => {
+router10.post("/admin/writer-applications/:id/approve", async (req, res) => {
   const p = ApproveWriterApplicationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69332,7 +69563,7 @@ router8.post("/admin/writer-applications/:id/approve", async (req, res) => {
   await audit(req.user.id, "writer_application.approve", "writer_application", app2.id);
   res.json(ApproveWriterApplicationResponse.parse(await loadFullWriterApplication(app2.id)));
 });
-router8.post("/admin/writer-applications/:id/reject", async (req, res) => {
+router10.post("/admin/writer-applications/:id/reject", async (req, res) => {
   const p = RejectWriterApplicationParams.safeParse(req.params);
   const b = RejectWriterApplicationBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69347,7 +69578,7 @@ router8.post("/admin/writer-applications/:id/reject", async (req, res) => {
   await audit(req.user.id, "writer_application.reject", "writer_application", app2.id, b.data.note);
   res.json(RejectWriterApplicationResponse.parse(await loadFullWriterApplication(app2.id)));
 });
-router8.get("/admin/categories", async (_req, res) => {
+router10.get("/admin/categories", async (_req, res) => {
   const rows = await db.select({
     id: categoriesTable.id,
     slug: categoriesTable.slug,
@@ -69362,7 +69593,7 @@ router8.get("/admin/categories", async (_req, res) => {
     )
   );
 });
-router8.post("/admin/categories", async (req, res) => {
+router10.post("/admin/categories", async (req, res) => {
   const b = CreateCategoryBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -69377,7 +69608,7 @@ router8.post("/admin/categories", async (req, res) => {
   await audit(req.user.id, "category.create", "category", c.id);
   res.status(201).json({ ...c, articleCount: 0 });
 });
-router8.post("/admin/categories/reorder", async (req, res) => {
+router10.post("/admin/categories/reorder", async (req, res) => {
   const b = ReorderCategoriesBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -69417,7 +69648,7 @@ router8.post("/admin/categories/reorder", async (req, res) => {
     )
   );
 });
-router8.patch("/admin/categories/:id", async (req, res) => {
+router10.patch("/admin/categories/:id", async (req, res) => {
   const p = UpdateCategoryParams.safeParse(req.params);
   const b = UpdateCategoryBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69445,7 +69676,7 @@ router8.patch("/admin/categories/:id", async (req, res) => {
     })
   );
 });
-router8.delete("/admin/categories/:id", async (req, res) => {
+router10.delete("/admin/categories/:id", async (req, res) => {
   const p = DeleteCategoryParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69517,7 +69748,7 @@ function mapLocation(r, articleCount = 0, writerCount = 0, followerCount = 0, wr
   };
 }
 var VALID_LOCATION_TYPES = ["state", "district", "assembly", "block", "village"];
-router8.get("/admin/locations/export.csv", async (req, res) => {
+router10.get("/admin/locations/export.csv", async (req, res) => {
   const typesParam = typeof req.query.types === "string" ? req.query.types : void 0;
   const typeParam = typeof req.query.type === "string" ? req.query.type : void 0;
   const rawTypes = typesParam ?? typeParam;
@@ -69555,7 +69786,7 @@ router8.get("/admin/locations/export.csv", async (req, res) => {
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.send(lines.join("\r\n"));
 });
-router8.get("/admin/locations", async (req, res) => {
+router10.get("/admin/locations", async (req, res) => {
   const q = ListAdminLocationsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -69600,7 +69831,7 @@ router8.get("/admin/locations", async (req, res) => {
     )
   );
 });
-router8.get("/admin/locations/dormant-writers", async (req, res) => {
+router10.get("/admin/locations/dormant-writers", async (req, res) => {
   const thirtyDaysAgo = /* @__PURE__ */ new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const rows = await db.execute(sql`
@@ -69640,7 +69871,7 @@ router8.get("/admin/locations/dormant-writers", async (req, res) => {
     }))
   );
 });
-router8.get("/admin/locations/:id/writers", async (req, res) => {
+router10.get("/admin/locations/:id/writers", async (req, res) => {
   const p = ListLocationWritersParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69677,7 +69908,7 @@ router8.get("/admin/locations/:id/writers", async (req, res) => {
     )
   );
 });
-router8.post("/admin/locations", async (req, res) => {
+router10.post("/admin/locations", async (req, res) => {
   const b = CreateLocationBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -69708,7 +69939,7 @@ router8.post("/admin/locations", async (req, res) => {
   await audit(req.user.id, "location.create", "location", loc.id, slug);
   res.status(201).json(mapLocation(loc, 0));
 });
-router8.patch("/admin/locations/:id", async (req, res) => {
+router10.patch("/admin/locations/:id", async (req, res) => {
   const p = UpdateLocationParams.safeParse(req.params);
   const b = UpdateLocationBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -69759,7 +69990,7 @@ router8.patch("/admin/locations/:id", async (req, res) => {
   await audit(req.user.id, "location.update", "location", loc.id, loc.slug);
   res.json(UpdateLocationResponse.parse(mapLocation(loc, 0)));
 });
-router8.delete("/admin/locations/:id", async (req, res) => {
+router10.delete("/admin/locations/:id", async (req, res) => {
   const p = DeleteLocationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -69778,7 +70009,7 @@ router8.delete("/admin/locations/:id", async (req, res) => {
   await audit(req.user.id, "location.delete", "location", p.data.id, loc.slug);
   res.json(DeleteLocationResponse.parse({ deleted: true }));
 });
-router8.post("/admin/locations/import", async (req, res) => {
+router10.post("/admin/locations/import", async (req, res) => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -69881,7 +70112,7 @@ router8.post("/admin/locations/import", async (req, res) => {
   }
   res.json(ImportLocationsResponse.parse({ dryRun, created, skipped, failed, results }));
 });
-router8.post("/admin/locations/import-stream", async (req, res) => {
+router10.post("/admin/locations/import-stream", async (req, res) => {
   const b = ImportLocationsBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -69993,7 +70224,7 @@ function mapResource(r) {
     sortOrder: r.sortOrder
   };
 }
-router8.get("/admin/locations/:slug/resources", async (req, res) => {
+router10.get("/admin/locations/:slug/resources", async (req, res) => {
   const p = ListAdminLocationResourcesParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -70007,7 +70238,7 @@ router8.get("/admin/locations/:slug/resources", async (req, res) => {
   const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
   res.json(ListAdminLocationResourcesResponse.parse(rows.map(mapResource)));
 });
-router8.post("/admin/locations/:slug/resources", async (req, res) => {
+router10.post("/admin/locations/:slug/resources", async (req, res) => {
   const p = CreateLocationResourceParams.safeParse(req.params);
   const b = CreateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -70032,7 +70263,7 @@ router8.post("/admin/locations/:slug/resources", async (req, res) => {
   await audit(req.user.id, "location_resource.create", "location_resource", r.id, loc.slug);
   res.status(201).json(mapResource(r));
 });
-router8.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
+router10.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
   const p = UpdateLocationResourceParams.safeParse(req.params);
   const b = UpdateLocationResourceBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -70069,7 +70300,7 @@ router8.patch("/admin/locations/:slug/resources/:id", async (req, res) => {
   await audit(req.user.id, "location_resource.update", "location_resource", r.id, loc.slug);
   res.json(UpdateLocationResourceResponse.parse(mapResource(r)));
 });
-router8.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
+router10.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
   const p = ReorderLocationResourcesParams.safeParse(req.params);
   const b = ReorderLocationResourcesBody.safeParse(req.body);
   if (!p.success || !b.success) {
@@ -70109,7 +70340,7 @@ router8.post("/admin/locations/:slug/resources/reorder", async (req, res) => {
   const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
   res.json(ReorderLocationResourcesResponse.parse(rows.map(mapResource)));
 });
-router8.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
+router10.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
   const p = DeleteLocationResourceParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -70133,7 +70364,7 @@ router8.delete("/admin/locations/:slug/resources/:id", async (req, res) => {
   await audit(req.user.id, "location_resource.delete", "location_resource", p.data.id, loc.slug);
   res.json(DeleteLocationResourceResponse.parse({ deleted: true }));
 });
-router8.get("/admin/comments", async (req, res) => {
+router10.get("/admin/comments", async (req, res) => {
   const q = ListAdminCommentsQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -70168,7 +70399,7 @@ router8.get("/admin/comments", async (req, res) => {
     )
   );
 });
-router8.post("/admin/comments/:id/hide", async (req, res) => {
+router10.post("/admin/comments/:id/hide", async (req, res) => {
   const p = HideCommentParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -70182,7 +70413,7 @@ router8.post("/admin/comments/:id/hide", async (req, res) => {
   await audit(req.user.id, "comment.hide", "comment", c.id);
   res.json(HideCommentResponse.parse(await loadFullComment(c.id)));
 });
-router8.get("/admin/reports", async (req, res) => {
+router10.get("/admin/reports", async (req, res) => {
   const showResolved = req.query.resolved === "true";
   const resolverUser = alias(usersTable, "resolver_user");
   const resolverProfile = alias(userProfilesTable, "resolver_profile");
@@ -70214,7 +70445,7 @@ router8.get("/admin/reports", async (req, res) => {
     )
   );
 });
-router8.post("/admin/reports/:id/resolve", async (req, res) => {
+router10.post("/admin/reports/:id/resolve", async (req, res) => {
   const { id } = req.params;
   const actorId = req.user.id;
   const now = /* @__PURE__ */ new Date();
@@ -70226,7 +70457,7 @@ router8.post("/admin/reports/:id/resolve", async (req, res) => {
   await audit(actorId, "report.resolve", "report", id);
   res.status(204).send();
 });
-router8.get("/admin/audit-log", async (req, res) => {
+router10.get("/admin/audit-log", async (req, res) => {
   const q = ListAdminAuditLogQueryParams.safeParse(req.query);
   if (!q.success) {
     res.status(400).json({ error: q.error.message });
@@ -70256,7 +70487,7 @@ router8.get("/admin/audit-log", async (req, res) => {
     )
   );
 });
-router8.get("/admin/team/invitations", async (req, res) => {
+router10.get("/admin/team/invitations", async (req, res) => {
   const rows = await db.select().from(teamInvitationsTable).orderBy(desc(teamInvitationsTable.createdAt));
   res.json(ListTeamInvitationsResponse.parse(rows.map((r) => ({
     id: r.id,
@@ -70268,7 +70499,7 @@ router8.get("/admin/team/invitations", async (req, res) => {
     createdAt: r.createdAt
   }))));
 });
-router8.post("/admin/team/invitations", async (req, res) => {
+router10.post("/admin/team/invitations", async (req, res) => {
   const b = CreateTeamInvitationBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -70307,7 +70538,7 @@ router8.post("/admin/team/invitations", async (req, res) => {
     res.status(409).json({ error: { code: "CONFLICT", message: "Invitation already exists for this email" } });
   }
 });
-router8.delete("/admin/team/invitations/:id", async (req, res) => {
+router10.delete("/admin/team/invitations/:id", async (req, res) => {
   const p = DeleteTeamInvitationParams.safeParse(req.params);
   if (!p.success) {
     res.status(400).json({ error: p.error.message });
@@ -70322,7 +70553,7 @@ router8.delete("/admin/team/invitations/:id", async (req, res) => {
   res.status(204).send();
 });
 var VALIDATION_REPORT_MAX_BYTES = 5 * 1024 * 1024;
-router8.post("/admin/locations/validation-report/share", async (req, res) => {
+router10.post("/admin/locations/validation-report/share", async (req, res) => {
   const b = CreateValidationReportShareBody.safeParse(req.body);
   if (!b.success) {
     res.status(400).json({ error: b.error.message });
@@ -70332,7 +70563,7 @@ router8.post("/admin/locations/validation-report/share", async (req, res) => {
     res.status(413).json({ error: "Report CSV exceeds the 5 MB size limit." });
     return;
   }
-  const token = randomBytes2(32).toString("hex");
+  const token = randomBytes3(32).toString("hex");
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1e3);
   await db.insert(validationReportSharesTable).values({
     token,
@@ -70347,7 +70578,7 @@ router8.post("/admin/locations/validation-report/share", async (req, res) => {
   });
   res.status(201).json({ token, expiresAt: expiresAt.toISOString() });
 });
-router8.post("/admin/notifications/send", async (req, res) => {
+router10.post("/admin/notifications/send", async (req, res) => {
   const { title, body, type, audience } = req.body;
   if (!title?.trim() || !body?.trim()) {
     res.status(400).json({ error: { code: "MISSING_FIELDS", message: "title and body are required" } });
@@ -70372,7 +70603,7 @@ var SEED_USER_IDS = [
   "moderator-1",
   "reader-demo"
 ];
-router8.delete("/admin/seed-data", async (req, res) => {
+router10.delete("/admin/seed-data", async (req, res) => {
   const profile = await db.select({ role: userProfilesTable.role }).from(userProfilesTable).where(eq(userProfilesTable.userId, req.user.id)).then((r) => r[0]);
   if (profile?.role !== "super_admin") {
     res.status(403).json({ error: "Super admin only" });
@@ -70382,10 +70613,158 @@ router8.delete("/admin/seed-data", async (req, res) => {
   await audit(req.user.id, "seed.clear", "article", null, `deleted=${deleted.length}`);
   res.json({ deleted: deleted.length });
 });
-var admin_default = router8;
+var admin_default = router10;
 
-// src/routes/admin-crm.ts
-var import_express9 = __toESM(require_express2(), 1);
+// src/routes/admin/index.ts
+var import_express19 = __toESM(require_express2(), 1);
+
+// src/routes/admin/dashboard.ts
+var import_express11 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+var router11 = (0, import_express11.Router)();
+router11.get("/admin/stats", async (_req, res) => {
+  const [{ articles }] = await db.select({ articles: sql`count(*)::int` }).from(articlesTable);
+  const [{ published }] = await db.select({ published: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "published"));
+  const [{ pending }] = await db.select({ pending: sql`count(*)::int` }).from(articlesTable).where(eq(articlesTable.status, "pending"));
+  const [{ writers }] = await db.select({ writers: sql`count(*)::int` }).from(userProfilesTable).where(inArray(userProfilesTable.role, ["writer", "super_admin", "state_admin", "district_admin"]));
+  const [{ readers }] = await db.select({ readers: sql`count(*)::int` }).from(userProfilesTable).where(eq(userProfilesTable.role, "reader"));
+  const [{ comments }] = await db.select({ comments: sql`count(*)::int` }).from(commentsTable);
+  const [{ totalViews }] = await db.select({ totalViews: sql`coalesce(sum(${articlesTable.viewCount}),0)::int` }).from(articlesTable);
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1e3);
+  const publishedByDay = await db.select({
+    day: sql`to_char(date_trunc('day', ${articlesTable.publishedAt}), 'YYYY-MM-DD')`,
+    count: sql`count(*)::int`
+  }).from(articlesTable).where(and(eq(articlesTable.status, "published"), gte(articlesTable.publishedAt, since))).groupBy(sql`date_trunc('day', ${articlesTable.publishedAt})`).orderBy(sql`date_trunc('day', ${articlesTable.publishedAt})`);
+  const byCategory = await db.select({
+    categoryId: articlesTable.categoryId,
+    slug: categoriesTable.slug,
+    nameHi: categoriesTable.nameHi,
+    nameEn: categoriesTable.nameEn,
+    count: sql`count(*)::int`
+  }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).where(eq(articlesTable.status, "published")).groupBy(articlesTable.categoryId, categoriesTable.slug, categoriesTable.nameHi, categoriesTable.nameEn);
+  const byLocation = await db.select({
+    locationId: articlesTable.locationId,
+    slug: locationsTable.slug,
+    type: locationsTable.type,
+    nameHi: locationsTable.nameHi,
+    nameEn: locationsTable.nameEn,
+    count: sql`count(*)::int`
+  }).from(articlesTable).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).where(eq(articlesTable.status, "published")).groupBy(articlesTable.locationId, locationsTable.slug, locationsTable.type, locationsTable.nameHi, locationsTable.nameEn);
+  const recentRows = await db.select({
+    article: articlesTable,
+    category: categoriesTable,
+    location: locationsTable,
+    writer: usersTable,
+    profile: userProfilesTable
+  }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).leftJoin(usersTable, eq(usersTable.id, articlesTable.writerId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId)).where(eq(articlesTable.status, "published")).orderBy(desc(articlesTable.publishedAt)).limit(8);
+  const recentlyPublished = recentRows.map((r) => ({
+    id: r.article.id,
+    slug: r.article.slug,
+    title: r.article.title,
+    summary: r.article.summary,
+    coverImageUrl: r.article.coverImageUrl,
+    lang: r.article.lang,
+    publishedAt: r.article.publishedAt,
+    viewCount: r.article.viewCount,
+    likeCount: r.article.likeCount,
+    commentCount: r.article.commentCount,
+    shareCount: r.article.shareCount,
+    isBreaking: r.article.isBreaking,
+    isFeatured: r.article.isFeatured,
+    category: r.category ?? void 0,
+    location: r.location ?? void 0,
+    writer: r.writer ? {
+      id: r.writer.id,
+      displayName: r.profile?.displayName ?? r.writer.email ?? "Writer",
+      profileImageUrl: r.writer.profileImageUrl,
+      verified: r.profile?.isVerified ?? false
+    } : void 0
+  }));
+  const topWriters = await db.select({
+    id: usersTable.id,
+    displayName: userProfilesTable.displayName,
+    profileImageUrl: usersTable.profileImageUrl,
+    verified: userProfilesTable.isVerified,
+    bio: userProfilesTable.bio,
+    followerCount: userProfilesTable.followerCount,
+    articleCount: sql`count(${articlesTable.id})::int`
+  }).from(usersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).leftJoin(
+    articlesTable,
+    and(eq(articlesTable.writerId, usersTable.id), eq(articlesTable.status, "published"))
+  ).where(inArray(userProfilesTable.role, ["writer", "super_admin", "state_admin", "district_admin"])).groupBy(
+    usersTable.id,
+    userProfilesTable.displayName,
+    usersTable.profileImageUrl,
+    userProfilesTable.isVerified,
+    userProfilesTable.bio,
+    userProfilesTable.followerCount
+  ).orderBy(desc(sql`count(${articlesTable.id})`)).limit(8);
+  const coverageGapsRaw = await db.select({
+    id: locationsTable.id,
+    slug: locationsTable.slug,
+    type: locationsTable.type,
+    nameHi: locationsTable.nameHi,
+    nameEn: locationsTable.nameEn,
+    followerCount: sql`(select count(*)::int from ${followsLocationsTable} where ${followsLocationsTable.locationId} = ${locationsTable.id})`,
+    writerCount: sql`(select count(distinct ${articlesTable.writerId})::int from ${articlesTable} where ${articlesTable.locationId} = ${locationsTable.id} and ${articlesTable.writerId} is not null and ${articlesTable.status} = 'published')`,
+    recentArticleCount: sql`(select count(*)::int from ${articlesTable} where ${articlesTable.locationId} = ${locationsTable.id} and ${articlesTable.status} = 'published' and ${articlesTable.publishedAt} >= ${since})`
+  }).from(locationsTable);
+  const coverageGaps = coverageGapsRaw.filter((row) => Number(row.followerCount) > 0 && (row.writerCount === 0 || row.recentArticleCount === 0)).sort((a, b) => Number(b.followerCount) - Number(a.followerCount)).slice(0, 10).map((row) => ({
+    id: row.id,
+    slug: row.slug,
+    nameHi: row.nameHi,
+    nameEn: row.nameEn,
+    type: row.type,
+    followerCount: Number(row.followerCount),
+    writerCount: Number(row.writerCount),
+    recentArticleCount: Number(row.recentArticleCount)
+  }));
+  res.json(
+    GetAdminDashboardStatsResponse.parse({
+      totals: {
+        articles: Number(articles),
+        published: Number(published),
+        pending: Number(pending),
+        writers: Number(writers),
+        readers: Number(readers),
+        comments: Number(comments),
+        totalViews: Number(totalViews)
+      },
+      pendingArticles: Number(pending),
+      recentlyPublished,
+      dailyPublishCounts: publishedByDay.map((p) => ({ date: p.day, count: Number(p.count) })),
+      byCategory: byCategory.filter((b) => b.categoryId).map((b) => ({
+        category: { id: b.categoryId, slug: b.slug ?? "", nameHi: b.nameHi ?? "", nameEn: b.nameEn ?? "" },
+        count: Number(b.count)
+      })),
+      byLocation: byLocation.filter((b) => b.locationId).map((b) => ({
+        location: {
+          id: b.locationId,
+          slug: b.slug ?? "",
+          type: b.type ?? "",
+          nameHi: b.nameHi ?? "",
+          nameEn: b.nameEn ?? ""
+        },
+        count: Number(b.count)
+      })),
+      topWriters: topWriters.map((w) => ({
+        id: w.id,
+        displayName: w.displayName,
+        profileImageUrl: w.profileImageUrl,
+        bio: w.bio,
+        verified: w.verified,
+        articleCount: Number(w.articleCount),
+        followerCount: Number(w.followerCount ?? 0)
+      })),
+      coverageGaps
+    })
+  );
+});
+var dashboard_default = router11;
+
+// src/routes/admin/articles.ts
+var import_express12 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
 
@@ -70395,9 +70774,1336 @@ async function audit2(actorId, action, targetType, targetId, note) {
   await db.insert(auditLogTable).values({ actorId, action, targetType, targetId, note: note ?? null });
 }
 
+// src/routes/admin/articles.ts
+init_push();
+async function loadFullArticle2(id) {
+  const [row] = await db.select({ article: articlesTable, category: categoriesTable, location: locationsTable }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).where(eq(articlesTable.id, id));
+  if (!row) return null;
+  return mapMyArticle({ article: row.article, category: row.category, location: row.location, writer: null });
+}
+var router12 = (0, import_express12.Router)();
+router12.get("/admin/articles", async (req, res) => {
+  const q = ListAdminArticlesQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const conds = [];
+  if (q.data.status && q.data.status !== "all") conds.push(eq(articlesTable.status, q.data.status));
+  const rows = await db.select({
+    article: articlesTable,
+    category: categoriesTable,
+    location: locationsTable,
+    writer: usersTable,
+    profile: userProfilesTable
+  }).from(articlesTable).leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId)).leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).leftJoin(usersTable, eq(usersTable.id, articlesTable.writerId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId)).where(conds.length ? and(...conds) : void 0).orderBy(desc(articlesTable.updatedAt)).limit(q.data.limit);
+  const items = rows.map((r) => ({
+    ...mapMyArticle({ article: r.article, category: r.category, location: r.location, writer: null }),
+    writer: r.writer ? {
+      id: r.writer.id,
+      displayName: r.profile?.displayName ?? r.writer.email ?? "Writer",
+      profileImageUrl: r.writer.profileImageUrl,
+      verified: r.profile?.isVerified ?? false
+    } : void 0
+  }));
+  res.json(ListAdminArticlesResponse.parse(items));
+});
+router12.get("/admin/articles/:id", async (req, res) => {
+  const p = GetAdminArticleParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const full = await loadFullArticle2(p.data.id);
+  if (!full) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  res.json(GetAdminArticleResponse.parse(full));
+});
+router12.patch("/admin/articles/:id", async (req, res) => {
+  const p = AdminUpdateArticleParams.safeParse(req.params);
+  const b = AdminUpdateArticleBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [existing] = await db.select().from(articlesTable).where(eq(articlesTable.id, p.data.id));
+  if (!existing) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  const update = { updatedAt: /* @__PURE__ */ new Date() };
+  if (b.data.title !== void 0) {
+    update.title = b.data.title;
+    update.slug = slugify(b.data.title);
+  }
+  if (b.data.summary !== void 0) update.summary = b.data.summary;
+  if (b.data.body !== void 0) {
+    update.body = b.data.body;
+    const wordCount = b.data.body.replace(/<[^>]*>/g, "").trim().split(/\s+/).filter(Boolean).length;
+    update.readingTimeMin = Math.max(1, Math.round(wordCount / 200));
+  }
+  if (b.data.lang !== void 0) update.lang = b.data.lang;
+  if ("coverImageUrl" in b.data) update.coverImageUrl = b.data.coverImageUrl;
+  if ("categoryId" in b.data) update.categoryId = b.data.categoryId;
+  if ("locationId" in b.data) update.locationId = b.data.locationId;
+  if (b.data.tags !== void 0) update.tags = b.data.tags;
+  if (b.data.status !== void 0) {
+    update.status = b.data.status;
+    if (b.data.status === "published" && !existing.publishedAt) update.publishedAt = /* @__PURE__ */ new Date();
+  }
+  if (b.data.isBreaking !== void 0) update.isBreaking = b.data.isBreaking;
+  if (b.data.isFeatured !== void 0) update.isFeatured = b.data.isFeatured;
+  if (b.data.isPinned !== void 0) update.isPinned = b.data.isPinned;
+  const [a] = await db.update(articlesTable).set(update).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!a) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.edit", "article", a.id);
+  if (b.data.status === "published" && existing.status !== "published" && a.isBreaking) {
+    void sendBreakingNewsPush({ articleId: a.id, slug: a.slug, title: a.title, summary: a.summary, categoryId: a.categoryId, locationId: a.locationId });
+  }
+  res.json(AdminUpdateArticleResponse.parse(await loadFullArticle2(a.id)));
+});
+router12.delete("/admin/articles/:id", async (req, res) => {
+  const p = AdminDeleteArticleParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [deleted] = await db.delete(articlesTable).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!deleted) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.delete", "article", deleted.id);
+  res.json(AdminDeleteArticleResponse.parse({ id: deleted.id }));
+});
+router12.post("/admin/articles/:id/approve", async (req, res) => {
+  const p = ApproveArticleParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [a] = await db.update(articlesTable).set({ status: "published", publishedAt: /* @__PURE__ */ new Date(), moderationNote: null }).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!a) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.approve", "article", a.id);
+  if (a.isBreaking) {
+    void sendBreakingNewsPush({ articleId: a.id, slug: a.slug, title: a.title, summary: a.summary, categoryId: a.categoryId, locationId: a.locationId });
+  }
+  void sendFollowedWriterPush({ articleId: a.id, slug: a.slug, title: a.title, writerId: a.writerId });
+  res.json(ApproveArticleResponse.parse(await loadFullArticle2(a.id)));
+});
+router12.post("/admin/articles/:id/reject", async (req, res) => {
+  const p = ApproveArticleParams.safeParse(req.params);
+  const b = RejectArticleBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [a] = await db.update(articlesTable).set({ status: "rejected", moderationNote: b.data.note }).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!a) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.reject", "article", a.id, b.data.note);
+  res.json(RejectArticleResponse.parse(await loadFullArticle2(a.id)));
+});
+router12.post("/admin/articles/:id/request-changes", async (req, res) => {
+  const p = RequestArticleChangesParams.safeParse(req.params);
+  const b = RequestArticleChangesBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [a] = await db.update(articlesTable).set({ status: "changes_requested", moderationNote: b.data.note }).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!a) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.request_changes", "article", a.id, b.data.note);
+  res.json(RequestArticleChangesResponse.parse(await loadFullArticle2(a.id)));
+});
+router12.patch("/admin/articles/:id/flags", async (req, res) => {
+  const p = UpdateArticleFlagsParams.safeParse(req.params);
+  const b = UpdateArticleFlagsBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const update = {};
+  if (b.data.isBreaking !== void 0) update.isBreaking = b.data.isBreaking;
+  if (b.data.isFeatured !== void 0) update.isFeatured = b.data.isFeatured;
+  if (b.data.isPinned !== void 0) update.isPinned = b.data.isPinned;
+  const [prev] = await db.select().from(articlesTable).where(eq(articlesTable.id, p.data.id));
+  const [a] = await db.update(articlesTable).set(update).where(eq(articlesTable.id, p.data.id)).returning();
+  if (!a) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+  await audit2(req.user.id, "article.update_flags", "article", a.id);
+  if (b.data.isBreaking === true && prev && !prev.isBreaking && a.status === "published") {
+    void sendBreakingNewsPush({ articleId: a.id, slug: a.slug, title: a.title, summary: a.summary, categoryId: a.categoryId, locationId: a.locationId });
+  }
+  res.json(UpdateArticleFlagsResponse.parse(await loadFullArticle2(a.id)));
+});
+var articles_default = router12;
+
+// src/routes/admin/users.ts
+var import_express13 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+async function loadFullWriterApplication2(id) {
+  const [r] = await db.select({ app: writerApplicationsTable, user: usersTable, profile: userProfilesTable }).from(writerApplicationsTable).leftJoin(usersTable, eq(usersTable.id, writerApplicationsTable.userId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, writerApplicationsTable.userId)).where(eq(writerApplicationsTable.id, id));
+  if (!r) return null;
+  return {
+    id: r.app.id,
+    userId: r.app.userId,
+    fullName: r.app.fullName,
+    bio: r.app.bio,
+    sampleLink: r.app.sampleLink,
+    status: r.app.status,
+    moderationNote: r.app.moderationNote,
+    createdAt: r.app.createdAt,
+    user: {
+      id: r.user?.id ?? r.app.userId,
+      displayName: r.profile?.displayName ?? r.user?.email ?? "User",
+      profileImageUrl: r.user?.profileImageUrl,
+      verified: r.profile?.isVerified ?? false
+    }
+  };
+}
+var router13 = (0, import_express13.Router)();
+router13.get("/admin/users", async (req, res) => {
+  const q = ListAdminUsersQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const conds = [];
+  if (q.data.role) conds.push(eq(userProfilesTable.role, q.data.role));
+  const rows = await db.select({
+    id: usersTable.id,
+    email: usersTable.email,
+    displayName: userProfilesTable.displayName,
+    profileImageUrl: usersTable.profileImageUrl,
+    role: userProfilesTable.role,
+    createdAt: userProfilesTable.createdAt,
+    isVerified: userProfilesTable.isVerified,
+    articleCount: sql`(select count(*)::int from ${articlesTable} where ${articlesTable.writerId} = ${usersTable.id})`
+  }).from(usersTable).innerJoin(userProfilesTable, eq(userProfilesTable.userId, usersTable.id)).where(conds.length ? and(...conds) : void 0).orderBy(desc(userProfilesTable.createdAt)).limit(500);
+  res.json(ListAdminUsersResponse.parse(rows));
+});
+router13.patch("/admin/users/:id/role", requireSuperAdmin, async (req, res) => {
+  const p = SetUserRoleParams.safeParse(req.params);
+  const b = SetUserRoleBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [u] = await db.update(userProfilesTable).set({
+    role: b.data.role,
+    isWriterApproved: b.data.role === "writer" || ["super_admin", "state_admin", "district_admin"].includes(b.data.role)
+  }).where(eq(userProfilesTable.userId, p.data.id)).returning();
+  if (!u) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "User not found" } });
+    return;
+  }
+  await audit2(req.user.id, "user.set_role", "user", p.data.id, b.data.role);
+  const [usr] = await db.select().from(usersTable).where(eq(usersTable.id, p.data.id));
+  res.json(
+    SetUserRoleResponse.parse({
+      id: p.data.id,
+      email: usr?.email ?? null,
+      displayName: u.displayName,
+      profileImageUrl: usr?.profileImageUrl ?? null,
+      role: u.role,
+      createdAt: u.createdAt
+    })
+  );
+});
+router13.get("/admin/users/:id/locations", async (req, res) => {
+  const p = ListWriterLocationsParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [user] = await db.select({ id: usersTable.id }).from(usersTable).where(eq(usersTable.id, p.data.id));
+  if (!user) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "User not found" } });
+    return;
+  }
+  const rows = await db.select({
+    id: locationsTable.id,
+    slug: locationsTable.slug,
+    type: locationsTable.type,
+    nameHi: locationsTable.nameHi,
+    nameEn: locationsTable.nameEn,
+    articleCount: sql`count(${articlesTable.id})::int`,
+    lastPublishedAt: sql`max(${articlesTable.publishedAt})`
+  }).from(articlesTable).innerJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId)).where(and(eq(articlesTable.writerId, p.data.id), eq(articlesTable.status, "published"))).groupBy(locationsTable.id, locationsTable.slug, locationsTable.type, locationsTable.nameHi, locationsTable.nameEn).orderBy(desc(sql`max(${articlesTable.publishedAt})`));
+  res.json(
+    ListWriterLocationsResponse.parse(
+      rows.map((r) => ({
+        id: r.id,
+        slug: r.slug,
+        type: r.type,
+        nameHi: r.nameHi,
+        nameEn: r.nameEn,
+        articleCount: r.articleCount,
+        lastPublishedAt: r.lastPublishedAt ?? null
+      }))
+    )
+  );
+});
+router13.get("/admin/writer-applications", async (req, res) => {
+  const q = ListWriterApplicationsQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const rows = await db.select({ app: writerApplicationsTable, user: usersTable, profile: userProfilesTable }).from(writerApplicationsTable).leftJoin(usersTable, eq(usersTable.id, writerApplicationsTable.userId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, writerApplicationsTable.userId)).where(q.data.status !== "all" ? eq(writerApplicationsTable.status, q.data.status) : void 0).orderBy(desc(writerApplicationsTable.createdAt));
+  res.json(
+    ListWriterApplicationsResponse.parse(
+      rows.map((r) => ({
+        id: r.app.id,
+        userId: r.app.userId,
+        fullName: r.app.fullName,
+        firstName: r.app.firstName,
+        age: r.app.age,
+        phone: r.app.phone,
+        contactEmail: r.app.contactEmail,
+        education: r.app.education,
+        previousWork: r.app.previousWork,
+        profession: r.app.profession,
+        bio: r.app.bio,
+        sampleLink: r.app.sampleLink,
+        status: r.app.status,
+        moderationNote: r.app.moderationNote,
+        createdAt: r.app.createdAt,
+        user: {
+          id: r.user?.id ?? r.app.userId,
+          displayName: r.profile?.displayName ?? r.user?.email ?? "User",
+          profileImageUrl: r.user?.profileImageUrl,
+          verified: r.profile?.isVerified ?? false
+        }
+      }))
+    )
+  );
+});
+router13.post("/admin/writer-applications/:id/approve", async (req, res) => {
+  const p = ApproveWriterApplicationParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [app2] = await db.update(writerApplicationsTable).set({ status: "approved" }).where(eq(writerApplicationsTable.id, p.data.id)).returning();
+  if (!app2) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Application not found" } });
+    return;
+  }
+  await db.update(userProfilesTable).set({ role: "writer", isWriterApproved: true }).where(eq(userProfilesTable.userId, app2.userId));
+  await audit2(req.user.id, "writer_application.approve", "writer_application", app2.id);
+  res.json(ApproveWriterApplicationResponse.parse(await loadFullWriterApplication2(app2.id)));
+});
+router13.post("/admin/writer-applications/:id/reject", async (req, res) => {
+  const p = RejectWriterApplicationParams.safeParse(req.params);
+  const b = RejectWriterApplicationBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [app2] = await db.update(writerApplicationsTable).set({ status: "rejected", moderationNote: b.data.note }).where(eq(writerApplicationsTable.id, p.data.id)).returning();
+  if (!app2) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Application not found" } });
+    return;
+  }
+  await audit2(req.user.id, "writer_application.reject", "writer_application", app2.id, b.data.note);
+  res.json(RejectWriterApplicationResponse.parse(await loadFullWriterApplication2(app2.id)));
+});
+var users_default = router13;
+
+// src/routes/admin/categories.ts
+var import_express14 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+var router14 = (0, import_express14.Router)();
+async function listCategoriesWithCount() {
+  const rows = await db.select({
+    id: categoriesTable.id,
+    slug: categoriesTable.slug,
+    nameHi: categoriesTable.nameHi,
+    nameEn: categoriesTable.nameEn,
+    sortOrder: categoriesTable.sortOrder,
+    articleCount: sql`(select count(*)::int from ${articlesTable} where ${articlesTable.categoryId} = ${categoriesTable.id})`
+  }).from(categoriesTable).orderBy(categoriesTable.sortOrder);
+  return rows.map((r) => ({ ...r, articleCount: Number(r.articleCount) }));
+}
+router14.get("/admin/categories", async (_req, res) => {
+  res.json(ListAdminCategoriesResponse.parse(await listCategoriesWithCount()));
+});
+router14.post("/admin/categories", requireSuperAdmin, async (req, res) => {
+  const b = CreateCategoryBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const [c] = await db.insert(categoriesTable).values({
+    slug: b.data.slug ?? slugify(b.data.nameEn),
+    nameHi: b.data.nameHi,
+    nameEn: b.data.nameEn,
+    sortOrder: b.data.sortOrder ?? 0
+  }).returning();
+  await audit2(req.user.id, "category.create", "category", c.id);
+  res.status(201).json({ ...c, articleCount: 0 });
+});
+router14.post("/admin/categories/reorder", requireSuperAdmin, async (req, res) => {
+  const b = ReorderCategoriesBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const existing = await db.select().from(categoriesTable);
+  const existingIds = new Set(existing.map((c) => c.id));
+  const seen = /* @__PURE__ */ new Set();
+  for (const id of b.data.ids) {
+    if (!existingIds.has(id) || seen.has(id)) {
+      res.status(400).json({ error: { code: "BAD_IDS", message: "ids must match categories and be unique" } });
+      return;
+    }
+    seen.add(id);
+  }
+  if (b.data.ids.length !== existing.length) {
+    res.status(400).json({ error: { code: "INCOMPLETE", message: "ids must include every category" } });
+    return;
+  }
+  await db.transaction(async (tx) => {
+    for (let i = 0; i < b.data.ids.length; i++) {
+      await tx.update(categoriesTable).set({ sortOrder: i }).where(eq(categoriesTable.id, b.data.ids[i]));
+    }
+  });
+  await audit2(req.user.id, "category.reorder", "category", null);
+  res.json(ReorderCategoriesResponse.parse(await listCategoriesWithCount()));
+});
+router14.patch("/admin/categories/:id", requireSuperAdmin, async (req, res) => {
+  const p = UpdateCategoryParams.safeParse(req.params);
+  const b = UpdateCategoryBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const update = {};
+  if (b.data.nameHi !== void 0) update.nameHi = b.data.nameHi;
+  if (b.data.nameEn !== void 0) update.nameEn = b.data.nameEn;
+  if (b.data.slug !== void 0) update.slug = b.data.slug;
+  if (b.data.sortOrder !== void 0) update.sortOrder = b.data.sortOrder;
+  const [c] = await db.update(categoriesTable).set(update).where(eq(categoriesTable.id, p.data.id)).returning();
+  if (!c) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Category not found" } });
+    return;
+  }
+  await audit2(req.user.id, "category.update", "category", c.id);
+  res.json(UpdateCategoryResponse.parse({ id: c.id, slug: c.slug, nameHi: c.nameHi, nameEn: c.nameEn, sortOrder: c.sortOrder }));
+});
+router14.delete("/admin/categories/:id", requireSuperAdmin, async (req, res) => {
+  const p = DeleteCategoryParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [c] = await db.delete(categoriesTable).where(eq(categoriesTable.id, p.data.id)).returning();
+  if (!c) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Category not found" } });
+    return;
+  }
+  await audit2(req.user.id, "category.delete", "category", p.data.id);
+  res.json(DeleteCategoryResponse.parse({ deleted: true }));
+});
+var categories_default = router14;
+
+// src/routes/admin/locations.ts
+var import_express15 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+init_pg_core();
+import { randomBytes as randomBytes4 } from "crypto";
+init_logger2();
+var REQUIRED_PARENT_TYPE2 = {
+  state: null,
+  district: "state",
+  assembly: "district",
+  block: "district",
+  village: "block"
+};
+var VALID_LOCATION_TYPES2 = ["state", "district", "assembly", "block", "village"];
+async function validateParent2(childType, parentId, selfId) {
+  const requiredType = REQUIRED_PARENT_TYPE2[childType];
+  if (!parentId) {
+    if (requiredType) {
+      return { ok: false, status: 400, code: "PARENT_REQUIRED", message: `A ${childType} must have a ${requiredType} parent` };
+    }
+    return { ok: true };
+  }
+  if (selfId && parentId === selfId) {
+    return { ok: false, status: 400, code: "INVALID_PARENT", message: "A location cannot be its own parent" };
+  }
+  const [parent] = await db.select().from(locationsTable).where(eq(locationsTable.id, parentId));
+  if (!parent) {
+    return { ok: false, status: 400, code: "INVALID_PARENT", message: "Parent location not found" };
+  }
+  if (requiredType && parent.type !== requiredType) {
+    return { ok: false, status: 400, code: "INVALID_PARENT_TYPE", message: `A ${childType} must be under a ${requiredType}, not a ${parent.type}` };
+  }
+  if (!requiredType) {
+    return { ok: false, status: 400, code: "INVALID_PARENT", message: `A ${childType} cannot have a parent` };
+  }
+  if (selfId) {
+    let cursor = parent.parentId;
+    const seen = /* @__PURE__ */ new Set([parent.id]);
+    while (cursor) {
+      if (cursor === selfId) {
+        return { ok: false, status: 400, code: "INVALID_PARENT", message: "Cannot assign a descendant as parent" };
+      }
+      if (seen.has(cursor)) break;
+      seen.add(cursor);
+      const [next] = await db.select({ parentId: locationsTable.parentId }).from(locationsTable).where(eq(locationsTable.id, cursor));
+      cursor = next?.parentId ?? null;
+    }
+  }
+  return { ok: true };
+}
+function mapLocation2(r, articleCount = 0, writerCount = 0, followerCount = 0, writerArticleCount) {
+  return {
+    id: r.id,
+    slug: r.slug,
+    type: r.type,
+    nameHi: r.nameHi,
+    nameEn: r.nameEn,
+    parentId: r.parentId,
+    articleCount,
+    writerCount,
+    followerCount,
+    ...writerArticleCount !== void 0 ? { writerArticleCount } : {}
+  };
+}
+function mapResource2(r) {
+  return {
+    id: r.id,
+    category: r.category,
+    nameHi: r.nameHi,
+    nameEn: r.nameEn,
+    phone: r.phone,
+    address: r.address,
+    mapsQuery: r.mapsQuery,
+    sortOrder: r.sortOrder
+  };
+}
+async function loadLocationBySlug2(slug) {
+  const [loc] = await db.select().from(locationsTable).where(eq(locationsTable.slug, slug));
+  return loc;
+}
+var router15 = (0, import_express15.Router)();
+router15.get("/admin/locations/export.csv", async (req, res) => {
+  const typesParam = typeof req.query.types === "string" ? req.query.types : void 0;
+  const typeParam = typeof req.query.type === "string" ? req.query.type : void 0;
+  const rawTypes = typesParam ?? typeParam;
+  let filterTypes;
+  if (rawTypes !== void 0) {
+    const parts = rawTypes.split(",").map((s) => s.trim()).filter(Boolean);
+    const invalid = parts.find((p) => !VALID_LOCATION_TYPES2.includes(p));
+    if (invalid) {
+      res.status(400).json({ error: `Invalid type "${invalid}". Must be one of: ${VALID_LOCATION_TYPES2.join(", ")}` });
+      return;
+    }
+    filterTypes = parts.length > 0 ? parts : void 0;
+  }
+  const parentLoc = alias(locationsTable, "parent_loc");
+  const conds = filterTypes && filterTypes.length > 0 ? [inArray(locationsTable.type, filterTypes)] : [];
+  const rows = await db.select({ loc: locationsTable, parentSlug: parentLoc.slug }).from(locationsTable).leftJoin(parentLoc, eq(parentLoc.id, locationsTable.parentId)).where(conds.length ? and(...conds) : void 0).orderBy(asc(locationsTable.type), asc(locationsTable.nameEn));
+  const escape2 = (v) => {
+    const s = v ?? "";
+    return s.includes(",") || s.includes('"') || s.includes("\n") ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const filename = filterTypes?.length ? `locations-${filterTypes.join("-")}.csv` : "locations.csv";
+  const lines = ["type,slug,name_hi,name_en,parent_slug"];
+  for (const r of rows) {
+    lines.push([escape2(r.loc.type), escape2(r.loc.slug), escape2(r.loc.nameHi), escape2(r.loc.nameEn), escape2(r.parentSlug)].join(","));
+  }
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+  res.send(lines.join("\r\n"));
+});
+router15.get("/admin/locations/dormant-writers", async (_req, res) => {
+  const thirtyDaysAgo = /* @__PURE__ */ new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const rows = await db.execute(sql`
+    WITH writer_last_pub AS (
+      SELECT a.location_id, a.writer_id, MAX(a.published_at) AS last_published
+      FROM ${articlesTable} a WHERE a.status = 'published'
+      GROUP BY a.location_id, a.writer_id
+    )
+    SELECT
+      l.id, l.slug, l.name_hi AS "nameHi", l.name_en AS "nameEn", l.type,
+      COUNT(wlp.writer_id) FILTER (WHERE wlp.last_published <= ${thirtyDaysAgo}) AS "inactiveWriterCount",
+      COUNT(wlp.writer_id) AS "totalWriterCount"
+    FROM writer_last_pub wlp
+    JOIN ${locationsTable} l ON l.id = wlp.location_id
+    GROUP BY l.id, l.slug, l.name_hi, l.name_en, l.type
+    HAVING COUNT(wlp.writer_id) FILTER (WHERE wlp.last_published <= ${thirtyDaysAgo}) > 0
+    ORDER BY "inactiveWriterCount" DESC LIMIT 10
+  `);
+  res.json(
+    rows.rows.map((r) => ({
+      id: String(r.id),
+      slug: String(r.slug),
+      nameHi: String(r.nameHi),
+      nameEn: String(r.nameEn),
+      type: String(r.type),
+      inactiveWriterCount: Number(r.inactiveWriterCount),
+      totalWriterCount: Number(r.totalWriterCount)
+    }))
+  );
+});
+router15.get("/admin/locations", async (req, res) => {
+  const q = ListAdminLocationsQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const conds = [];
+  if (q.data.type) conds.push(eq(locationsTable.type, q.data.type));
+  if (q.data.parentId) conds.push(eq(locationsTable.parentId, q.data.parentId));
+  if (q.data.writerId) {
+    conds.push(sql`EXISTS (SELECT 1 FROM ${articlesTable} WHERE ${articlesTable.locationId} = ${locationsTable.id} AND ${articlesTable.writerId} = ${q.data.writerId} AND ${articlesTable.status} = 'published')`);
+  }
+  if (q.data.coverage === "has_writers") {
+    conds.push(sql`EXISTS (SELECT 1 FROM ${articlesTable} WHERE ${articlesTable.locationId} = ${locationsTable.id} AND ${articlesTable.writerId} IS NOT NULL)`);
+  } else if (q.data.coverage === "no_writers") {
+    conds.push(sql`NOT EXISTS (SELECT 1 FROM ${articlesTable} WHERE ${articlesTable.locationId} = ${locationsTable.id} AND ${articlesTable.writerId} IS NOT NULL)`);
+  }
+  const writerId = q.data.writerId;
+  const rows = await db.select({
+    loc: locationsTable,
+    articleCount: sql`(select count(*)::int from ${articlesTable} where ${articlesTable.locationId} = ${locationsTable.id})`,
+    writerCount: sql`(select count(distinct ${articlesTable.writerId})::int from ${articlesTable} where ${articlesTable.locationId} = ${locationsTable.id} and ${articlesTable.writerId} is not null)`,
+    followerCount: sql`(select count(*)::int from ${followsLocationsTable} where ${followsLocationsTable.locationId} = ${locationsTable.id})`,
+    writerArticleCount: writerId ? sql`(select count(*)::int from ${articlesTable} where ${articlesTable.locationId} = ${locationsTable.id} and ${articlesTable.writerId} = ${writerId} and ${articlesTable.status} = 'published')` : sql`0`
+  }).from(locationsTable).where(conds.length ? and(...conds) : void 0).orderBy(asc(locationsTable.nameEn));
+  res.json(
+    ListAdminLocationsResponse.parse(
+      rows.map(
+        (r) => mapLocation2(r.loc, Number(r.articleCount), Number(r.writerCount), Number(r.followerCount), writerId ? Number(r.writerArticleCount) : void 0)
+      )
+    )
+  );
+});
+router15.get("/admin/locations/:id/writers", async (req, res) => {
+  const p = ListLocationWritersParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [loc] = await db.select({ id: locationsTable.id }).from(locationsTable).where(eq(locationsTable.id, p.data.id));
+  if (!loc) {
+    res.status(404).json({ error: "Location not found" });
+    return;
+  }
+  const rows = await db.select({
+    id: usersTable.id,
+    displayName: userProfilesTable.displayName,
+    profileImageUrl: usersTable.profileImageUrl,
+    role: userProfilesTable.role,
+    articleCount: sql`count(${articlesTable.id})::int`,
+    lastPublishedAt: sql`max(${articlesTable.publishedAt})`
+  }).from(articlesTable).innerJoin(usersTable, eq(usersTable.id, articlesTable.writerId)).innerJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId)).where(and(eq(articlesTable.locationId, p.data.id), eq(articlesTable.status, "published"))).groupBy(usersTable.id, userProfilesTable.displayName, usersTable.profileImageUrl, userProfilesTable.role).orderBy(desc(sql`max(${articlesTable.publishedAt})`));
+  res.json(
+    ListLocationWritersResponse.parse(
+      rows.map((r) => ({
+        id: r.id,
+        displayName: r.displayName,
+        profileImageUrl: r.profileImageUrl ?? null,
+        role: r.role,
+        articleCount: r.articleCount,
+        lastPublishedAt: r.lastPublishedAt ?? null
+      }))
+    )
+  );
+});
+router15.post("/admin/locations", requireSuperAdmin, async (req, res) => {
+  const b = CreateLocationBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const slug = slugify(b.data.slug);
+  if (!slug) {
+    res.status(400).json({ error: { code: "INVALID_SLUG", message: "Slug is required" } });
+    return;
+  }
+  const parentCheck = await validateParent2(b.data.type, b.data.parentId ?? null);
+  if (!parentCheck.ok) {
+    res.status(parentCheck.status).json({ error: { code: parentCheck.code, message: parentCheck.message } });
+    return;
+  }
+  const [existing] = await db.select().from(locationsTable).where(eq(locationsTable.slug, slug));
+  if (existing) {
+    res.status(409).json({ error: { code: "SLUG_TAKEN", message: "Slug already in use" } });
+    return;
+  }
+  const [loc] = await db.insert(locationsTable).values({ slug, type: b.data.type, nameHi: b.data.nameHi, nameEn: b.data.nameEn, parentId: b.data.parentId ?? null }).returning();
+  await audit2(req.user.id, "location.create", "location", loc.id, slug);
+  res.status(201).json(mapLocation2(loc, 0));
+});
+router15.patch("/admin/locations/:id", requireSuperAdmin, async (req, res) => {
+  const p = UpdateLocationParams.safeParse(req.params);
+  const b = UpdateLocationBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const [current] = await db.select().from(locationsTable).where(eq(locationsTable.id, p.data.id));
+  if (!current) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const nextType = b.data.type ?? current.type;
+  const nextParentId = b.data.parentId !== void 0 ? b.data.parentId ?? null : current.parentId;
+  if (b.data.type !== void 0 || b.data.parentId !== void 0) {
+    const parentCheck = await validateParent2(nextType, nextParentId, p.data.id);
+    if (!parentCheck.ok) {
+      res.status(parentCheck.status).json({ error: { code: parentCheck.code, message: parentCheck.message } });
+      return;
+    }
+  }
+  const update = {};
+  if (b.data.slug !== void 0) {
+    const slug = slugify(b.data.slug);
+    if (!slug) {
+      res.status(400).json({ error: { code: "INVALID_SLUG", message: "Slug is required" } });
+      return;
+    }
+    const [other] = await db.select().from(locationsTable).where(eq(locationsTable.slug, slug));
+    if (other && other.id !== p.data.id) {
+      res.status(409).json({ error: { code: "SLUG_TAKEN", message: "Slug already in use" } });
+      return;
+    }
+    update.slug = slug;
+  }
+  if (b.data.type !== void 0) update.type = b.data.type;
+  if (b.data.nameHi !== void 0) update.nameHi = b.data.nameHi;
+  if (b.data.nameEn !== void 0) update.nameEn = b.data.nameEn;
+  if (b.data.parentId !== void 0) update.parentId = b.data.parentId;
+  if (Object.keys(update).length === 0) {
+    res.status(400).json({ error: { code: "EMPTY_UPDATE", message: "Provide at least one field to update" } });
+    return;
+  }
+  const [loc] = await db.update(locationsTable).set(update).where(eq(locationsTable.id, p.data.id)).returning();
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  await audit2(req.user.id, "location.update", "location", loc.id, loc.slug);
+  res.json(UpdateLocationResponse.parse(mapLocation2(loc, 0)));
+});
+router15.delete("/admin/locations/:id", requireSuperAdmin, async (req, res) => {
+  const p = DeleteLocationParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [children] = await db.select({ count: sql`count(*)::int` }).from(locationsTable).where(eq(locationsTable.parentId, p.data.id));
+  if (Number(children?.count ?? 0) > 0) {
+    res.status(409).json({ error: { code: "HAS_CHILDREN", message: "Remove or reassign child locations first" } });
+    return;
+  }
+  const [loc] = await db.delete(locationsTable).where(eq(locationsTable.id, p.data.id)).returning();
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  await audit2(req.user.id, "location.delete", "location", p.data.id, loc.slug);
+  res.json(DeleteLocationResponse.parse({ deleted: true }));
+});
+router15.post("/admin/locations/import", requireSuperAdmin, async (req, res) => {
+  const b = ImportLocationsBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const { rows, dryRun = false } = b.data;
+  const allExisting = await db.select({ id: locationsTable.id, slug: locationsTable.slug, type: locationsTable.type }).from(locationsTable);
+  const bySlug = new Map(allExisting.map((r) => [r.slug, { id: r.id, type: r.type }]));
+  const results = [];
+  let created = 0, skipped = 0, failed = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const raw = rows[i];
+    const rowNum = i + 1;
+    const slug = slugify(raw.slug);
+    if (!slug) {
+      results.push({ row: rowNum, status: "failed", slug: null, message: "Slug is required", location: null });
+      failed++;
+      continue;
+    }
+    if (bySlug.has(slug)) {
+      results.push({ row: rowNum, status: "skipped", slug, message: "Slug already exists", location: null });
+      skipped++;
+      continue;
+    }
+    const nameHi = raw.nameHi?.trim();
+    const nameEn = raw.nameEn?.trim();
+    if (!nameHi || !nameEn) {
+      results.push({ row: rowNum, status: "failed", slug, message: "nameHi and nameEn are required", location: null });
+      failed++;
+      continue;
+    }
+    let parentId = null;
+    const requiredParentType = REQUIRED_PARENT_TYPE2[raw.type];
+    const parentSlug = raw.parentSlug ? slugify(raw.parentSlug) : null;
+    if (requiredParentType) {
+      if (!parentSlug) {
+        results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} requires a parent_slug (${requiredParentType})`, location: null });
+        failed++;
+        continue;
+      }
+      const parent = bySlug.get(parentSlug);
+      if (!parent) {
+        results.push({ row: rowNum, status: "failed", slug, message: `Parent slug "${parentSlug}" not found`, location: null });
+        failed++;
+        continue;
+      }
+      if (parent.type !== requiredParentType) {
+        results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} must be under a ${requiredParentType}, not a ${parent.type}`, location: null });
+        failed++;
+        continue;
+      }
+      parentId = parent.id;
+    } else if (parentSlug) {
+      results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} cannot have a parent`, location: null });
+      failed++;
+      continue;
+    }
+    if (dryRun) {
+      bySlug.set(slug, { id: `dry-run-${slug}`, type: raw.type });
+      results.push({ row: rowNum, status: "created", slug, message: null, location: { id: `dry-run-${slug}`, slug, type: raw.type, nameHi, nameEn, parentId, articleCount: 0 } });
+      created++;
+    } else {
+      try {
+        const [loc] = await db.insert(locationsTable).values({ slug, type: raw.type, nameHi, nameEn, parentId }).returning();
+        bySlug.set(slug, { id: loc.id, type: loc.type });
+        results.push({ row: rowNum, status: "created", slug, message: null, location: mapLocation2(loc, 0) });
+        created++;
+      } catch (e2) {
+        results.push({ row: rowNum, status: "failed", slug, message: String(e2?.message ?? e2), location: null });
+        failed++;
+      }
+    }
+  }
+  if (!dryRun) {
+    await audit2(req.user.id, "location.import", "location", null, `created=${created} skipped=${skipped} failed=${failed}`);
+  }
+  res.json(ImportLocationsResponse.parse({ dryRun, created, skipped, failed, results }));
+});
+router15.post("/admin/locations/import-stream", requireSuperAdmin, async (req, res) => {
+  const b = ImportLocationsBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const { rows, dryRun = false } = b.data;
+  res.setHeader("Content-Type", "application/x-ndjson");
+  res.setHeader("Transfer-Encoding", "chunked");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("X-Accel-Buffering", "no");
+  res.flushHeaders();
+  const allExisting = await db.select({ id: locationsTable.id, slug: locationsTable.slug, type: locationsTable.type }).from(locationsTable);
+  const bySlug = new Map(allExisting.map((r) => [r.slug, { id: r.id, type: r.type }]));
+  const results = [];
+  let created = 0, skipped = 0, failed = 0;
+  const sendLine = (obj) => res.write(JSON.stringify(obj) + "\n");
+  for (let i = 0; i < rows.length; i++) {
+    const raw = rows[i];
+    const rowNum = i + 1;
+    const slug = slugify(raw.slug);
+    if (!slug) {
+      results.push({ row: rowNum, status: "failed", slug: null, message: "Slug is required", location: null });
+      failed++;
+    } else if (bySlug.has(slug)) {
+      results.push({ row: rowNum, status: "skipped", slug, message: "Slug already exists", location: null });
+      skipped++;
+    } else {
+      const nameHi = raw.nameHi?.trim();
+      const nameEn = raw.nameEn?.trim();
+      if (!nameHi || !nameEn) {
+        results.push({ row: rowNum, status: "failed", slug, message: "nameHi and nameEn are required", location: null });
+        failed++;
+      } else {
+        let parentId = null;
+        const requiredParentType = REQUIRED_PARENT_TYPE2[raw.type];
+        const parentSlug = raw.parentSlug ? slugify(raw.parentSlug) : null;
+        let rowFailed = false;
+        if (requiredParentType) {
+          if (!parentSlug) {
+            results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} requires a parent_slug (${requiredParentType})`, location: null });
+            failed++;
+            rowFailed = true;
+          } else {
+            const parent = bySlug.get(parentSlug);
+            if (!parent) {
+              results.push({ row: rowNum, status: "failed", slug, message: `Parent slug "${parentSlug}" not found`, location: null });
+              failed++;
+              rowFailed = true;
+            } else if (parent.type !== requiredParentType) {
+              results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} must be under a ${requiredParentType}, not a ${parent.type}`, location: null });
+              failed++;
+              rowFailed = true;
+            } else {
+              parentId = parent.id;
+            }
+          }
+        } else if (parentSlug) {
+          results.push({ row: rowNum, status: "failed", slug, message: `A ${raw.type} cannot have a parent`, location: null });
+          failed++;
+          rowFailed = true;
+        }
+        if (!rowFailed) {
+          if (dryRun) {
+            bySlug.set(slug, { id: `dry-run-${slug}`, type: raw.type });
+            results.push({ row: rowNum, status: "created", slug, message: null, location: { id: `dry-run-${slug}`, slug, type: raw.type, nameHi, nameEn, parentId, articleCount: 0 } });
+            created++;
+          } else {
+            try {
+              const [loc] = await db.insert(locationsTable).values({ slug, type: raw.type, nameHi, nameEn, parentId }).returning();
+              bySlug.set(slug, { id: loc.id, type: loc.type });
+              results.push({ row: rowNum, status: "created", slug, message: null, location: mapLocation2(loc, 0) });
+              created++;
+            } catch (e2) {
+              results.push({ row: rowNum, status: "failed", slug, message: String(e2?.message ?? e2), location: null });
+              failed++;
+            }
+          }
+        }
+      }
+    }
+    sendLine({ type: "progress", processed: rowNum, total: rows.length });
+  }
+  if (!dryRun) {
+    await audit2(req.user.id, "location.import", "location", null, `created=${created} skipped=${skipped} failed=${failed}`);
+  }
+  sendLine({ type: "done", dryRun, created, skipped, failed, results: ImportLocationsResponse.shape.results.parse(results) });
+  res.end();
+});
+router15.get("/admin/locations/:slug/resources", async (req, res) => {
+  const p = ListAdminLocationResourcesParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const loc = await loadLocationBySlug2(p.data.slug);
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
+  res.json(ListAdminLocationResourcesResponse.parse(rows.map(mapResource2)));
+});
+router15.post("/admin/locations/:slug/resources", requireSuperAdmin, async (req, res) => {
+  const p = CreateLocationResourceParams.safeParse(req.params);
+  const b = CreateLocationResourceBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const loc = await loadLocationBySlug2(p.data.slug);
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const [r] = await db.insert(locationResourcesTable).values({
+    locationId: loc.id,
+    category: b.data.category,
+    nameHi: b.data.nameHi,
+    nameEn: b.data.nameEn,
+    phone: b.data.phone ?? null,
+    address: b.data.address ?? null,
+    mapsQuery: b.data.mapsQuery ?? null,
+    sortOrder: b.data.sortOrder ?? 0
+  }).returning();
+  await audit2(req.user.id, "location_resource.create", "location_resource", r.id, loc.slug);
+  res.status(201).json(mapResource2(r));
+});
+router15.patch("/admin/locations/:slug/resources/:id", requireSuperAdmin, async (req, res) => {
+  const p = UpdateLocationResourceParams.safeParse(req.params);
+  const b = UpdateLocationResourceBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const loc = await loadLocationBySlug2(p.data.slug);
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const update = {};
+  if (b.data.category !== void 0) update.category = b.data.category;
+  if (b.data.nameHi !== void 0) update.nameHi = b.data.nameHi;
+  if (b.data.nameEn !== void 0) update.nameEn = b.data.nameEn;
+  if (b.data.phone !== void 0) update.phone = b.data.phone;
+  if (b.data.address !== void 0) update.address = b.data.address;
+  if (b.data.mapsQuery !== void 0) update.mapsQuery = b.data.mapsQuery;
+  if (b.data.sortOrder !== void 0) update.sortOrder = b.data.sortOrder;
+  if (Object.keys(update).length === 0) {
+    res.status(400).json({ error: { code: "EMPTY_UPDATE", message: "Provide at least one field to update" } });
+    return;
+  }
+  const [r] = await db.update(locationResourcesTable).set(update).where(and(eq(locationResourcesTable.id, p.data.id), eq(locationResourcesTable.locationId, loc.id))).returning();
+  if (!r) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Resource not found" } });
+    return;
+  }
+  await audit2(req.user.id, "location_resource.update", "location_resource", r.id, loc.slug);
+  res.json(UpdateLocationResourceResponse.parse(mapResource2(r)));
+});
+router15.post("/admin/locations/:slug/resources/reorder", requireSuperAdmin, async (req, res) => {
+  const p = ReorderLocationResourcesParams.safeParse(req.params);
+  const b = ReorderLocationResourcesBody.safeParse(req.body);
+  if (!p.success || !b.success) {
+    res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
+    return;
+  }
+  const loc = await loadLocationBySlug2(p.data.slug);
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const existing = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id));
+  const existingIds = new Set(existing.map((r) => r.id));
+  const seen = /* @__PURE__ */ new Set();
+  for (const id of b.data.ids) {
+    if (!existingIds.has(id) || seen.has(id)) {
+      res.status(400).json({ error: { code: "BAD_IDS", message: "ids must match resources for this location and be unique" } });
+      return;
+    }
+    seen.add(id);
+  }
+  if (b.data.ids.length !== existing.length) {
+    res.status(400).json({ error: { code: "INCOMPLETE", message: "ids must include every resource for this location" } });
+    return;
+  }
+  await db.transaction(async (tx) => {
+    for (let i = 0; i < b.data.ids.length; i++) {
+      await tx.update(locationResourcesTable).set({ sortOrder: i }).where(and(eq(locationResourcesTable.id, b.data.ids[i]), eq(locationResourcesTable.locationId, loc.id)));
+    }
+  });
+  await audit2(req.user.id, "location_resource.reorder", "location", loc.id, loc.slug);
+  const rows = await db.select().from(locationResourcesTable).where(eq(locationResourcesTable.locationId, loc.id)).orderBy(asc(locationResourcesTable.sortOrder), asc(locationResourcesTable.nameEn));
+  res.json(ReorderLocationResourcesResponse.parse(rows.map(mapResource2)));
+});
+router15.delete("/admin/locations/:slug/resources/:id", requireSuperAdmin, async (req, res) => {
+  const p = DeleteLocationResourceParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const loc = await loadLocationBySlug2(p.data.slug);
+  if (!loc) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Location not found" } });
+    return;
+  }
+  const [r] = await db.delete(locationResourcesTable).where(and(eq(locationResourcesTable.id, p.data.id), eq(locationResourcesTable.locationId, loc.id))).returning();
+  if (!r) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Resource not found" } });
+    return;
+  }
+  await audit2(req.user.id, "location_resource.delete", "location_resource", p.data.id, loc.slug);
+  res.json(DeleteLocationResourceResponse.parse({ deleted: true }));
+});
+var VALIDATION_REPORT_MAX_BYTES2 = 5 * 1024 * 1024;
+router15.post("/admin/locations/validation-report/share", async (req, res) => {
+  const b = CreateValidationReportShareBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  if (Buffer.byteLength(b.data.csvContent, "utf8") > VALIDATION_REPORT_MAX_BYTES2) {
+    res.status(413).json({ error: "Report CSV exceeds the 5 MB size limit." });
+    return;
+  }
+  const token = randomBytes4(32).toString("hex");
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1e3);
+  await db.insert(validationReportSharesTable).values({
+    token,
+    csvContent: b.data.csvContent,
+    rowCount: b.data.rowCount,
+    failedCount: b.data.failedCount,
+    createdByUserId: req.user.id,
+    expiresAt
+  });
+  db.delete(validationReportSharesTable).where(lt(validationReportSharesTable.expiresAt, /* @__PURE__ */ new Date())).catch((err) => {
+    logger.warn({ err }, "Failed to clean up expired validation report shares");
+  });
+  res.status(201).json({ token, expiresAt: expiresAt.toISOString() });
+});
+var locations_default = router15;
+
+// src/routes/admin/moderation.ts
+var import_express16 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+init_pg_core();
+async function loadFullComment2(id) {
+  const [r] = await db.select({ comment: commentsTable, user: usersTable, profile: userProfilesTable }).from(commentsTable).leftJoin(usersTable, eq(usersTable.id, commentsTable.userId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, commentsTable.userId)).where(eq(commentsTable.id, id));
+  if (!r) return null;
+  return {
+    id: r.comment.id,
+    body: r.comment.body,
+    createdAt: r.comment.createdAt,
+    isHidden: r.comment.isHidden,
+    articleId: r.comment.articleId,
+    parentId: r.comment.parentId,
+    author: {
+      id: r.user?.id ?? r.comment.userId ?? "",
+      displayName: r.profile?.displayName ?? r.user?.email ?? "User",
+      profileImageUrl: r.user?.profileImageUrl ?? null,
+      verified: r.profile?.isVerified ?? false
+    }
+  };
+}
+var router16 = (0, import_express16.Router)();
+router16.get("/admin/comments", async (req, res) => {
+  const q = ListAdminCommentsQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const conds = [];
+  if (q.data.status === "reported") conds.push(sql`${commentsTable.reportedCount} > 0`);
+  else if (q.data.status === "hidden") conds.push(eq(commentsTable.isHidden, true));
+  else if (q.data.status === "visible") conds.push(eq(commentsTable.isHidden, false));
+  const rows = await db.select({ comment: commentsTable, user: usersTable, profile: userProfilesTable }).from(commentsTable).leftJoin(usersTable, eq(usersTable.id, commentsTable.userId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, commentsTable.userId)).where(conds.length ? and(...conds) : void 0).orderBy(desc(commentsTable.createdAt)).limit(100);
+  res.json(
+    ListAdminCommentsResponse.parse(
+      rows.map((r) => ({
+        id: r.comment.id,
+        body: r.comment.body,
+        createdAt: r.comment.createdAt,
+        isHidden: r.comment.isHidden,
+        articleId: r.comment.articleId,
+        parentId: r.comment.parentId,
+        author: {
+          id: r.user?.id ?? r.comment.userId,
+          displayName: r.profile?.displayName ?? r.user?.email ?? "User",
+          profileImageUrl: r.user?.profileImageUrl,
+          verified: r.profile?.isVerified ?? false
+        },
+        reportedCount: r.comment.reportedCount
+      }))
+    )
+  );
+});
+router16.post("/admin/comments/:id/hide", async (req, res) => {
+  const p = HideCommentParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [c] = await db.update(commentsTable).set({ isHidden: true }).where(eq(commentsTable.id, p.data.id)).returning();
+  if (!c) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Comment not found" } });
+    return;
+  }
+  await audit2(req.user.id, "comment.hide", "comment", c.id);
+  res.json(HideCommentResponse.parse(await loadFullComment2(c.id)));
+});
+router16.get("/admin/reports", async (req, res) => {
+  const showResolved = req.query.resolved === "true";
+  const resolverUser = alias(usersTable, "resolver_user");
+  const resolverProfile = alias(userProfilesTable, "resolver_profile");
+  const rows = await db.select({ report: reportsTable, user: usersTable, profile: userProfilesTable, resolverUser, resolverProfile }).from(reportsTable).leftJoin(usersTable, eq(usersTable.id, reportsTable.reporterId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, reportsTable.reporterId)).leftJoin(resolverUser, eq(resolverUser.id, reportsTable.resolvedBy)).leftJoin(resolverProfile, eq(resolverProfile.userId, reportsTable.resolvedBy)).where(eq(reportsTable.resolved, showResolved)).orderBy(desc(reportsTable.createdAt)).limit(100);
+  res.json(
+    ListAdminReportsResponse.parse(
+      rows.map((r) => ({
+        id: r.report.id,
+        targetType: r.report.targetType,
+        targetId: r.report.targetId,
+        reason: r.report.reason,
+        resolved: r.report.resolved,
+        resolvedAt: r.report.resolvedAt ?? null,
+        resolvedByDisplayName: r.report.resolvedBy ? r.resolverProfile?.displayName ?? r.resolverUser?.email ?? null : null,
+        createdAt: r.report.createdAt,
+        reporter: {
+          id: r.user?.id ?? "",
+          displayName: r.profile?.displayName ?? r.user?.email ?? "Anonymous",
+          profileImageUrl: r.user?.profileImageUrl,
+          verified: r.profile?.isVerified ?? false
+        }
+      }))
+    )
+  );
+});
+router16.post("/admin/reports/:id/resolve", async (req, res) => {
+  const { id } = req.params;
+  const actorId = req.user.id;
+  const result = await db.update(reportsTable).set({ resolved: true, resolvedBy: actorId, resolvedAt: /* @__PURE__ */ new Date() }).where(eq(reportsTable.id, id)).returning({ id: reportsTable.id });
+  if (!result.length) {
+    res.status(404).json({ error: "Report not found" });
+    return;
+  }
+  await audit2(actorId, "report.resolve", "report", id);
+  res.status(204).send();
+});
+var moderation_default = router16;
+
+// src/routes/admin/team.ts
+var import_express17 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+var SEED_USER_IDS2 = [
+  "seed-admin",
+  "writer-rajesh",
+  "writer-anita",
+  "writer-vikram",
+  "writer-priya",
+  "writer-pending",
+  "state-admin",
+  "district-admin-bastar",
+  "moderator-1",
+  "reader-demo"
+];
+var router17 = (0, import_express17.Router)();
+router17.use(requireSuperAdmin);
+router17.get("/admin/team/invitations", async (_req, res) => {
+  const rows = await db.select().from(teamInvitationsTable).orderBy(desc(teamInvitationsTable.createdAt));
+  res.json(
+    ListTeamInvitationsResponse.parse(
+      rows.map((r) => ({
+        id: r.id,
+        email: r.email,
+        displayName: r.displayName,
+        phone: r.phone,
+        role: r.role,
+        notes: r.notes,
+        createdAt: r.createdAt
+      }))
+    )
+  );
+});
+router17.post("/admin/team/invitations", async (req, res) => {
+  const b = CreateTeamInvitationBody.safeParse(req.body);
+  if (!b.success) {
+    res.status(400).json({ error: b.error.message });
+    return;
+  }
+  const emailLower = b.data.email.toLowerCase().trim();
+  try {
+    const [inv] = await db.insert(teamInvitationsTable).values({
+      email: emailLower,
+      displayName: b.data.displayName,
+      phone: b.data.phone ?? null,
+      role: b.data.role,
+      notes: b.data.notes ?? null,
+      invitedBy: req.user.id
+    }).onConflictDoUpdate({
+      target: teamInvitationsTable.email,
+      set: {
+        displayName: b.data.displayName,
+        phone: b.data.phone ?? null,
+        role: b.data.role,
+        notes: b.data.notes ?? null,
+        invitedBy: req.user.id
+      }
+    }).returning();
+    await audit2(req.user.id, "team.invite", "team_invitation", inv.id, emailLower);
+    res.status(201).json({ id: inv.id, email: inv.email, displayName: inv.displayName, phone: inv.phone, role: inv.role, notes: inv.notes, createdAt: inv.createdAt });
+  } catch {
+    res.status(409).json({ error: { code: "CONFLICT", message: "Invitation already exists for this email" } });
+  }
+});
+router17.delete("/admin/team/invitations/:id", async (req, res) => {
+  const p = DeleteTeamInvitationParams.safeParse(req.params);
+  if (!p.success) {
+    res.status(400).json({ error: p.error.message });
+    return;
+  }
+  const [deleted] = await db.delete(teamInvitationsTable).where(eq(teamInvitationsTable.id, p.data.id)).returning();
+  if (!deleted) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Invitation not found" } });
+    return;
+  }
+  await audit2(req.user.id, "team.cancel_invite", "team_invitation", p.data.id);
+  res.status(204).send();
+});
+router17.delete("/admin/seed-data", async (req, res) => {
+  const [profile] = await db.select({ role: userProfilesTable.role }).from(userProfilesTable).where(eq(userProfilesTable.userId, req.user.id));
+  if (profile?.role !== "super_admin") {
+    res.status(403).json({ error: "Super admin only" });
+    return;
+  }
+  const deleted = await db.delete(articlesTable).where(inArray(articlesTable.writerId, SEED_USER_IDS2)).returning({ id: articlesTable.id });
+  await audit2(req.user.id, "seed.clear", "article", null, `deleted=${deleted.length}`);
+  res.json({ deleted: deleted.length });
+});
+var team_default = router17;
+
+// src/routes/admin/audit.ts
+var import_express18 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+var router18 = (0, import_express18.Router)();
+router18.use(requireSuperAdmin);
+router18.get("/admin/audit-log", async (req, res) => {
+  const q = ListAdminAuditLogQueryParams.safeParse(req.query);
+  if (!q.success) {
+    res.status(400).json({ error: q.error.message });
+    return;
+  }
+  const rows = await db.select({ log: auditLogTable, user: usersTable, profile: userProfilesTable }).from(auditLogTable).leftJoin(usersTable, eq(usersTable.id, auditLogTable.actorId)).leftJoin(userProfilesTable, eq(userProfilesTable.userId, auditLogTable.actorId)).orderBy(desc(auditLogTable.createdAt)).limit(q.data.limit);
+  res.json(
+    ListAdminAuditLogResponse.parse(
+      rows.map((r) => ({
+        id: r.log.id,
+        action: r.log.action,
+        targetType: r.log.targetType,
+        targetId: r.log.targetId,
+        note: r.log.note,
+        createdAt: r.log.createdAt,
+        actor: {
+          id: r.user?.id ?? "",
+          displayName: r.profile?.displayName ?? r.user?.email ?? "System",
+          profileImageUrl: r.user?.profileImageUrl,
+          verified: r.profile?.isVerified ?? false
+        }
+      }))
+    )
+  );
+});
+var audit_default = router18;
+
+// src/routes/admin/index.ts
+var router19 = (0, import_express19.Router)();
+router19.use(requireAdmin);
+router19.use(dashboard_default);
+router19.use(articles_default);
+router19.use(users_default);
+router19.use(categories_default);
+router19.use(locations_default);
+router19.use(moderation_default);
+router19.use(team_default);
+router19.use(audit_default);
+router19.use(donations_default);
+router19.use(site_settings_default);
+var admin_default2 = router19;
+
 // src/routes/admin-crm.ts
-var router9 = (0, import_express9.Router)();
-router9.use(requireAdmin);
+var import_express20 = __toESM(require_express2(), 1);
+init_src();
+init_drizzle_orm();
+var router20 = (0, import_express20.Router)();
+router20.use(requireAdmin);
 function userRef(user, profile) {
   if (!user) return null;
   return {
@@ -70530,7 +72236,7 @@ async function mapTask(t) {
     updatedAt: t.updatedAt.toISOString()
   };
 }
-router9.get("/admin/crm/summary", async (_req, res) => {
+router20.get("/admin/crm/summary", async (_req, res) => {
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1e3);
   const [contactsTotal] = await db.select({ v: count() }).from(crmContactsTable);
   const [orgsTotal] = await db.select({ v: count() }).from(crmOrganizationsTable);
@@ -70568,7 +72274,7 @@ router9.get("/admin/crm/summary", async (_req, res) => {
     upcomingTasks
   });
 });
-router9.get("/admin/crm/contacts", async (req, res) => {
+router20.get("/admin/crm/contacts", async (req, res) => {
   const q = req.query.q?.trim();
   const type = req.query.type;
   const assignedTo = req.query.assignedTo;
@@ -70599,7 +72305,7 @@ router9.get("/admin/crm/contacts", async (req, res) => {
   const items = await Promise.all(rows.map(mapContact));
   res.json({ items, total: Number(total ?? 0) });
 });
-router9.post("/admin/crm/contacts", async (req, res) => {
+router20.post("/admin/crm/contacts", async (req, res) => {
   const b = req.body ?? {};
   if (!b.fullName || typeof b.fullName !== "string") {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "fullName required" } });
@@ -70625,7 +72331,7 @@ router9.post("/admin/crm/contacts", async (req, res) => {
   await audit2(req.user.id, "crm.contact.create", "crm_contact", row.id, row.fullName);
   res.json(await mapContact(row));
 });
-router9.get("/admin/crm/contacts/:id", async (req, res) => {
+router20.get("/admin/crm/contacts/:id", async (req, res) => {
   const [c] = await db.select().from(crmContactsTable).where(eq(crmContactsTable.id, req.params.id));
   if (!c) {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Contact not found" } });
@@ -70639,7 +72345,7 @@ router9.get("/admin/crm/contacts/:id", async (req, res) => {
     tasks: await Promise.all(tasks.map(mapTask))
   });
 });
-router9.patch("/admin/crm/contacts/:id", async (req, res) => {
+router20.patch("/admin/crm/contacts/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of [
@@ -70668,12 +72374,12 @@ router9.patch("/admin/crm/contacts/:id", async (req, res) => {
   await audit2(req.user.id, "crm.contact.update", "crm_contact", row.id);
   res.json(await mapContact(row));
 });
-router9.delete("/admin/crm/contacts/:id", async (req, res) => {
+router20.delete("/admin/crm/contacts/:id", async (req, res) => {
   await db.delete(crmContactsTable).where(eq(crmContactsTable.id, req.params.id));
   await audit2(req.user.id, "crm.contact.delete", "crm_contact", req.params.id);
   res.json({ ok: true });
 });
-router9.get("/admin/crm/organizations", async (req, res) => {
+router20.get("/admin/crm/organizations", async (req, res) => {
   const q = req.query.q?.trim();
   const type = req.query.type;
   const limit = Math.min(Number(req.query.limit ?? 50), 200);
@@ -70687,7 +72393,7 @@ router9.get("/admin/crm/organizations", async (req, res) => {
   const items = await Promise.all(rows.map(mapOrganization));
   res.json({ items, total: Number(total ?? 0) });
 });
-router9.post("/admin/crm/organizations", async (req, res) => {
+router20.post("/admin/crm/organizations", async (req, res) => {
   const b = req.body ?? {};
   if (!b.name) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "name required" } });
@@ -70707,7 +72413,7 @@ router9.post("/admin/crm/organizations", async (req, res) => {
   await audit2(req.user.id, "crm.org.create", "crm_organization", row.id, row.name);
   res.json(await mapOrganization(row));
 });
-router9.get("/admin/crm/organizations/:id", async (req, res) => {
+router20.get("/admin/crm/organizations/:id", async (req, res) => {
   const [o] = await db.select().from(crmOrganizationsTable).where(eq(crmOrganizationsTable.id, req.params.id));
   if (!o) {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Organization not found" } });
@@ -70721,7 +72427,7 @@ router9.get("/admin/crm/organizations/:id", async (req, res) => {
     activities: await Promise.all(acts.map(mapActivity))
   });
 });
-router9.patch("/admin/crm/organizations/:id", async (req, res) => {
+router20.patch("/admin/crm/organizations/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of ["name", "type", "website", "phone", "email", "locationId", "address", "notes"]) {
@@ -70735,12 +72441,12 @@ router9.patch("/admin/crm/organizations/:id", async (req, res) => {
   await audit2(req.user.id, "crm.org.update", "crm_organization", row.id);
   res.json(await mapOrganization(row));
 });
-router9.delete("/admin/crm/organizations/:id", async (req, res) => {
+router20.delete("/admin/crm/organizations/:id", async (req, res) => {
   await db.delete(crmOrganizationsTable).where(eq(crmOrganizationsTable.id, req.params.id));
   await audit2(req.user.id, "crm.org.delete", "crm_organization", req.params.id);
   res.json({ ok: true });
 });
-router9.get("/admin/crm/activities", async (req, res) => {
+router20.get("/admin/crm/activities", async (req, res) => {
   const contactId = req.query.contactId;
   const organizationId = req.query.organizationId;
   const type = req.query.type;
@@ -70752,7 +72458,7 @@ router9.get("/admin/crm/activities", async (req, res) => {
   const rows = await db.select().from(crmActivitiesTable).where(wheres.length ? and(...wheres) : void 0).orderBy(desc(crmActivitiesTable.occurredAt)).limit(limit);
   res.json(await Promise.all(rows.map(mapActivity)));
 });
-router9.post("/admin/crm/activities", async (req, res) => {
+router20.post("/admin/crm/activities", async (req, res) => {
   const b = req.body ?? {};
   if (!b.type || !b.subject) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "type and subject required" } });
@@ -70774,12 +72480,12 @@ router9.post("/admin/crm/activities", async (req, res) => {
   await audit2(req.user.id, "crm.activity.create", "crm_activity", row.id, row.subject);
   res.json(await mapActivity(row));
 });
-router9.delete("/admin/crm/activities/:id", async (req, res) => {
+router20.delete("/admin/crm/activities/:id", async (req, res) => {
   await db.delete(crmActivitiesTable).where(eq(crmActivitiesTable.id, req.params.id));
   await audit2(req.user.id, "crm.activity.delete", "crm_activity", req.params.id);
   res.json({ ok: true });
 });
-router9.get("/admin/crm/tasks", async (req, res) => {
+router20.get("/admin/crm/tasks", async (req, res) => {
   const status = req.query.status;
   const assignedTo = req.query.assignedTo;
   const contactId = req.query.contactId;
@@ -70793,7 +72499,7 @@ router9.get("/admin/crm/tasks", async (req, res) => {
   const rows = await db.select().from(crmTasksTable).where(wheres.length ? and(...wheres) : void 0).orderBy(sql`${crmTasksTable.dueAt} ASC NULLS LAST`, desc(crmTasksTable.createdAt)).limit(limit);
   res.json(await Promise.all(rows.map(mapTask)));
 });
-router9.post("/admin/crm/tasks", async (req, res) => {
+router20.post("/admin/crm/tasks", async (req, res) => {
   const b = req.body ?? {};
   if (!b.title) {
     res.status(400).json({ error: { code: "BAD_REQUEST", message: "title required" } });
@@ -70813,7 +72519,7 @@ router9.post("/admin/crm/tasks", async (req, res) => {
   await audit2(req.user.id, "crm.task.create", "crm_task", row.id, row.title);
   res.json(await mapTask(row));
 });
-router9.patch("/admin/crm/tasks/:id", async (req, res) => {
+router20.patch("/admin/crm/tasks/:id", async (req, res) => {
   const b = req.body ?? {};
   const updates = {};
   for (const k of ["title", "description", "priority", "contactId", "organizationId", "assignedTo"]) {
@@ -70833,18 +72539,18 @@ router9.patch("/admin/crm/tasks/:id", async (req, res) => {
   await audit2(req.user.id, "crm.task.update", "crm_task", row.id);
   res.json(await mapTask(row));
 });
-router9.delete("/admin/crm/tasks/:id", async (req, res) => {
+router20.delete("/admin/crm/tasks/:id", async (req, res) => {
   await db.delete(crmTasksTable).where(eq(crmTasksTable.id, req.params.id));
   await audit2(req.user.id, "crm.task.delete", "crm_task", req.params.id);
   res.json({ ok: true });
 });
-var admin_crm_default = router9;
+var admin_crm_default = router20;
 
 // src/routes/seo.ts
-var import_express10 = __toESM(require_express2(), 1);
+var import_express21 = __toESM(require_express2(), 1);
 init_src();
 init_drizzle_orm();
-var router10 = (0, import_express10.Router)();
+var router21 = (0, import_express21.Router)();
 function escapeXml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
@@ -70852,7 +72558,7 @@ function buildArticlePath(slug, locType, locSlug) {
   const district = locType === "district" && locSlug ? locSlug : "all";
   return `/news/cg/${district}/${slug}`;
 }
-router10.get("/sitemap.xml", async (_req, res) => {
+router21.get("/sitemap.xml", async (_req, res) => {
   const rows = await db.select({
     slug: articlesTable.slug,
     updatedAt: articlesTable.updatedAt,
@@ -70873,7 +72579,7 @@ ${urls}
 `
   );
 });
-router10.get("/news-sitemap.xml", async (_req, res) => {
+router21.get("/news-sitemap.xml", async (_req, res) => {
   const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1e3);
   const rows = await db.select({
     slug: articlesTable.slug,
@@ -70949,33 +72655,33 @@ ${items}
 </rss>
 `;
 }
-router10.get("/rss", async (_req, res) => {
+router21.get("/rss", async (_req, res) => {
   res.type("application/rss+xml").send(await buildRss());
 });
-router10.get("/rss/category/:slug", async (req, res) => {
+router21.get("/rss/category/:slug", async (req, res) => {
   res.type("application/rss+xml").send(await buildRss({ categorySlug: req.params.slug }));
 });
-router10.get("/rss/district/:slug", async (req, res) => {
+router21.get("/rss/district/:slug", async (req, res) => {
   res.type("application/rss+xml").send(await buildRss({ districtSlug: req.params.slug }));
 });
-var seo_default = router10;
+var seo_default = router21;
 
 // src/routes/upload.ts
-var import_express11 = __toESM(require_express2(), 1);
-var import_multer = __toESM(require_multer(), 1);
+var import_express22 = __toESM(require_express2(), 1);
+var import_multer2 = __toESM(require_multer(), 1);
 import path2 from "path";
-import { randomBytes as randomBytes3 } from "crypto";
+import { randomBytes as randomBytes5 } from "crypto";
 import fs2 from "fs";
-var UPLOADS_DIR = path2.resolve(process.cwd(), "uploads");
-if (!fs2.existsSync(UPLOADS_DIR)) fs2.mkdirSync(UPLOADS_DIR, { recursive: true });
-var storage = import_multer.default.diskStorage({
-  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+var UPLOADS_DIR2 = path2.resolve(process.cwd(), "uploads");
+if (!fs2.existsSync(UPLOADS_DIR2)) fs2.mkdirSync(UPLOADS_DIR2, { recursive: true });
+var storage = import_multer2.default.diskStorage({
+  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR2),
   filename: (_req, file, cb) => {
     const ext = path2.extname(file.originalname).toLowerCase() || ".jpg";
-    cb(null, `${Date.now()}-${randomBytes3(8).toString("hex")}${ext}`);
+    cb(null, `${Date.now()}-${randomBytes5(8).toString("hex")}${ext}`);
   }
 });
-var upload = (0, import_multer.default)({
+var upload = (0, import_multer2.default)({
   storage,
   limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
@@ -70984,32 +72690,50 @@ var upload = (0, import_multer.default)({
     else cb(new Error("Only image and video files are allowed"));
   }
 });
-var router11 = (0, import_express11.Router)();
-router11.use(requireAdmin);
-router11.post("/admin/upload", upload.single("file"), (req, res) => {
+function buildUrl(req, filename) {
+  const base = process.env.BASE_URL?.replace(/\/$/, "") ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
+  return `${base}/uploads/${filename}`;
+}
+var router22 = (0, import_express22.Router)();
+router22.post("/admin/upload", requireAdmin, upload.single("file"), (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
     return;
   }
-  const base = process.env.BASE_URL?.replace(/\/$/, "") ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
-  res.json({ url: `${base}/uploads/${req.file.filename}` });
+  res.json({ url: buildUrl(req, req.file.filename) });
 });
-var upload_default = router11;
+var writerUpload = (0, import_multer2.default)({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  }
+});
+router22.post("/upload/writer", requireWriter, writerUpload.single("file"), (req, res) => {
+  if (!req.file) {
+    res.status(400).json({ error: "No file uploaded" });
+    return;
+  }
+  res.json({ url: buildUrl(req, req.file.filename) });
+});
+var upload_default = router22;
 
 // src/routes/index.ts
-var router12 = (0, import_express12.Router)();
-router12.use(health_default);
-router12.use(dev_auth_default);
-router12.use(auth_default);
-router12.use(public_default);
-router12.use(engagement_default);
-router12.use(me_default);
-router12.use(writer_default);
-router12.use(admin_default);
-router12.use(admin_crm_default);
-router12.use(seo_default);
-router12.use(upload_default);
-var routes_default = router12;
+var router23 = (0, import_express23.Router)();
+router23.use(health_default);
+router23.use(dev_auth_default);
+router23.use(auth_default);
+router23.use(public_default);
+router23.use(engagement_default);
+router23.use(me_default);
+router23.use(writer_default);
+router23.use(admin_default);
+router23.use(admin_default2);
+router23.use(admin_crm_default);
+router23.use(seo_default);
+router23.use(upload_default);
+var routes_default = router23;
 
 // src/app.ts
 init_logger2();
@@ -71057,7 +72781,7 @@ async function authMiddleware(req, res, next) {
 }
 
 // src/app.ts
-var app = (0, import_express13.default)();
+var app = (0, import_express24.default)();
 app.use(
   (0, import_pino_http.default)({
     logger,
@@ -71073,10 +72797,10 @@ app.use(
 );
 app.use((0, import_cors.default)({ credentials: true, origin: true }));
 app.use((0, import_cookie_parser.default)());
-app.use(import_express13.default.json({ limit: "2mb" }));
-app.use(import_express13.default.urlencoded({ extended: true }));
+app.use(import_express24.default.json({ limit: "2mb" }));
+app.use(import_express24.default.urlencoded({ extended: true }));
 app.use(authMiddleware);
-app.use("/uploads", import_express13.default.static(path3.resolve(process.cwd(), "uploads")));
+app.use("/uploads", import_express24.default.static(path3.resolve(process.cwd(), "uploads")));
 app.use("/api", routes_default);
 var app_default = app;
 

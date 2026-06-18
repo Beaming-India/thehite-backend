@@ -334,6 +334,26 @@ router.get("/me/follows", async (req, res): Promise<void> => {
   );
 });
 
+router.get("/me/writer-application", async (req, res): Promise<void> => {
+  const [app] = await db
+    .select()
+    .from(writerApplicationsTable)
+    .where(eq(writerApplicationsTable.userId, req.user!.id))
+    .orderBy(desc(writerApplicationsTable.createdAt))
+    .limit(1);
+  if (!app) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "No application found" } });
+    return;
+  }
+  res.json({
+    id: app.id,
+    fullName: app.fullName,
+    status: app.status,
+    moderationNote: app.moderationNote ?? null,
+    createdAt: app.createdAt,
+  });
+});
+
 router.post("/me/writer-application", async (req, res): Promise<void> => {
   const b = ApplyToBeWriterBody.safeParse(req.body);
   if (!b.success) {

@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import { randomBytes } from "crypto";
 import fs from "fs";
-import { requireAdmin } from "../middleware/requireRole";
+import { requireAdmin, requireWriter } from "../middleware/requireRole";
 
 const UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -26,17 +26,39 @@ const upload = multer({
   },
 });
 
-const router: IRouter = Router();
-router.use(requireAdmin);
+function buildUrl(req: import("express").Request, filename: string) {
+  const base = process.env.BASE_URL?.replace(/\/$/, "")
+    ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
+  return `${base}/uploads/${filename}`;
+}
 
-router.post("/admin/upload", upload.single("file"), (req, res): void => {
+const router: IRouter = Router();
+
+// Admin upload (images + videos, no size limit beyond multer)
+router.post("/admin/upload", requireAdmin, upload.single("file"), (req, res): void => {
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
     return;
   }
-  const base = process.env.BASE_URL?.replace(/\/$/, "")
-    ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
-  res.json({ url: `${base}/uploads/${req.file.filename}` });
+  res.json({ url: buildUrl(req, req.file.filename) });
+});
+
+// Writer upload — only images, max 10 MB
+const writerUpload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  },
+});
+
+router.post("/upload/writer", requireWriter, writerUpload.single("file"), (req, res): void => {
+  if (!req.file) {
+    res.status(400).json({ error: "No file uploaded" });
+    return;
+  }
+  res.json({ url: buildUrl(req, req.file.filename) });
 });
 
 export default router;

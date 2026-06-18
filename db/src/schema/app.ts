@@ -488,3 +488,12 @@ export type CrmContact = typeof crmContactsTable.$inferSelect;
 export type CrmOrganization = typeof crmOrganizationsTable.$inferSelect;
 export type CrmActivity = typeof crmActivitiesTable.$inferSelect;
 export type CrmTask = typeof crmTasksTable.$inferSelect;
+
+export const donationSettingsTable = pgTable("donation_settings", {
+  key: varchar("key", { length: 32 }).primaryKey(),
+  data: jsonb("data").notNull().default(sql`'{}'::jsonb`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+});

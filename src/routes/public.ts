@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
-import fs from "fs";
-import path from "path";
+import { readSiteSettings } from "./admin/site-settings";
+import { readDonationSettings } from "./admin/donations";
 import {
   db,
   articlesTable,
@@ -673,18 +673,28 @@ router.get("/locations/validation-report/:token", async (req, res): Promise<void
   res.send(share.csvContent);
 });
 
-router.get("/donation-settings", (_req, res) => {
-  const SETTINGS_FILE = path.join(process.cwd(), "donation-settings.json");
-  const DEFAULT = { upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, thankYouMessage: "", campaigns: [] };
+router.get("/donation-settings", async (_req, res): Promise<void> => {
   try {
-    if (fs.existsSync(SETTINGS_FILE)) {
-      const data = { ...DEFAULT, ...JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8")) };
-      const { donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns } = data;
-      res.json({ donationEnabled, upiId, upiName, qrCodeUrl, bankName, accountNumber, ifsc, accountName, thankYouMessage, campaigns });
-      return;
-    }
-  } catch {}
-  res.json(DEFAULT);
+    const d = await readDonationSettings();
+    // Strip razorpayKeyId from public response — keep only what the frontend needs
+    const { razorpayKeyId: _rpKey, ...pub } = d;
+    res.json(pub);
+  } catch (err) {
+    console.error("public donation-settings error:", err);
+    res.json({ upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, subtitle: "", contactEmail: "", thankYouMessage: "", campaigns: [] });
+  }
+});
+
+// Public site-settings – strips sensitive/admin-only fields
+router.get("/site-settings", async (_req, res): Promise<void> => {
+  try {
+    const s = await readSiteSettings();
+    const { googleAnalyticsId: _ga, requireEmailVerification: _rev, ...pub } = s;
+    res.json(pub);
+  } catch (err) {
+    console.error("public site-settings error:", err);
+    res.status(500).json({ error: { code: "READ_FAILED", message: "Failed to read site settings" } });
+  }
 });
 
 export default router;
