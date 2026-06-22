@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-db/node_modules/
+.pnpm-store/
 
 # Build output
 dist/
@@ -10,21 +10,39 @@ build/
 .env
 .env.local
 .env.*.local
+.env.development
+.env.production
+.env.test
 
 # Logs
 logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # IDE
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 
-# pnpm
-.pnpm-store/
+# TypeScript
+*.tsbuildinfo
 
+# Uploads / media
+uploads/
+
+# Misc
+*.pem
+.cache/
+tmp/
+temp/
