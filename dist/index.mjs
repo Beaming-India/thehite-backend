@@ -72856,11 +72856,20 @@ var app_default = app;
 
 // src/index.ts
 init_logger2();
+init_src();
 var rawPort = process.env["PORT"] || "5000";
 var port = Number(rawPort);
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
+pool.connect((err, client, release) => {
+  if (err) {
+    logger.error({ err }, "Database connection failed");
+  } else {
+    logger.info("Database connected successfully");
+    release();
+  }
+});
 app_default.listen(port, (err) => {
   if (err) {
     logger.error({ err }, "Error listening on port");
