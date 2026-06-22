@@ -113,6 +113,7 @@ router.patch("/admin/articles/:id", async (req, res): Promise<void> => {
   }
   if (b.data.lang !== undefined) update.lang = b.data.lang;
   if ("coverImageUrl" in b.data) update.coverImageUrl = b.data.coverImageUrl;
+  if ("youtubeUrl" in b.data) update.youtubeUrl = b.data.youtubeUrl;
   if ("categoryId" in b.data) update.categoryId = b.data.categoryId;
   if ("locationId" in b.data) update.locationId = b.data.locationId;
   if (b.data.tags !== undefined) update.tags = b.data.tags;

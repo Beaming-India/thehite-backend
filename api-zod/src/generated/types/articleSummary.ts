@@ -17,6 +17,8 @@ export interface ArticleSummary {
   summary: string;
   /** @nullable */
   coverImageUrl: string | null;
+  /** @nullable */
+  youtubeUrl?: string | null;
   lang: ArticleSummaryLang;
   /** @nullable */
   publishedAt: Date | null;

@@ -85,6 +85,7 @@ export const articlesTable = pgTable(
     summary: text("summary").notNull(),
     body: text("body").notNull(),
     coverImageUrl: text("cover_image_url"),
+    youtubeUrl: text("youtube_url"),
     lang: varchar("lang", { length: 4 }).notNull().default("hi"),
     status: varchar("status", { length: 32 }).notNull().default("draft"),
     writerId: varchar("writer_id")

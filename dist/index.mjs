@@ -41845,6 +41845,7 @@ var init_app = __esm({
         summary: text("summary").notNull(),
         body: text("body").notNull(),
         coverImageUrl: text("cover_image_url"),
+        youtubeUrl: text("youtube_url"),
         lang: varchar("lang", { length: 4 }).notNull().default("hi"),
         status: varchar("status", { length: 32 }).notNull().default("draft"),
         writerId: varchar("writer_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
@@ -63063,6 +63064,7 @@ var ListMyBookmarksResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63200,6 +63202,7 @@ var ListArticlesResponse = objectType({
     "title": stringType(),
     "summary": stringType(),
     "coverImageUrl": stringType().nullable(),
+    "youtubeUrl": stringType().nullish(),
     "lang": enumType(["hi", "en"]),
     "publishedAt": coerce.date().nullable(),
     "viewCount": numberType(),
@@ -63239,6 +63242,7 @@ var ListFeaturedArticlesResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63275,6 +63279,7 @@ var ListBreakingArticlesResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63311,6 +63316,7 @@ var ListTrendingArticlesResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63350,6 +63356,7 @@ var GetArticleBySlugResponse = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63394,6 +63401,7 @@ var ListRelatedArticlesResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63577,6 +63585,7 @@ var ListWriterArticlesResponseItem = objectType({
   "title": stringType(),
   "summary": stringType(),
   "coverImageUrl": stringType().nullable(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "publishedAt": coerce.date().nullable(),
   "viewCount": numberType(),
@@ -63685,6 +63694,7 @@ var SearchEverythingResponse = objectType({
     "title": stringType(),
     "summary": stringType(),
     "coverImageUrl": stringType().nullable(),
+    "youtubeUrl": stringType().nullish(),
     "lang": enumType(["hi", "en"]),
     "publishedAt": coerce.date().nullable(),
     "viewCount": numberType(),
@@ -63742,6 +63752,7 @@ var GetWriterDashboardResponse = objectType({
     "summary": stringType(),
     "body": stringType(),
     "coverImageUrl": stringType().nullish(),
+    "youtubeUrl": stringType().nullish(),
     "lang": enumType(["hi", "en"]),
     "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
     "categoryId": stringType().nullish(),
@@ -63793,6 +63804,7 @@ var ListMyAuthoredArticlesResponseItem = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -63837,6 +63849,7 @@ var CreateMyArticleBody = objectType({
   "summary": stringType().min(createMyArticleBodySummaryMin),
   "body": stringType().min(createMyArticleBodyBodyMin),
   "coverImageUrl": stringType().optional(),
+  "youtubeUrl": stringType().optional(),
   "lang": enumType(["hi", "en"]),
   "categoryId": stringType().optional(),
   "locationId": stringType().optional(),
@@ -63852,6 +63865,7 @@ var GetMyAuthoredArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -63895,6 +63909,7 @@ var UpdateMyAuthoredArticleBody = objectType({
   "summary": stringType().optional(),
   "body": stringType().optional(),
   "coverImageUrl": stringType().optional(),
+  "youtubeUrl": stringType().optional(),
   "lang": enumType(["hi", "en"]).optional(),
   "categoryId": stringType().optional(),
   "locationId": stringType().optional(),
@@ -63907,6 +63922,7 @@ var UpdateMyAuthoredArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -63958,6 +63974,7 @@ var SubmitMyAuthoredArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64010,6 +64027,7 @@ var GetAdminDashboardStatsResponse = objectType({
     "title": stringType(),
     "summary": stringType(),
     "coverImageUrl": stringType().nullable(),
+    "youtubeUrl": stringType().nullish(),
     "lang": enumType(["hi", "en"]),
     "publishedAt": coerce.date().nullable(),
     "viewCount": numberType(),
@@ -64095,6 +64113,7 @@ var ListAdminArticlesResponseItem = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64141,6 +64160,7 @@ var GetAdminArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64184,6 +64204,7 @@ var AdminUpdateArticleBody = objectType({
   "summary": stringType().optional(),
   "body": stringType().optional(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]).optional(),
   "categoryId": stringType().nullish(),
   "locationId": stringType().nullish(),
@@ -64200,6 +64221,7 @@ var AdminUpdateArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64251,6 +64273,7 @@ var ApproveArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64300,6 +64323,7 @@ var RejectArticleResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64349,6 +64373,7 @@ var RequestArticleChangesResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -64399,6 +64424,7 @@ var UpdateArticleFlagsResponse = objectType({
   "summary": stringType(),
   "body": stringType(),
   "coverImageUrl": stringType().nullish(),
+  "youtubeUrl": stringType().nullish(),
   "lang": enumType(["hi", "en"]),
   "status": enumType(["draft", "pending", "published", "rejected", "changes_requested"]),
   "categoryId": stringType().nullish(),
@@ -67630,6 +67656,10 @@ function readingTimeMin(body) {
 }
 
 // src/utils/mappers.ts
+function youtubeUrlFromBody(body) {
+  const match = body.match(/https:\/\/(?:www\.)?youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})(?:[^\"'\s<]*)?/i);
+  return match ? `https://www.youtube.com/watch?v=${match[1]}` : null;
+}
 function mapArticleCard(row) {
   const a = row.article;
   return {
@@ -67638,6 +67668,8 @@ function mapArticleCard(row) {
     title: a.title,
     summary: a.summary,
     coverImageUrl: a.coverImageUrl,
+    // Older/admin-editor articles stored the embed in body HTML only.
+    youtubeUrl: a.youtubeUrl ?? youtubeUrlFromBody(a.body),
     lang: a.lang,
     publishedAt: a.publishedAt,
     viewCount: a.viewCount,
@@ -67677,6 +67709,7 @@ function mapMyArticle(row) {
     summary: a.summary,
     body: a.body,
     coverImageUrl: a.coverImageUrl,
+    youtubeUrl: a.youtubeUrl,
     lang: a.lang,
     status: a.status,
     categoryId: a.categoryId,
@@ -67750,7 +67783,19 @@ router6.get("/articles", async (req, res) => {
         res.json(ListArticlesResponse.parse({ items: [], total: 0, limit, offset }));
         return;
       }
-      conds.push(eq(articlesTable.locationId, loc.id));
+      const allLocs = await db.select({ id: locationsTable.id, parentId: locationsTable.parentId }).from(locationsTable);
+      const descIds = /* @__PURE__ */ new Set([loc.id]);
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const l of allLocs) {
+          if (l.parentId && descIds.has(l.parentId) && !descIds.has(l.id)) {
+            descIds.add(l.id);
+            changed = true;
+          }
+        }
+      }
+      conds.push(inArray(articlesTable.locationId, [...descIds]));
     } else {
       res.json(ListArticlesResponse.parse({ items: [], total: 0, limit, offset }));
       return;
@@ -68878,6 +68923,7 @@ router9.post("/writer/articles", async (req, res) => {
     summary: b.data.summary,
     body: b.data.body,
     coverImageUrl: b.data.coverImageUrl ?? null,
+    youtubeUrl: b.data.youtubeUrl ?? null,
     lang: b.data.lang,
     categoryId: b.data.categoryId ?? null,
     locationId: b.data.locationId ?? null,
@@ -68915,6 +68961,7 @@ router9.patch("/writer/articles/:id", async (req, res) => {
     "summary",
     "body",
     "coverImageUrl",
+    "youtubeUrl",
     "lang",
     "categoryId",
     "locationId",
@@ -70846,6 +70893,7 @@ router12.patch("/admin/articles/:id", async (req, res) => {
   }
   if (b.data.lang !== void 0) update.lang = b.data.lang;
   if ("coverImageUrl" in b.data) update.coverImageUrl = b.data.coverImageUrl;
+  if ("youtubeUrl" in b.data) update.youtubeUrl = b.data.youtubeUrl;
   if ("categoryId" in b.data) update.categoryId = b.data.categoryId;
   if ("locationId" in b.data) update.locationId = b.data.locationId;
   if (b.data.tags !== void 0) update.tags = b.data.tags;
@@ -72690,9 +72738,11 @@ var upload = (0, import_multer2.default)({
     else cb(new Error("Only image and video files are allowed"));
   }
 });
-function buildUrl(req, filename) {
-  const base = process.env.BASE_URL?.replace(/\/$/, "") ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
-  return `${base}/uploads/${filename}`;
+function buildUrl(_req, filename) {
+  if (process.env.BASE_URL) {
+    return `${process.env.BASE_URL.replace(/\/$/, "")}/uploads/${filename}`;
+  }
+  return `/uploads/${filename}`;
 }
 var router22 = (0, import_express22.Router)();
 router22.post("/admin/upload", requireAdmin, upload.single("file"), (req, res) => {

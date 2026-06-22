@@ -115,7 +115,20 @@ router.get("/articles", async (req, res): Promise<void> => {
         res.json(ListArticlesResponse.parse({ items: [], total: 0, limit, offset }));
         return;
       }
-      conds.push(eq(articlesTable.locationId, loc.id));
+      // Include articles from the location itself AND all descendant locations
+      const allLocs = await db.select({ id: locationsTable.id, parentId: locationsTable.parentId }).from(locationsTable);
+      const descIds = new Set<string>([loc.id]);
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const l of allLocs) {
+          if (l.parentId && descIds.has(l.parentId) && !descIds.has(l.id)) {
+            descIds.add(l.id);
+            changed = true;
+          }
+        }
+      }
+      conds.push(inArray(articlesTable.locationId, [...descIds]));
     } else {
       res.json(ListArticlesResponse.parse({ items: [], total: 0, limit, offset }));
       return;

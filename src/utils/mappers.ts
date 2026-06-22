@@ -1,5 +1,10 @@
 import { readingTimeMin } from "./readingTime";
 
+function youtubeUrlFromBody(body: string): string | null {
+  const match = body.match(/https:\/\/(?:www\.)?youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})(?:[^\"'\s<]*)?/i);
+  return match ? `https://www.youtube.com/watch?v=${match[1]}` : null;
+}
+
 export interface ArticleRow {
   id: string;
   slug: string;
@@ -7,6 +12,7 @@ export interface ArticleRow {
   summary: string;
   body: string;
   coverImageUrl: string | null;
+  youtubeUrl: string | null;
   lang: string;
   status: string;
   writerId: string;
@@ -42,6 +48,8 @@ export function mapArticleCard(row: JoinedArticle) {
     title: a.title,
     summary: a.summary,
     coverImageUrl: a.coverImageUrl,
+    // Older/admin-editor articles stored the embed in body HTML only.
+    youtubeUrl: a.youtubeUrl ?? youtubeUrlFromBody(a.body),
     lang: a.lang as "hi" | "en",
     publishedAt: a.publishedAt,
     viewCount: a.viewCount,
@@ -85,6 +93,7 @@ export function mapMyArticle(row: JoinedArticle) {
     summary: a.summary,
     body: a.body,
     coverImageUrl: a.coverImageUrl,
+    youtubeUrl: a.youtubeUrl,
     lang: a.lang as "hi" | "en",
     status: a.status as "draft" | "pending" | "published" | "rejected" | "changes_requested",
     categoryId: a.categoryId,

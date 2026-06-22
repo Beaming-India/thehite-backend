@@ -26,10 +26,11 @@ const upload = multer({
   },
 });
 
-function buildUrl(req: import("express").Request, filename: string) {
-  const base = process.env.BASE_URL?.replace(/\/$/, "")
-    ?? `${req.headers["x-forwarded-proto"] ?? req.protocol}://${req.headers["x-forwarded-host"] ?? req.get("host")}`;
-  return `${base}/uploads/${filename}`;
+function buildUrl(_req: import("express").Request, filename: string) {
+  if (process.env.BASE_URL) {
+    return `${process.env.BASE_URL.replace(/\/$/, "")}/uploads/${filename}`;
+  }
+  return `/uploads/${filename}`;
 }
 
 const router: IRouter = Router();
