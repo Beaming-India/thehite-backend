@@ -72864,9 +72864,9 @@ if (Number.isNaN(port) || port <= 0) {
 }
 pool.connect((err, client, release) => {
   if (err) {
-    logger.error({ err }, "Database connection failed");
+    console.error("\u274C Database connection FAILED:", err.message);
   } else {
-    logger.info("Database connected successfully");
+    console.log("\u2705 Database connected successfully!");
     release();
   }
 });
