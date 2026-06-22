@@ -28,5 +28,3 @@ Thumbs.db
 # pnpm
 .pnpm-store/
 
-#.env
-.env
