@@ -11,7 +11,7 @@ import {
 import { eq, sql } from "drizzle-orm";
 import { logger } from "./lib/logger";
 
-const ADMIN_ID = process.env.SEED_ADMIN_ID || process.env.REPL_OWNER_ID || "seed-admin";
+const ADMIN_ID = process.env.SEED_ADMIN_ID || "seed-admin";
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || "admin@cgavp.local";
 
 const COVERS = [

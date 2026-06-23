@@ -47,11 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(authMiddleware);
 
 
-app.get("/health", (_req, res) => {
-  res.json({ message: "ok" });
-});
-
-
 app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 app.use("/api", router);
 
