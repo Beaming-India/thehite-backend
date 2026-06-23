@@ -6,7 +6,6 @@ import fs from "fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load parent .env manually
 try {
   const envPath = path.resolve(__dirname, "../.env");
   if (fs.existsSync(envPath)) {
@@ -26,20 +25,20 @@ try {
   // ignore
 }
 
-// Build DATABASE_URL from individual vars if not set
-if (!process.env.DATABASE_URL) {
-  const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
-  if (DB_USER && DB_PASSWORD && DB_HOST && DB_PORT && DB_NAME) {
-    process.env.DATABASE_URL = `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
-  } else {
-    throw new Error("Set DATABASE_URL or DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD in .env");
-  }
+const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } = process.env;
+if (!DB_HOST || !DB_PORT || !DB_NAME || !DB_USER || !DB_PASSWORD) {
+  throw new Error("DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD must be set in .env");
 }
 
 export default defineConfig({
   schema: "./src/schema/index.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    host: process.env.DB_HOST!,
+    port: Number(process.env.DB_PORT!),
+    database: process.env.DB_NAME!,
+    user: process.env.DB_USER!,
+    password: process.env.DB_PASSWORD!,
+    ssl: false,
   },
 });
