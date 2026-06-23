@@ -37,7 +37,7 @@ app.use(authMiddleware);
 
 
 app.get("/health", (_req, res) => {
-  res.json({message: "ok"});
+  res.json({ message: "ok" });
 });
 
 
@@ -45,7 +45,7 @@ app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 app.use("/api", router);
 
 app.get("/", (_req, res) => {
-  res.json({ name: "TheHit API", status: "ok", version: "1.0.0" });
+  res.json({ message: "Welcome to the TheHit API" });
 });
 
 
