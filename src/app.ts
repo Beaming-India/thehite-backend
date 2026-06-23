@@ -22,7 +22,14 @@ app.use(
     },
   }),
 );
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({
+  credentials: true,
+  origin: [
+    "https://demo.thehit.in",
+    "http://localhost:5173",
+    "http://localhost:5174",
+  ],
+}));
 app.use(cookieParser());
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -30,5 +37,9 @@ app.use(authMiddleware);
 
 app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 app.use("/api", router);
+
+app.get("/", (_req, res) => {
+  res.json({ name: "TheHit API", status: "ok", version: "1.0.0" });
+});
 
 export default app;
