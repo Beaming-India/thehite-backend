@@ -10,7 +10,10 @@
     "start": "node --env-file=.env --enable-source-maps ./dist/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clear-seed": "tsx --env-file=.env src/clear-seed.ts",
-    "seed": "tsx --env-file=.env src/seed.ts"
+    "seed": "tsx --env-file=.env src/seed.ts",
+    "db:push": "cd db && pnpm run push",
+    "db:push-force": "cd db && pnpm run push-force",
+    "db:studio": "cd db && drizzle-kit studio --config ./drizzle.config.ts"
   },
   "dependencies": {
     "@workspace/api-zod": "workspace:*",
