@@ -24,6 +24,7 @@ app.use(
 );
 const ALLOWED_ORIGINS = [
   "https://demo.thehit.in",
+  "https://admin.thehit.in",
   "https://www.thehit.in",
   "https://thehit.in",
   "http://localhost:3004",
