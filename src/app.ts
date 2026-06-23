@@ -28,6 +28,7 @@ const ALLOWED_ORIGINS = [
   "https://www.thehit.in",
   "https://thehit.in",
   "http://localhost:3004",
+  "http://localhost:3005",
   "http://localhost:3006",
   "http://localhost:5173",
   "http://localhost:5174",
