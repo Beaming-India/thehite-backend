@@ -22,13 +22,24 @@ app.use(
     },
   }),
 );
+const ALLOWED_ORIGINS = [
+  "https://demo.thehit.in",
+  "https://www.thehit.in",
+  "https://thehit.in",
+  "http://localhost:3004",
+  "http://localhost:5173",
+  "http://localhost:5174",
+];
+
 app.use(cors({
   credentials: true,
-  origin: [
-    "https://demo.thehit.in",
-    "http://localhost:5173",
-    "http://localhost:5174",
-  ],
+  origin: (origin, callback) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    }
+  },
 }));
 app.use(cookieParser());
 app.use(express.json({ limit: "2mb" }));
