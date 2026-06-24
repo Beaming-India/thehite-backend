@@ -188,11 +188,11 @@ router.get("/articles", async (req, res): Promise<void> => {
     }),
   );
 
-  res.json(ListArticlesResponse.parse({ items, total: count, limit, offset }));
+  res.json(ListArticlesResponse.parse({ items, total: count, limit, offset, hasMore: offset + items.length < count }));
 });
 
 router.get("/articles/featured", async (_req, res): Promise<void> => {
-  const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isFeatured, true)), 8);
+  const items = await selectArticleCards(and(PUBLISHED, eq(articlesTable.isFeatured, true)), 15);
   res.json(ListFeaturedArticlesResponse.parse(items));
 });
 

@@ -255,7 +255,7 @@ export const ApplyToBeWriterBody = zod.object({
 
 export const listArticlesQuerySortDefault = `latest`;
 export const listArticlesQueryLangDefault = `all`;
-export const listArticlesQueryLimitDefault = 20;
+export const listArticlesQueryLimitDefault = 15;
 export const listArticlesQueryLimitMax = 100;
 
 export const listArticlesQueryOffsetDefault = 0;
@@ -311,7 +311,8 @@ export const ListArticlesResponse = zod.object({
 })),
   "total": zod.number(),
   "limit": zod.number().optional(),
-  "offset": zod.number().optional()
+  "offset": zod.number().optional(),
+  "hasMore": zod.boolean().optional()
 })
 
 

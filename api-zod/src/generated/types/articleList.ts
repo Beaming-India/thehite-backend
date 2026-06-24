@@ -12,4 +12,5 @@ export interface ArticleList {
   total: number;
   limit?: number;
   offset?: number;
+  hasMore?: boolean;
 }
