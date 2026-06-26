@@ -90,11 +90,19 @@ router.get("/articles", async (req, res): Promise<void> => {
     res.status(400).json({ error: q.error.message });
     return;
   }
-  const { category, locationType, locationSlug, writerId, sort, lang, limit, offset, q: search } = q.data;
+  const { category, locationType, locationSlug, writerId, sort, lang, limit, offset, q: search, hasVideo } = q.data;
 
   const conds = [PUBLISHED, isNotNull(articlesTable.publishedAt)];
   if (lang && lang !== "all") conds.push(eq(articlesTable.lang, lang));
   if (writerId) conds.push(eq(articlesTable.writerId, writerId));
+  if (hasVideo) conds.push(
+    or(
+      isNotNull(articlesTable.youtubeUrl),
+      sql`${articlesTable.coverImageUrl} ILIKE '%.mp4'`,
+      sql`${articlesTable.body} ILIKE '%youtube.com/embed/%'`,
+      sql`${articlesTable.body} ILIKE '%<video%'`
+    )!
+  );
   if (search) {
     conds.push(or(ilike(articlesTable.title, `%${search}%`), ilike(articlesTable.summary, `%${search}%`))!);
   }

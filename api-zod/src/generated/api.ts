@@ -269,7 +269,8 @@ export const ListArticlesQueryParams = zod.object({
   "lang": zod.enum(['hi', 'en', 'all']).default(listArticlesQueryLangDefault),
   "limit": zod.coerce.number().max(listArticlesQueryLimitMax).default(listArticlesQueryLimitDefault),
   "offset": zod.coerce.number().default(listArticlesQueryOffsetDefault),
-  "q": zod.coerce.string().optional()
+  "q": zod.coerce.string().optional(),
+  "hasVideo": zod.coerce.boolean().optional()
 })
 
 export const ListArticlesResponse = zod.object({

@@ -5,6 +5,7 @@ function youtubeUrlFromBody(body: string): string | null {
   return match ? `https://www.youtube.com/watch?v=${match[1]}` : null;
 }
 
+
 export interface ArticleRow {
   id: string;
   slug: string;
