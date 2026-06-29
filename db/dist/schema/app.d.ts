@@ -1482,7 +1482,7 @@ export declare const commentsTable: import("drizzle-orm/pg-core").PgTableWithCol
             columnType: "PgVarchar";
             data: string;
             driverParam: string;
-            notNull: true;
+            notNull: false;
             hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
@@ -1493,6 +1493,25 @@ export declare const commentsTable: import("drizzle-orm/pg-core").PgTableWithCol
             generated: undefined;
         }, {}, {
             length: number | undefined;
+        }>;
+        guestName: import("drizzle-orm/pg-core").PgColumn<{
+            name: "guest_name";
+            tableName: "comments";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {
+            length: 80;
         }>;
         parentId: import("drizzle-orm/pg-core").PgColumn<{
             name: "parent_id";

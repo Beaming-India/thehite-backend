@@ -177,8 +177,8 @@ export const commentsTable = pgTable(
       .notNull()
       .references(() => articlesTable.id, { onDelete: "cascade" }),
     userId: varchar("user_id")
-      .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade" }),
+      .references(() => usersTable.id, { onDelete: "set null" }),
+    guestName: varchar("guest_name", { length: 80 }),
     parentId: varchar("parent_id"),
     body: text("body").notNull(),
     isHidden: boolean("is_hidden").notNull().default(false),

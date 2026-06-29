@@ -2630,12 +2630,15 @@ export declare const createArticleCommentBodyBodyMax = 2000;
 export declare const CreateArticleCommentBody: zod.ZodObject<{
     body: zod.ZodString;
     parentId: zod.ZodOptional<zod.ZodString>;
+    guestName: zod.ZodOptional<zod.ZodString>;
 }, "strip", zod.ZodTypeAny, {
     body: string;
     parentId?: string | undefined;
+    guestName?: string | undefined;
 }, {
     body: string;
     parentId?: string | undefined;
+    guestName?: string | undefined;
 }>;
 export declare const ReportCommentParams: zod.ZodObject<{
     id: zod.ZodString;

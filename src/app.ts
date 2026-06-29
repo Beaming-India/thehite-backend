@@ -6,6 +6,7 @@ import path from "path";
 import router from "./routes";
 import { logger } from "./lib/logger";
 import { authMiddleware } from "./middleware/auth";
+import { ogBotMiddleware } from "./middleware/og-bot";
 
 const app: Express = express();
 
@@ -51,6 +52,10 @@ app.use(authMiddleware);
 
 
 app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
+
+// Social media bots: return OG-tagged HTML for /article/:slug
+app.use(ogBotMiddleware);
+
 app.use("/api", router);
 
 app.get("/", (_req, res) => {

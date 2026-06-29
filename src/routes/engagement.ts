@@ -218,18 +218,26 @@ router.get("/articles/:id/comments", async (req, res): Promise<void> => {
   res.json(ListArticleCommentsResponse.parse(roots.map(toItem)));
 });
 
-router.post("/articles/:id/comments", requireAuth, async (req, res): Promise<void> => {
+router.post("/articles/:id/comments", async (req, res): Promise<void> => {
   const p = CreateArticleCommentParams.safeParse(req.params);
   const b = CreateArticleCommentBody.safeParse(req.body);
   if (!p.success || !b.success) {
     res.status(400).json({ error: p.success ? b.error?.message : p.error.message });
     return;
   }
+
+  // Require either logged-in user OR guestName
+  if (!req.user && !b.data.guestName?.trim()) {
+    res.status(400).json({ error: { code: "GUEST_NAME_REQUIRED", message: "Please provide your name to comment" } });
+    return;
+  }
+
   const [c] = await db
     .insert(commentsTable)
     .values({
       articleId: p.data.id,
-      userId: req.user!.id,
+      userId: req.user?.id ?? null,
+      guestName: req.user ? null : (b.data.guestName?.trim() ?? null),
       parentId: b.data.parentId ?? null,
       body: b.data.body,
     })
@@ -239,11 +247,17 @@ router.post("/articles/:id/comments", requireAuth, async (req, res): Promise<voi
     .set({ commentCount: sql`${articlesTable.commentCount} + 1` })
     .where(eq(articlesTable.id, p.data.id));
 
-  const [profile] = await db
-    .select()
-    .from(userProfilesTable)
-    .where(eq(userProfilesTable.userId, req.user!.id));
-  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.user!.id));
+  let displayName = b.data.guestName?.trim() ?? "Reader";
+  let profileImageUrl: string | null = null;
+  let verified = false;
+
+  if (req.user) {
+    const [profile] = await db.select().from(userProfilesTable).where(eq(userProfilesTable.userId, req.user.id));
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.user.id));
+    displayName = profile?.displayName ?? "User";
+    profileImageUrl = user?.profileImageUrl ?? null;
+    verified = profile?.isVerified ?? false;
+  }
 
   res.status(201).json({
     id: c.id,
@@ -253,10 +267,10 @@ router.post("/articles/:id/comments", requireAuth, async (req, res): Promise<voi
     articleId: c.articleId,
     parentId: c.parentId,
     author: {
-      id: req.user!.id,
-      displayName: profile?.displayName ?? "User",
-      profileImageUrl: user?.profileImageUrl ?? null,
-      verified: profile?.isVerified ?? false,
+      id: req.user?.id ?? null,
+      displayName,
+      profileImageUrl,
+      verified,
     },
     replies: [],
   });
