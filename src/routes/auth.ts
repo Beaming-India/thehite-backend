@@ -152,8 +152,8 @@ router.get("/auth/mobile-handoff", (req: Request, res: Response) => {
     return;
   }
 
-  if (!/^cgavp:\/\//i.test(redirect)) {
-    res.status(400).send("Invalid redirect: only the cgavp:// scheme is permitted");
+  if (!/^thehit:\/\//i.test(redirect)) {
+    res.status(400).send("Invalid redirect: only the thehit:// scheme is permitted");
     return;
   }
 

@@ -73,7 +73,8 @@ router.get("/news-sitemap.xml", async (_req, res): Promise<void> => {
     <loc>${escapeXml(loc)}</loc>
     <news:news>
       <news:publication>
-        <news:name>CGAVP News</news:name>
+
+      <news:name>TheHit.in</news:name>
         <news:language>${r.lang || "hi"}</news:language>
       </news:publication>
       <news:publication_date>${pubDate}</news:publication_date>
@@ -135,9 +136,9 @@ async function buildRss(filter?: { categorySlug?: string; districtSlug?: string 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>CGAVP News</title>
+    <title>TheHit.in</title>
     <link>${escapeXml(base || "/")}</link>
-    <description>Chhattisgarh Adivasi Vikas Parishad News</description>
+    <description>TheHit.in - Chhattisgarh Ki Awaaz</description>
 ${items}
   </channel>
 </rss>

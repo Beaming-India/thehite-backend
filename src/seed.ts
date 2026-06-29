@@ -12,7 +12,7 @@ import { eq, sql } from "drizzle-orm";
 import { logger } from "./lib/logger";
 
 const ADMIN_ID = process.env.SEED_ADMIN_ID || "seed-admin";
-const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || "admin@cgavp.local";
+const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || "admin@thehit.in";
 
 const COVERS = [
   "/seed/panchayat.png",
@@ -185,7 +185,7 @@ function slugify(text: string): string {
 }
 
 async function main() {
-  logger.info("Seeding CGAVP database...");
+  logger.info("Seeding TheHit database...");
 
   // Admin user + writer
   const adminEmail = ADMIN_EMAIL;
@@ -194,20 +194,20 @@ async function main() {
     .values({
       id: ADMIN_ID,
       email: adminEmail,
-      firstName: "CGAVP",
+      firstName: "TheHit",
       lastName: "Admin",
     })
     .onConflictDoUpdate({
       target: usersTable.id,
-      set: { email: adminEmail, firstName: "CGAVP", lastName: "Admin", updatedAt: new Date() },
+      set: { email: adminEmail, firstName: "TheHit", lastName: "Admin", updatedAt: new Date() },
     })
     .returning();
   await db
     .insert(userProfilesTable)
     .values({
       userId: admin.id,
-      displayName: "CGAVP संपादकीय",
-      bio: "CGAVP समाचार की संपादकीय टीम। ज़मीनी पत्रकारिता, समुदाय की आवाज़।",
+      displayName: "TheHit संपादकीय",
+      bio: "TheHit.in की संपादकीय टीम। ज़मीनी पत्रकारिता, समुदाय की आवाज़।",
       role: "super_admin",
       isWriterApproved: true,
       isVerified: true,
@@ -220,7 +220,7 @@ async function main() {
         role: "super_admin",
         isWriterApproved: true,
         isVerified: true,
-        displayName: "CGAVP संपादकीय",
+        displayName: "TheHit संपादकीय",
       },
     });
 
@@ -251,7 +251,7 @@ async function main() {
   for (const w of seedUsers) {
     const [u] = await db
       .insert(usersTable)
-      .values({ id: w.id, email: `${w.id}@cgavp.local`, firstName: w.first, lastName: w.last })
+      .values({ id: w.id, email: `${w.id}@thehit.in`, firstName: w.first, lastName: w.last })
       .onConflictDoUpdate({
         target: usersTable.id,
         set: { firstName: w.first, lastName: w.last, updatedAt: new Date() },
@@ -442,7 +442,7 @@ async function main() {
     body: "रिपोर्ट में किए गए कई दावे स्रोतों से समर्थित नहीं हैं। लेखक से अनुरोध है कि बेहतर शोध के साथ नई रिपोर्ट प्रस्तुत करें।",
     lang: "hi",
     status: "rejected",
-    moderationNote: "स्रोत और तथ्यात्मक पुष्टि की कमी; CGAVP संपादकीय दिशानिर्देशों के अनुरूप नहीं।",
+    moderationNote: "स्रोत और तथ्यात्मक पुष्टि की कमी; TheHit संपादकीय दिशानिर्देशों के अनुरूप नहीं।",
     writerId: "writer-priya",
     tags: [],
     isBreaking: false,
