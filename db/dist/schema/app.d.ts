@@ -790,6 +790,23 @@ export declare const articlesTable: import("drizzle-orm/pg-core").PgTableWithCol
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        youtubeUrl: import("drizzle-orm/pg-core").PgColumn<{
+            name: "youtube_url";
+            tableName: "articles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         lang: import("drizzle-orm/pg-core").PgColumn<{
             name: "lang";
             tableName: "articles";
@@ -4027,4 +4044,64 @@ export type CrmContact = typeof crmContactsTable.$inferSelect;
 export type CrmOrganization = typeof crmOrganizationsTable.$inferSelect;
 export type CrmActivity = typeof crmActivitiesTable.$inferSelect;
 export type CrmTask = typeof crmTasksTable.$inferSelect;
+export declare const donationSettingsTable: import("drizzle-orm/pg-core").PgTableWithColumns<{
+    name: "donation_settings";
+    schema: undefined;
+    columns: {
+        key: import("drizzle-orm/pg-core").PgColumn<{
+            name: "key";
+            tableName: "donation_settings";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            isPrimaryKey: true;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {
+            length: 32;
+        }>;
+        data: import("drizzle-orm/pg-core").PgColumn<{
+            name: "data";
+            tableName: "donation_settings";
+            dataType: "json";
+            columnType: "PgJsonb";
+            data: unknown;
+            driverParam: unknown;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        updatedAt: import("drizzle-orm/pg-core").PgColumn<{
+            name: "updated_at";
+            tableName: "donation_settings";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
 //# sourceMappingURL=app.d.ts.map

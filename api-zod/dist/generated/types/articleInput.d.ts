@@ -14,6 +14,7 @@ export interface ArticleInput {
     /** @minLength 50 */
     body: string;
     coverImageUrl?: string;
+    youtubeUrl?: string;
     lang: ArticleInputLang;
     categoryId?: string;
     locationId?: string;

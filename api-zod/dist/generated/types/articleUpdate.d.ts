@@ -11,6 +11,7 @@ export interface ArticleUpdate {
     summary?: string;
     body?: string;
     coverImageUrl?: string;
+    youtubeUrl?: string;
     lang?: ArticleUpdateLang;
     categoryId?: string;
     locationId?: string;

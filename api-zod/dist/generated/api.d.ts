@@ -206,6 +206,7 @@ export declare const ListMyBookmarksResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -283,6 +284,7 @@ export declare const ListMyBookmarksResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -317,6 +319,7 @@ export declare const ListMyBookmarksResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -341,6 +344,7 @@ export declare const ListMyBookmarksResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -418,6 +422,7 @@ export declare const ListMyBookmarksResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -452,6 +457,7 @@ export declare const ListMyBookmarksResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -782,7 +788,7 @@ export declare const ApplyToBeWriterBody: zod.ZodObject<{
 }>;
 export declare const listArticlesQuerySortDefault = "latest";
 export declare const listArticlesQueryLangDefault = "all";
-export declare const listArticlesQueryLimitDefault = 20;
+export declare const listArticlesQueryLimitDefault = 15;
 export declare const listArticlesQueryLimitMax = 100;
 export declare const listArticlesQueryOffsetDefault = 0;
 export declare const ListArticlesQueryParams: zod.ZodObject<{
@@ -795,6 +801,7 @@ export declare const ListArticlesQueryParams: zod.ZodObject<{
     limit: zod.ZodDefault<zod.ZodNumber>;
     offset: zod.ZodDefault<zod.ZodNumber>;
     q: zod.ZodOptional<zod.ZodString>;
+    hasVideo: zod.ZodOptional<zod.ZodBoolean>;
 }, "strip", zod.ZodTypeAny, {
     sort: "latest" | "trending" | "mostViewed";
     lang: "hi" | "all" | "en";
@@ -805,6 +812,7 @@ export declare const ListArticlesQueryParams: zod.ZodObject<{
     locationSlug?: string | undefined;
     writerId?: string | undefined;
     q?: string | undefined;
+    hasVideo?: boolean | undefined;
 }, {
     sort?: "latest" | "trending" | "mostViewed" | undefined;
     lang?: "hi" | "all" | "en" | undefined;
@@ -815,6 +823,7 @@ export declare const ListArticlesQueryParams: zod.ZodObject<{
     writerId?: string | undefined;
     offset?: number | undefined;
     q?: string | undefined;
+    hasVideo?: boolean | undefined;
 }>;
 export declare const ListArticlesResponse: zod.ZodObject<{
     items: zod.ZodArray<zod.ZodObject<{
@@ -823,6 +832,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
         title: zod.ZodString;
         summary: zod.ZodString;
         coverImageUrl: zod.ZodNullable<zod.ZodString>;
+        youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
         lang: zod.ZodEnum<["hi", "en"]>;
         publishedAt: zod.ZodNullable<zod.ZodDate>;
         viewCount: zod.ZodNumber;
@@ -900,6 +910,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -934,6 +945,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -955,6 +967,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
     total: zod.ZodNumber;
     limit: zod.ZodOptional<zod.ZodNumber>;
     offset: zod.ZodOptional<zod.ZodNumber>;
+    hasMore: zod.ZodOptional<zod.ZodBoolean>;
 }, "strip", zod.ZodTypeAny, {
     items: {
         id: string;
@@ -973,6 +986,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -994,6 +1008,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
     total: number;
     limit?: number | undefined;
     offset?: number | undefined;
+    hasMore?: boolean | undefined;
 }, {
     items: {
         id: string;
@@ -1012,6 +1027,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -1033,6 +1049,7 @@ export declare const ListArticlesResponse: zod.ZodObject<{
     total: number;
     limit?: number | undefined;
     offset?: number | undefined;
+    hasMore?: boolean | undefined;
 }>;
 export declare const ListFeaturedArticlesResponseItem: zod.ZodObject<{
     id: zod.ZodString;
@@ -1040,6 +1057,7 @@ export declare const ListFeaturedArticlesResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1117,6 +1135,7 @@ export declare const ListFeaturedArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1151,6 +1170,7 @@ export declare const ListFeaturedArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1175,6 +1195,7 @@ export declare const ListFeaturedArticlesResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1252,6 +1273,7 @@ export declare const ListFeaturedArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1286,6 +1308,7 @@ export declare const ListFeaturedArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1310,6 +1333,7 @@ export declare const ListBreakingArticlesResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1387,6 +1411,7 @@ export declare const ListBreakingArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1421,6 +1446,7 @@ export declare const ListBreakingArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1445,6 +1471,7 @@ export declare const ListBreakingArticlesResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1522,6 +1549,7 @@ export declare const ListBreakingArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1556,6 +1584,7 @@ export declare const ListBreakingArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1580,6 +1609,7 @@ export declare const ListTrendingArticlesResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1657,6 +1687,7 @@ export declare const ListTrendingArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1691,6 +1722,7 @@ export declare const ListTrendingArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1715,6 +1747,7 @@ export declare const ListTrendingArticlesResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1792,6 +1825,7 @@ export declare const ListTrendingArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1826,6 +1860,7 @@ export declare const ListTrendingArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1857,6 +1892,7 @@ export declare const GetArticleBySlugResponse: zod.ZodIntersection<zod.ZodObject
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -1934,6 +1970,7 @@ export declare const GetArticleBySlugResponse: zod.ZodIntersection<zod.ZodObject
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -1968,6 +2005,7 @@ export declare const GetArticleBySlugResponse: zod.ZodIntersection<zod.ZodObject
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2017,6 +2055,7 @@ export declare const ListRelatedArticlesResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -2094,6 +2133,7 @@ export declare const ListRelatedArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2128,6 +2168,7 @@ export declare const ListRelatedArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2152,6 +2193,7 @@ export declare const ListRelatedArticlesResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -2229,6 +2271,7 @@ export declare const ListRelatedArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2263,6 +2306,7 @@ export declare const ListRelatedArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2774,6 +2818,7 @@ export declare const ListWriterArticlesResponseItem: zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -2851,6 +2896,7 @@ export declare const ListWriterArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2885,6 +2931,7 @@ export declare const ListWriterArticlesResponseItem: zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -2909,6 +2956,7 @@ export declare const ListWriterArticlesResponse: zod.ZodArray<zod.ZodObject<{
     title: zod.ZodString;
     summary: zod.ZodString;
     coverImageUrl: zod.ZodNullable<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     publishedAt: zod.ZodNullable<zod.ZodDate>;
     viewCount: zod.ZodNumber;
@@ -2986,6 +3034,7 @@ export declare const ListWriterArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -3020,6 +3069,7 @@ export declare const ListWriterArticlesResponse: zod.ZodArray<zod.ZodObject<{
         profileImageUrl?: string | null | undefined;
         verified?: boolean | undefined;
     } | undefined;
+    youtubeUrl?: string | null | undefined;
     shareCount?: number | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -3306,6 +3356,7 @@ export declare const SearchEverythingResponse: zod.ZodObject<{
         title: zod.ZodString;
         summary: zod.ZodString;
         coverImageUrl: zod.ZodNullable<zod.ZodString>;
+        youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
         lang: zod.ZodEnum<["hi", "en"]>;
         publishedAt: zod.ZodNullable<zod.ZodDate>;
         viewCount: zod.ZodNumber;
@@ -3383,6 +3434,7 @@ export declare const SearchEverythingResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -3417,6 +3469,7 @@ export declare const SearchEverythingResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -3487,6 +3540,7 @@ export declare const SearchEverythingResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -3532,6 +3586,7 @@ export declare const SearchEverythingResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -3587,6 +3642,7 @@ export declare const GetWriterDashboardResponse: zod.ZodObject<{
         summary: zod.ZodString;
         body: zod.ZodString;
         coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+        youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
         lang: zod.ZodEnum<["hi", "en"]>;
         status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
         categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -3670,6 +3726,7 @@ export declare const GetWriterDashboardResponse: zod.ZodObject<{
             verified?: boolean | undefined;
         } | undefined;
         coverImageUrl?: string | null | undefined;
+        youtubeUrl?: string | null | undefined;
         publishedAt?: Date | null | undefined;
         viewCount?: number | undefined;
         likeCount?: number | undefined;
@@ -3711,6 +3768,7 @@ export declare const GetWriterDashboardResponse: zod.ZodObject<{
             verified?: boolean | undefined;
         } | undefined;
         coverImageUrl?: string | null | undefined;
+        youtubeUrl?: string | null | undefined;
         publishedAt?: Date | null | undefined;
         viewCount?: number | undefined;
         likeCount?: number | undefined;
@@ -3774,6 +3832,7 @@ export declare const GetWriterDashboardResponse: zod.ZodObject<{
             verified?: boolean | undefined;
         } | undefined;
         coverImageUrl?: string | null | undefined;
+        youtubeUrl?: string | null | undefined;
         publishedAt?: Date | null | undefined;
         viewCount?: number | undefined;
         likeCount?: number | undefined;
@@ -3831,6 +3890,7 @@ export declare const GetWriterDashboardResponse: zod.ZodObject<{
             verified?: boolean | undefined;
         } | undefined;
         coverImageUrl?: string | null | undefined;
+        youtubeUrl?: string | null | undefined;
         publishedAt?: Date | null | undefined;
         viewCount?: number | undefined;
         likeCount?: number | undefined;
@@ -3876,6 +3936,7 @@ export declare const ListMyAuthoredArticlesResponseItem: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -3959,6 +4020,7 @@ export declare const ListMyAuthoredArticlesResponseItem: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4000,6 +4062,7 @@ export declare const ListMyAuthoredArticlesResponseItem: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4032,6 +4095,7 @@ export declare const ListMyAuthoredArticlesResponse: zod.ZodArray<zod.ZodObject<
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -4115,6 +4179,7 @@ export declare const ListMyAuthoredArticlesResponse: zod.ZodArray<zod.ZodObject<
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4156,6 +4221,7 @@ export declare const ListMyAuthoredArticlesResponse: zod.ZodArray<zod.ZodObject<
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4189,6 +4255,7 @@ export declare const CreateMyArticleBody: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodString>;
     lang: zod.ZodEnum<["hi", "en"]>;
     categoryId: zod.ZodOptional<zod.ZodString>;
     locationId: zod.ZodOptional<zod.ZodString>;
@@ -4199,6 +4266,7 @@ export declare const CreateMyArticleBody: zod.ZodObject<{
     lang: "hi" | "en";
     body: string;
     coverImageUrl?: string | undefined;
+    youtubeUrl?: string | undefined;
     tags?: string[] | undefined;
     categoryId?: string | undefined;
     locationId?: string | undefined;
@@ -4208,6 +4276,7 @@ export declare const CreateMyArticleBody: zod.ZodObject<{
     lang: "hi" | "en";
     body: string;
     coverImageUrl?: string | undefined;
+    youtubeUrl?: string | undefined;
     tags?: string[] | undefined;
     categoryId?: string | undefined;
     locationId?: string | undefined;
@@ -4226,6 +4295,7 @@ export declare const GetMyAuthoredArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -4309,6 +4379,7 @@ export declare const GetMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4350,6 +4421,7 @@ export declare const GetMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4387,6 +4459,7 @@ export declare const UpdateMyAuthoredArticleBody: zod.ZodObject<{
     summary: zod.ZodOptional<zod.ZodString>;
     body: zod.ZodOptional<zod.ZodString>;
     coverImageUrl: zod.ZodOptional<zod.ZodString>;
+    youtubeUrl: zod.ZodOptional<zod.ZodString>;
     lang: zod.ZodOptional<zod.ZodEnum<["hi", "en"]>>;
     categoryId: zod.ZodOptional<zod.ZodString>;
     locationId: zod.ZodOptional<zod.ZodString>;
@@ -4395,6 +4468,7 @@ export declare const UpdateMyAuthoredArticleBody: zod.ZodObject<{
     title?: string | undefined;
     summary?: string | undefined;
     coverImageUrl?: string | undefined;
+    youtubeUrl?: string | undefined;
     lang?: "hi" | "en" | undefined;
     body?: string | undefined;
     tags?: string[] | undefined;
@@ -4404,6 +4478,7 @@ export declare const UpdateMyAuthoredArticleBody: zod.ZodObject<{
     title?: string | undefined;
     summary?: string | undefined;
     coverImageUrl?: string | undefined;
+    youtubeUrl?: string | undefined;
     lang?: "hi" | "en" | undefined;
     body?: string | undefined;
     tags?: string[] | undefined;
@@ -4417,6 +4492,7 @@ export declare const UpdateMyAuthoredArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -4500,6 +4576,7 @@ export declare const UpdateMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4541,6 +4618,7 @@ export declare const UpdateMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4594,6 +4672,7 @@ export declare const SubmitMyAuthoredArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -4677,6 +4756,7 @@ export declare const SubmitMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4718,6 +4798,7 @@ export declare const SubmitMyAuthoredArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -4776,6 +4857,7 @@ export declare const GetAdminDashboardStatsResponse: zod.ZodObject<{
         title: zod.ZodString;
         summary: zod.ZodString;
         coverImageUrl: zod.ZodNullable<zod.ZodString>;
+        youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
         lang: zod.ZodEnum<["hi", "en"]>;
         publishedAt: zod.ZodNullable<zod.ZodDate>;
         viewCount: zod.ZodNumber;
@@ -4853,6 +4935,7 @@ export declare const GetAdminDashboardStatsResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -4887,6 +4970,7 @@ export declare const GetAdminDashboardStatsResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -5071,6 +5155,7 @@ export declare const GetAdminDashboardStatsResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -5159,6 +5244,7 @@ export declare const GetAdminDashboardStatsResponse: zod.ZodObject<{
             profileImageUrl?: string | null | undefined;
             verified?: boolean | undefined;
         } | undefined;
+        youtubeUrl?: string | null | undefined;
         shareCount?: number | undefined;
         isBreaking?: boolean | undefined;
         isFeatured?: boolean | undefined;
@@ -5239,6 +5325,7 @@ export declare const ListAdminArticlesResponseItem: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -5322,6 +5409,7 @@ export declare const ListAdminArticlesResponseItem: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5363,6 +5451,7 @@ export declare const ListAdminArticlesResponseItem: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5395,6 +5484,7 @@ export declare const ListAdminArticlesResponse: zod.ZodArray<zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -5478,6 +5568,7 @@ export declare const ListAdminArticlesResponse: zod.ZodArray<zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5519,6 +5610,7 @@ export declare const ListAdminArticlesResponse: zod.ZodArray<zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5558,6 +5650,7 @@ export declare const GetAdminArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -5641,6 +5734,7 @@ export declare const GetAdminArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5682,6 +5776,7 @@ export declare const GetAdminArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5719,6 +5814,7 @@ export declare const AdminUpdateArticleBody: zod.ZodObject<{
     summary: zod.ZodOptional<zod.ZodString>;
     body: zod.ZodOptional<zod.ZodString>;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodOptional<zod.ZodEnum<["hi", "en"]>>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     locationId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -5732,6 +5828,7 @@ export declare const AdminUpdateArticleBody: zod.ZodObject<{
     title?: string | undefined;
     summary?: string | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     lang?: "hi" | "en" | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -5745,6 +5842,7 @@ export declare const AdminUpdateArticleBody: zod.ZodObject<{
     title?: string | undefined;
     summary?: string | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     lang?: "hi" | "en" | undefined;
     isBreaking?: boolean | undefined;
     isFeatured?: boolean | undefined;
@@ -5761,6 +5859,7 @@ export declare const AdminUpdateArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -5844,6 +5943,7 @@ export declare const AdminUpdateArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5885,6 +5985,7 @@ export declare const AdminUpdateArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -5938,6 +6039,7 @@ export declare const ApproveArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -6021,6 +6123,7 @@ export declare const ApproveArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6062,6 +6165,7 @@ export declare const ApproveArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6109,6 +6213,7 @@ export declare const RejectArticleResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -6192,6 +6297,7 @@ export declare const RejectArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6233,6 +6339,7 @@ export declare const RejectArticleResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6280,6 +6387,7 @@ export declare const RequestArticleChangesResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -6363,6 +6471,7 @@ export declare const RequestArticleChangesResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6404,6 +6513,7 @@ export declare const RequestArticleChangesResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6456,6 +6566,7 @@ export declare const UpdateArticleFlagsResponse: zod.ZodObject<{
     summary: zod.ZodString;
     body: zod.ZodString;
     coverImageUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
+    youtubeUrl: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
     lang: zod.ZodEnum<["hi", "en"]>;
     status: zod.ZodEnum<["draft", "pending", "published", "rejected", "changes_requested"]>;
     categoryId: zod.ZodOptional<zod.ZodNullable<zod.ZodString>>;
@@ -6539,6 +6650,7 @@ export declare const UpdateArticleFlagsResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;
@@ -6580,6 +6692,7 @@ export declare const UpdateArticleFlagsResponse: zod.ZodObject<{
         verified?: boolean | undefined;
     } | undefined;
     coverImageUrl?: string | null | undefined;
+    youtubeUrl?: string | null | undefined;
     publishedAt?: Date | null | undefined;
     viewCount?: number | undefined;
     likeCount?: number | undefined;

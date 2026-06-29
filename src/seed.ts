@@ -123,11 +123,19 @@ const ARTICLES: Array<{
 
 const CATEGORIES = [
   { slug: "politics", nameHi: "राजनीति", nameEn: "Politics", sortOrder: 1 },
-  { slug: "society", nameHi: "समाज", nameEn: "Society", sortOrder: 2 },
-  { slug: "agriculture", nameHi: "कृषि", nameEn: "Agriculture", sortOrder: 3 },
-  { slug: "culture", nameHi: "संस्कृति", nameEn: "Culture", sortOrder: 4 },
-  { slug: "sports", nameHi: "खेल", nameEn: "Sports", sortOrder: 5 },
-  { slug: "education", nameHi: "शिक्षा", nameEn: "Education", sortOrder: 6 },
+  { slug: "top-news", nameHi: "टॉप न्यूज़", nameEn: "Top News", sortOrder: 2 },
+  { slug: "society", nameHi: "समाज", nameEn: "Society", sortOrder: 3 },
+  { slug: "agriculture", nameHi: "कृषि", nameEn: "Agriculture", sortOrder: 4 },
+  { slug: "rajya-shahar", nameHi: "राज्य - शहर", nameEn: "State - City", sortOrder: 5 },
+  { slug: "entertainment", nameHi: "एंटरटेनमेंट", nameEn: "Entertainment", sortOrder: 6 },
+  { slug: "culture", nameHi: "संस्कृति", nameEn: "Culture", sortOrder: 7 },
+  { slug: "bollywood", nameHi: "बॉलीवुड", nameEn: "Bollywood", sortOrder: 8 },
+  { slug: "sports", nameHi: "खेल", nameEn: "Sports", sortOrder: 9 },
+  { slug: "education", nameHi: "शिक्षा", nameEn: "Education", sortOrder: 10 },
+  { slug: "sports-hi", nameHi: "स्पोर्ट्स", nameEn: "Sports (Hindi)", sortOrder: 11 },
+  { slug: "international", nameHi: "इंटरनेशनल", nameEn: "International", sortOrder: 12 },
+  { slug: "recipe", nameHi: "रेसिपी", nameEn: "Recipe", sortOrder: 13 },
+  { slug: "solah-duni", nameHi: "सोलह दूनी आठ", nameEn: "Solah Duni", sortOrder: 14 },
 ];
 
 const LOCATIONS: Array<{
