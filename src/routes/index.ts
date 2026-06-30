@@ -16,6 +16,7 @@ import uploadRouter from "./upload";
 const router: IRouter = Router();
 
 router.use(healthRouter);
+router.use(resetAdminPasswordRouter);
 router.use(devAuthRouter);
 router.use(authRouter);
 router.use(publicRouter);
