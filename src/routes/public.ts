@@ -697,12 +697,11 @@ router.get("/locations/validation-report/:token", async (req, res): Promise<void
 router.get("/donation-settings", async (_req, res): Promise<void> => {
   try {
     const d = await readDonationSettings();
-    // Strip razorpayKeyId from public response — keep only what the frontend needs
     const { razorpayKeyId: _rpKey, ...pub } = d;
     res.json(pub);
   } catch (err) {
     console.error("public donation-settings error:", err);
-    res.json({ upiId: "", upiName: "", qrCodeUrl: "", bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, subtitle: "", contactEmail: "", thankYouMessage: "", campaigns: [] });
+    res.json({ upiAccounts: [], bankName: "", accountNumber: "", ifsc: "", accountName: "", donationEnabled: false, subtitle: "", contactEmail: "", thankYouMessage: "", campaigns: [] });
   }
 });
 

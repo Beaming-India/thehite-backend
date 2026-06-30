@@ -498,3 +498,20 @@ export const donationSettingsTable = pgTable("donation_settings", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
+
+export const donationsTable = pgTable("donations", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  donorName: varchar("donor_name", { length: 255 }),
+  donorEmail: varchar("donor_email", { length: 255 }),
+  donorPhone: varchar("donor_phone", { length: 20 }),
+  amount: integer("amount").notNull(),
+  method: varchar("method", { length: 32 }).notNull().default("upi"),
+  receivedUpiId: varchar("received_upi_id", { length: 255 }),
+  transactionId: varchar("transaction_id", { length: 255 }),
+  campaignId: varchar("campaign_id", { length: 64 }),
+  note: text("note"),
+  status: varchar("status", { length: 32 }).notNull().default("completed"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type Donation = typeof donationsTable.$inferSelect;

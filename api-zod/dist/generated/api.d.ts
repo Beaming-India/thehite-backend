@@ -6826,6 +6826,20 @@ export declare const SetUserRoleResponse: zod.ZodObject<{
     articleCount?: number | undefined;
     isVerified?: boolean | undefined;
 }>;
+export declare const DeleteAdminUserParams: zod.ZodObject<{
+    id: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    id: string;
+}, {
+    id: string;
+}>;
+export declare const DeleteAdminUserResponse: zod.ZodObject<{
+    ok: zod.ZodBoolean;
+}, "strip", zod.ZodTypeAny, {
+    ok: boolean;
+}, {
+    ok: boolean;
+}>;
 export declare const ListWriterLocationsParams: zod.ZodObject<{
     id: zod.ZodString;
 }, "strip", zod.ZodTypeAny, {
