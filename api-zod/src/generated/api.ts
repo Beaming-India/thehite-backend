@@ -1720,6 +1720,15 @@ export const SetUserRoleResponse = zod.object({
 })
 
 
+export const DeleteAdminUserParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteAdminUserResponse = zod.object({
+  "ok": zod.boolean()
+})
+
+
 export const ListWriterLocationsParams = zod.object({
   "id": zod.coerce.string()
 })

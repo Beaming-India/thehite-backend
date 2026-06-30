@@ -15,6 +15,8 @@ import {
   SetUserRoleParams,
   SetUserRoleBody,
   SetUserRoleResponse,
+  DeleteAdminUserParams,
+  DeleteAdminUserResponse,
   ListWriterApplicationsQueryParams,
   ListWriterApplicationsResponse,
   ApproveWriterApplicationParams,
@@ -108,6 +110,19 @@ router.patch("/admin/users/:id/role", requireSuperAdmin, async (req, res): Promi
       createdAt: u.createdAt,
     }),
   );
+});
+
+router.delete("/admin/users/:id", requireSuperAdmin, async (req, res): Promise<void> => {
+  const p = DeleteAdminUserParams.safeParse(req.params);
+  if (!p.success) { res.status(400).json({ error: p.error.message }); return; }
+  if (p.data.id === req.user!.id) {
+    res.status(400).json({ error: { code: "BAD_REQUEST", message: "You cannot delete your own account" } });
+    return;
+  }
+  const [deleted] = await db.delete(usersTable).where(eq(usersTable.id, p.data.id)).returning();
+  if (!deleted) { res.status(404).json({ error: { code: "NOT_FOUND", message: "User not found" } }); return; }
+  await audit(req.user!.id, "user.delete", "user", p.data.id);
+  res.json(DeleteAdminUserResponse.parse({ ok: true }));
 });
 
 router.get("/admin/users/:id/locations", async (req, res): Promise<void> => {
