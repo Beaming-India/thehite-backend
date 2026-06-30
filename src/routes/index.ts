@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import healthRouter from "./health";
 import authRouter from "./auth";
 import devAuthRouter from "./dev-auth";
+import resetAdminPasswordRouter from "./admin/reset-admin-password";
 import publicRouter from "./public";
 import engagementRouter from "./engagement";
 import meRouter from "./me";
