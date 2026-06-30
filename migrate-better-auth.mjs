@@ -1,6 +1,6 @@
 
 // Run with: node --env-file=.env migrate-better-auth.mjs
-import pg from "./node_modules/.pnpm/pg@8.21.0/node_modules/pg/lib/index.js";
+import pg from "./db/node_modules/pg/lib/index.js";
 
 const { Client } = pg;
 

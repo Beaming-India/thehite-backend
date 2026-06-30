@@ -13,7 +13,8 @@
     "seed": "tsx --env-file=.env src/seed.ts",
     "db:push": "cd db && pnpm run push",
     "db:push-force": "cd db && pnpm run push-force",
-    "db:studio": "cd db && drizzle-kit studio --config ./drizzle.config.ts"
+    "db:studio": "cd db && drizzle-kit studio --config ./drizzle.config.ts",
+    "db:migrate-better-auth": "node --env-file=.env migrate-better-auth.mjs"
   },
   "dependencies": {
     "@opentelemetry/semantic-conventions": "^1.41.1",

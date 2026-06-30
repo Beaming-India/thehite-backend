@@ -48,15 +48,24 @@ const router: IRouter = Router();
 
 const PUBLISHED = eq(articlesTable.status, "published");
 
+const articleJoinSelection = {
+  article: articlesTable,
+  category: categoriesTable,
+  location: locationsTable,
+  writer: {
+    id: usersTable.id,
+    email: usersTable.email,
+    profileImageUrl: usersTable.profileImageUrl,
+  },
+  profile: {
+    displayName: userProfilesTable.displayName,
+    isVerified: userProfilesTable.isVerified,
+  },
+};
+
 async function selectArticleCards(where: ReturnType<typeof and>, limit = 20, offset = 0) {
   const rows = await db
-    .select({
-      article: articlesTable,
-      category: categoriesTable,
-      location: locationsTable,
-      writer: usersTable,
-      profile: userProfilesTable,
-    })
+    .select(articleJoinSelection)
     .from(articlesTable)
     .leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId))
     .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
@@ -163,13 +172,7 @@ router.get("/articles", async (req, res): Promise<void> => {
   }
 
   const rows = await db
-    .select({
-      article: articlesTable,
-      category: categoriesTable,
-      location: locationsTable,
-      writer: usersTable,
-      profile: userProfilesTable,
-    })
+    .select(articleJoinSelection)
     .from(articlesTable)
     .leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId))
     .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
@@ -211,13 +214,7 @@ router.get("/articles/breaking", async (_req, res): Promise<void> => {
 
 router.get("/articles/trending", async (_req, res): Promise<void> => {
   const rows = await db
-    .select({
-      article: articlesTable,
-      category: categoriesTable,
-      location: locationsTable,
-      writer: usersTable,
-      profile: userProfilesTable,
-    })
+    .select(articleJoinSelection)
     .from(articlesTable)
     .leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId))
     .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
@@ -251,13 +248,7 @@ router.get("/articles/by-slug/:slug", async (req, res): Promise<void> => {
     return;
   }
   const [row] = await db
-    .select({
-      article: articlesTable,
-      category: categoriesTable,
-      location: locationsTable,
-      writer: usersTable,
-      profile: userProfilesTable,
-    })
+    .select(articleJoinSelection)
     .from(articlesTable)
     .leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId))
     .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
