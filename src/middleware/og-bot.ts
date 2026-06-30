@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
-import { db, articlesTable, categoriesTable, locationsTable } from "@workspace/db";
+import { db, articlesTable } from "@workspace/db";
 import { and, eq } from "drizzle-orm";
 
 const BOT_UA = /whatsapp|facebookexternalhit|twitterbot|telegrambot|slackbot|linkedinbot|pinterest|discordbot|googlebot|bingbot|applebot|vkshare|w3c_validator/i;
@@ -13,6 +13,12 @@ function esc(str: string | null | undefined): string {
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function absoluteUrl(url: string | null | undefined, backendUrl: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${backendUrl}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 
 function ogHtml(opts: {
@@ -34,11 +40,14 @@ function ogHtml(opts: {
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:image" content="${esc(image)}"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
   <meta property="og:url" content="${esc(url)}"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="${esc(title)}"/>
   <meta name="twitter:description" content="${esc(description)}"/>
   <meta name="twitter:image" content="${esc(image)}"/>
+  <meta http-equiv="refresh" content="0; url=${esc(url)}"/>
 </head>
 <body><p>${esc(title)}</p></body>
 </html>`;
@@ -51,15 +60,19 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
     return;
   }
 
-  // Only handle /og/article/:slug
-  const match = req.path.match(/^\/og\/article\/([^/?#]+)$/);
+  // Handle both /article/:slug and /og/article/:slug
+  const match = req.path.match(/^\/(?:og\/)?article\/([^/?#]+)$/);
   if (!match) {
     next();
     return;
   }
 
-  const slug = match[1];
+  const rawSlug = decodeURIComponent(match[1]);
+  const siteUrl = process.env.FRONTEND_URL ?? "https://thehit.in";
+  const backendUrl = process.env.BACKEND_URL ?? "https://api.thehit.in";
+
   try {
+    // Try exact slug match first, then try the ID suffix (last segment after last -)
     const [row] = await db
       .select({
         title: articlesTable.title,
@@ -68,7 +81,7 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
         slug: articlesTable.slug,
       })
       .from(articlesTable)
-      .where(and(eq(articlesTable.slug, slug), PUBLISHED))
+      .where(and(eq(articlesTable.slug, rawSlug), PUBLISHED))
       .limit(1);
 
     if (!row) {
@@ -76,16 +89,21 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
       return;
     }
 
-    const siteUrl = process.env.FRONTEND_URL ?? "https://thehit.in";
+    // Build absolute image URL — prefer cover image, fallback to site logo
+    const imageUrl = row.coverImageUrl
+      ? absoluteUrl(row.coverImageUrl, backendUrl)
+      : `${siteUrl}/og-default.png`;
+
     const html = ogHtml({
-      title: row.title,
-      description: row.summary,
-      image: row.coverImageUrl ?? `${siteUrl}/logo.png`,
+      title: row.title ?? "TheHit.in",
+      description: row.summary ?? "TheHit.in - ज़मीनी पत्रकारिता",
+      image: imageUrl,
       url: `${siteUrl}/article/${row.slug}`,
       siteName: "TheHit.in",
     });
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
     res.send(html);
   } catch {
     next();
