@@ -60,8 +60,12 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
     return;
   }
 
-  // Handle both /article/:slug and /og/article/:slug
-  const match = req.path.match(/^\/(?:og\/)?article\/([^/?#]+)$/);
+  // Match /article/:slug, /og/article/:slug, /news/:slug, /news/:state/:district/:slug
+  const match =
+    req.path.match(/^\/(?:og\/)?article\/([^/?#]+)$/) ||
+    req.path.match(/^\/news\/[^/?#]+\/[^/?#]+\/([^/?#]+)$/) ||
+    req.path.match(/^\/news\/([^/?#]+)$/);
+
   if (!match) {
     next();
     return;
@@ -72,8 +76,8 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
   const backendUrl = process.env.BACKEND_URL ?? "https://api.thehit.in";
 
   try {
-    // Try exact slug match first, then try the ID suffix (last segment after last -)
-    const [row] = await db
+    // Try exact slug match first
+    let [row] = await db
       .select({
         title: articlesTable.title,
         summary: articlesTable.summary,
@@ -83,6 +87,21 @@ export async function ogBotMiddleware(req: Request, res: Response, next: NextFun
       .from(articlesTable)
       .where(and(eq(articlesTable.slug, rawSlug), PUBLISHED))
       .limit(1);
+
+    // Fallback: try the last segment after final "-" (short ID suffix)
+    if (!row && rawSlug.includes("-")) {
+      const idSuffix = rawSlug.split("-").pop()!;
+      [row] = await db
+        .select({
+          title: articlesTable.title,
+          summary: articlesTable.summary,
+          coverImageUrl: articlesTable.coverImageUrl,
+          slug: articlesTable.slug,
+        })
+        .from(articlesTable)
+        .where(and(eq(articlesTable.slug, idSuffix), PUBLISHED))
+        .limit(1);
+    }
 
     if (!row) {
       next();
