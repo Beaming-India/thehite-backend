@@ -1,17 +1,19 @@
 import { Router, type IRouter } from "express";
-import { db, usersTable, userProfilesTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
-import { createSession } from "../lib/auth";
+import { hashPassword } from "better-auth/crypto";
+import { db, usersTable, userProfilesTable, accountsTable } from "@workspace/db";
+import { auth } from "../lib/better-auth";
 
 const router: IRouter = Router();
 
 // Only available in development mode
 if (process.env.NODE_ENV === "development") {
-  router.post("/dev-login", async (req, res): Promise<void> => {
-    const DEV_ADMIN_ID = process.env.SEED_ADMIN_ID ?? "seed-admin";
-    const DEV_ADMIN_EMAIL = "admin@dev.local";
+  const DEV_ADMIN_EMAIL = "admin@dev.local";
+  const DEV_ADMIN_PASSWORD = "devpassword123";
+  const DEV_ADMIN_ID = process.env.SEED_ADMIN_ID ?? "seed-admin";
 
-    // Ensure the dev admin user exists
+  // Ensure dev admin exists in DB on first call
+  async function ensureDevAdmin() {
+    // Ensure the app user row exists
     await db
       .insert(usersTable)
       .values({
@@ -19,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
         email: DEV_ADMIN_EMAIL,
         firstName: "Admin",
         lastName: "Dev",
-        profileImageUrl: null,
+        emailVerified: true,
       })
       .onConflictDoNothing();
 
@@ -33,29 +35,38 @@ if (process.env.NODE_ENV === "development") {
       })
       .onConflictDoUpdate({
         target: userProfilesTable.userId,
-        set: { role: "super_admin" },
+        set: { role: "super_admin", isWriterApproved: true },
       });
 
-    const sid = await createSession({
-      user: {
-        id: DEV_ADMIN_ID,
-        email: DEV_ADMIN_EMAIL,
-        firstName: "Admin",
-        lastName: "Dev",
-        profileImageUrl: null,
-      },
-      access_token: "dev-token",
-    });
+    // Upsert the ba_accounts row with a fresh hashed password
+    const hashed = await hashPassword(DEV_ADMIN_PASSWORD);
+    const accountId = `dev-account-${DEV_ADMIN_ID}`;
+    await db
+      .insert(accountsTable)
+      .values({
+        id: accountId,
+        accountId: DEV_ADMIN_EMAIL,
+        providerId: "credential",
+        userId: DEV_ADMIN_ID,
+        password: hashed,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: accountsTable.id,
+        set: { password: hashed, updatedAt: new Date() },
+      });
+  }
 
-    res.cookie("sid", sid, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+  // POST /api/dev-login — returns credentials for the frontend to use
+  router.post("/dev-login", async (_req, res): Promise<void> => {
+    await ensureDevAdmin();
+    // Return the dev credentials so the frontend can call /api/auth/sign-in/email
+    res.json({
+      ok: true,
+      email: DEV_ADMIN_EMAIL,
+      password: DEV_ADMIN_PASSWORD,
     });
-
-    res.json({ ok: true, userId: DEV_ADMIN_ID });
   });
 }
 
