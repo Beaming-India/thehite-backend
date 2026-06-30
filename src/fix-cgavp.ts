@@ -1,4 +1,5 @@
 import { db, userProfilesTable, usersTable } from "@workspace/db";
+
 import { ilike, sql } from "drizzle-orm";
 import { logger } from "./lib/logger";
 

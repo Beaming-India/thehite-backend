@@ -16,8 +16,10 @@
     "db:studio": "cd db && drizzle-kit studio --config ./drizzle.config.ts"
   },
   "dependencies": {
+    "@opentelemetry/semantic-conventions": "^1.41.1",
     "@workspace/api-zod": "workspace:*",
     "@workspace/db": "workspace:*",
+    "better-auth": "^1.6.23",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "drizzle-orm": "catalog:",
