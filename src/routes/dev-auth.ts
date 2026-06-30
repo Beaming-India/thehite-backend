@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import { toNodeHandler } from "better-auth/node";
 import { hashPassword } from "better-auth/crypto";
 import { db, usersTable, userProfilesTable, accountsTable } from "@workspace/db";
 import { auth } from "../lib/better-auth";
@@ -58,15 +59,23 @@ if (process.env.NODE_ENV === "development") {
       });
   }
 
-  // POST /api/dev-login — returns credentials for the frontend to use
-  router.post("/dev-login", async (_req, res): Promise<void> => {
+  // POST /api/dev-login — creates dev admin + signs in (sets session cookie)
+  router.post("/dev-login", async (req, res): Promise<void> => {
     await ensureDevAdmin();
-    // Return the dev credentials so the frontend can call /api/auth/sign-in/email
-    res.json({
-      ok: true,
-      email: DEV_ADMIN_EMAIL,
-      password: DEV_ADMIN_PASSWORD,
+
+    // Sign in via BetterAuth to get a real session cookie
+    const signInRes = await auth.api.signInEmail({
+      body: { email: DEV_ADMIN_EMAIL, password: DEV_ADMIN_PASSWORD },
+      asResponse: true,
     });
+
+    // Forward Set-Cookie headers from BetterAuth to the browser
+    const cookies = signInRes.headers.getSetCookie?.() ?? [];
+    for (const cookie of cookies) {
+      res.setHeader("Set-Cookie", cookie);
+    }
+
+    res.json({ ok: true, email: DEV_ADMIN_EMAIL, password: DEV_ADMIN_PASSWORD });
   });
 }
 
