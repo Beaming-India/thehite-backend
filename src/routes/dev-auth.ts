@@ -69,11 +69,12 @@ if (process.env.NODE_ENV === "development") {
       asResponse: true,
     });
 
-    // Forward Set-Cookie headers from BetterAuth to the browser
-    const cookies = signInRes.headers.getSetCookie?.() ?? [];
-    for (const cookie of cookies) {
-      res.setHeader("Set-Cookie", cookie);
-    }
+    // Forward all Set-Cookie headers from BetterAuth to the browser
+    signInRes.headers.forEach((value: string, key: string) => {
+      if (key.toLowerCase() === "set-cookie") {
+        res.append("Set-Cookie", value);
+      }
+    });
 
     res.json({ ok: true, email: DEV_ADMIN_EMAIL, password: DEV_ADMIN_PASSWORD });
   });
