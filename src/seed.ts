@@ -23,6 +23,8 @@ const COVERS = [
   "/seed/water.png",
 ];
 
+
+
 const ARTICLES: Array<{
   title: string;
   summary: string;
