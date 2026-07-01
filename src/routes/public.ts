@@ -247,6 +247,13 @@ router.get("/articles/by-slug/:slug", async (req, res): Promise<void> => {
     res.status(400).json({ error: p.error.message });
     return;
   }
+
+  const cleanSlug = p.data.slug.replace(/^blog-/i, "");
+  const isNumeric = /^\d+$/.test(cleanSlug);
+  const whereCond = isNumeric
+    ? or(eq(articlesTable.slug, `blog-${cleanSlug}`), eq(articlesTable.slug, cleanSlug))
+    : eq(articlesTable.slug, p.data.slug);
+
   const [row] = await db
     .select(articleJoinSelection)
     .from(articlesTable)
@@ -254,7 +261,64 @@ router.get("/articles/by-slug/:slug", async (req, res): Promise<void> => {
     .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
     .leftJoin(usersTable, eq(usersTable.id, articlesTable.writerId))
     .leftJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId))
-    .where(and(eq(articlesTable.slug, p.data.slug), PUBLISHED));
+    .where(and(whereCond!, PUBLISHED));
+
+  if (!row) {
+    res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
+    return;
+  }
+
+  let isLiked = false;
+  let isBookmarked = false;
+  if (req.user?.id) {
+    const uid = req.user.id;
+    const [liked] = await db
+      .select()
+      .from(articleLikesTable)
+      .where(and(eq(articleLikesTable.articleId, row.article.id), eq(articleLikesTable.userId, uid)));
+    const [bm] = await db
+      .select()
+      .from(articleBookmarksTable)
+      .where(and(eq(articleBookmarksTable.articleId, row.article.id), eq(articleBookmarksTable.userId, uid)));
+    isLiked = !!liked;
+    isBookmarked = !!bm;
+  }
+
+  const data = mapArticleDetail(
+    {
+      article: row.article,
+      category: row.category,
+      location: row.location,
+      writer: row.writer
+        ? {
+            id: row.writer.id,
+            displayName: row.profile?.displayName ?? row.writer.email ?? "Writer",
+            profileImageUrl: row.writer.profileImageUrl,
+            isVerified: row.profile?.isVerified ?? false,
+          }
+        : null,
+    },
+    isLiked,
+    isBookmarked,
+  );
+
+  res.json(GetArticleBySlugResponse.parse(data));
+});
+
+router.get("/articles/by-no/:no", async (req, res): Promise<void> => {
+  const no = parseInt(req.params.no, 10);
+  if (isNaN(no)) {
+    res.status(400).json({ error: "Invalid article number" });
+    return;
+  }
+  const [row] = await db
+    .select(articleJoinSelection)
+    .from(articlesTable)
+    .leftJoin(categoriesTable, eq(categoriesTable.id, articlesTable.categoryId))
+    .leftJoin(locationsTable, eq(locationsTable.id, articlesTable.locationId))
+    .leftJoin(usersTable, eq(usersTable.id, articlesTable.writerId))
+    .leftJoin(userProfilesTable, eq(userProfilesTable.userId, articlesTable.writerId))
+    .where(and(or(eq(articlesTable.slug, `blog-${no}`), eq(articlesTable.slug, String(no))), PUBLISHED));
 
   if (!row) {
     res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } });
