@@ -113,9 +113,9 @@ router.post("/writer/articles", async (req, res): Promise<void> => {
   }
 
   // Find the next numeric blog slug suffix
-  const [maxRow] = await db.execute(sql`
-    SELECT max(cast(substring(slug from '^blog-([0-9]+)$') as integer)) as max_no 
-    FROM ${articlesTable} 
+  const { rows: [maxRow] } = await db.execute(sql`
+    SELECT max(cast(substring(slug from '^blog-([0-9]+)$') as integer)) as max_no
+    FROM ${articlesTable}
     WHERE slug ~ '^blog-[0-9]+$'
   `);
   const nextNo = (Number((maxRow as any)?.max_no) || 0) + 1;
