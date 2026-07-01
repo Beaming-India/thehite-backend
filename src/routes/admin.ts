@@ -442,7 +442,7 @@ router.patch("/admin/articles/:id", async (req, res): Promise<void> => {
   const [existing] = await db.select().from(articlesTable).where(eq(articlesTable.id, p.data.id));
   if (!existing) { res.status(404).json({ error: { code: "NOT_FOUND", message: "Article not found" } }); return; }
   const update: Record<string, unknown> = { updatedAt: new Date() };
-  if (b.data.title !== undefined) { update.title = b.data.title; update.slug = slugify(b.data.title); }
+  if (b.data.title !== undefined) { update.title = b.data.title; }
   if (b.data.summary !== undefined) update.summary = b.data.summary;
   if (b.data.body !== undefined) {
     update.body = b.data.body;
